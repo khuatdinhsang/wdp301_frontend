@@ -1,11 +1,9 @@
 import { Button } from "antd";
+import Header from "./components/component/Header";
 
 function App() {
   return (
-    <p>
-      Edit <code>src/App.js</code> and save to reload.
-      <Button type="primary">Primary Button</Button>
-    </p>
+    <Header/>
   );
 }
 

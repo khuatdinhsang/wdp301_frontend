@@ -1,0 +1,86 @@
+.header{
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    .nav{
+        display: flex;
+        justify-content: space-between;
+        padding: 40px;
+
+        .logoHeader{
+            width: 15%;
+        }
+
+        .centerHeader{
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            .search{
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                flex-wrap: wrap;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                padding: 14px 20px  ;
+                border-radius: 50px;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                .searchIcon{
+                    
+                    .actionSearch{
+                        display: flex;
+
+                        .leftSearch{
+
+                        }
+
+                        .rightSearch{
+                        }
+                    }
+                    // .iconSearch{
+                    //     background-color: #ff385c;
+                    //     color: #fff;
+                    //     width: 40px;
+                    //     height: 40px;
+                    //     display: flex;
+                    //     justify-content: center;
+                    //     align-items: center;
+                    //     border-radius: 25px;
+                    //     cursor: pointer;
+                    // }
+                }
+              
+            }
+
+            .search>li{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 18%;
+
+                
+
+                span{
+                    font-weight: 600;
+                }
+
+                input{
+                    outline: none;
+                    padding: 8px 4px 8px 0;
+                }
+            }
+
+            
+        }
+
+        .action{
+            width: 15%;
+            display: flex;
+            justify-content: end;
+            .borderAction{
+                display: flex;
+                align-items: flex-start;
+            }
+        }
+    }
+}
