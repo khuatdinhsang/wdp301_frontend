@@ -3,6 +3,7 @@
     padding: 0;
     border: 0;
     font-size: 100%;
+    box-sizing: border-box;
 }
 
 html,body,div,span,applet,object,
@@ -21,7 +22,6 @@ ul {
   
   body {
     margin: 0;
-    
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 1.6rem;

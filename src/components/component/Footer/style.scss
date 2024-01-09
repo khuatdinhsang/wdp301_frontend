@@ -1,0 +1,43 @@
+
+.footer{
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 60px;
+    border-top: 1px solid #ccc;
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+    background-color: #fff;
+    color: #222222;
+
+
+    .leftFooter{
+        width: 40%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rightFooter{
+        width: 30%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+
+        .language{
+            display: flex;
+            align-items: center;
+            
+            .vnLanguage{
+                padding-left: 4px;
+            }
+        }
+
+        .moneyVND{
+            display: flex;
+            align-items: center;
+        }
+    }
+}

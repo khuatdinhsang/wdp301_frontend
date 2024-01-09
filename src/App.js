@@ -1,9 +1,9 @@
 import { Button } from "antd";
-import Header from "./components/component/Header";
+import Home from "./pages/common/home/Home";
 
 function App() {
   return (
-    <Header/>
+     <Home/>
   );
 }
 

@@ -1,40 +1,88 @@
 .header{
     width: 100%;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    
+
+    .topHeader{
+        background-color: rgba($color: #ccc, $alpha: 0.2);
+        padding: 20px 0;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        font-weight: 550;
+    }
+
     .nav{
         display: flex;
         justify-content: space-between;
-        padding: 40px;
+        padding: 20px 60px;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+
+       
 
         .logoHeader{
             width: 15%;
+            cursor: pointer;
+            word-spacing: 8px;
+            letter-spacing: 3px;
+            font-size: 28px;
+            .logo1{
+                color: #ff385c;
+            }
+
+            .logo2{
+                color: #717171;
+            }
         }
 
         .centerHeader{
-            width: 70%;
+            width: 40%;
             display: flex;
             justify-content: center;
+            height: 60px;
             .search{
                 display: flex;
-                justify-content: space-between;
-                width: 90%;
+                justify-content: center;
+                width: 110%;
                 flex-wrap: wrap;
                 font-size: 14px;
                 border: 1px solid #ccc;
-                padding: 14px 20px  ;
                 border-radius: 50px;
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+              
+
                 .searchIcon{
+                    
                     
                     .actionSearch{
                         display: flex;
+                        justify-content: space-between;
 
                         .leftSearch{
-
+                            display: flex;
+                            flex-direction: column;
                         }
 
                         .rightSearch{
+                            width: 40px;
+                            height:40px;
+                            display: flex;
+                            align-items: center;
+                            margin-top: 2px;
+                            justify-content: center;
+                            background-color: #ff385c;
+                            border-radius: 50%;
+                            .iconSearch{
+                                color: #fff;
+                                font-size: 26px;
+                            }
+
+                            &:hover{
+                                background-color: #f6173f;
+                                transition: .4s;
+                                transform: scale(1.05);
+                            }
                         }
                     }
                     // .iconSearch{
@@ -52,21 +100,64 @@
               
             }
 
+            .beforeVertical{
+                position: relative;
+                padding-left: 16px;
+                &::before{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    margin-top: 5%;
+                    width: 1px; /* Chiều rộng của đường thẳng dọc */
+                    height: 50%; /* Chiều cao của đường thẳng dọc (bằng chiều cao của thẻ li) */
+                    background-color: #ccc; /* Màu sắc của đường thẳng dọc */
+                }
+            }
+
             .search>li{
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                width: 18%;
+                width: 50%;
+                cursor: pointer;
+                padding: 0 30px;
 
+                 
+                &:hover{
+                    background-color: rgba($color: #ccc, $alpha: 0.3);
+                    border-radius: 50px;
+                    transition: .4s;
+                    &::before{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 0px; /* Chiều rộng của đường thẳng dọc */
+                    height: 100%; /* Chiều cao của đường thẳng dọc (bằng chiều cao của thẻ li) */
+                    background-color: #ccc; /* Màu sắc của đường thẳng dọc */
+                    }
+                }              
                 
 
                 span{
                     font-weight: 600;
+                    width: 80%;
                 }
 
                 input{
                     outline: none;
-                    padding: 8px 4px 8px 0;
+                    width: 90%;
+                    padding: 8px 4px 0 0;
+                    background-color: transparent;
+
+                    &:focus{
+                       
+                    }
+
+                    &::placeholder{
+                        color: #ccc;
+                    }
                 }
             }
 
@@ -77,9 +168,53 @@
             width: 15%;
             display: flex;
             justify-content: end;
+            position: relative;
             .borderAction{
                 display: flex;
                 align-items: flex-start;
+                align-items: center;
+                border: 1px solid #ccc;
+                height: 50%;
+                padding: 12px 20px;
+                border-radius: 50px;
+                font-size: 36px;  
+                 &:hover{
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    transition: .4s;
+                    cursor: pointer;
+                }
+            }
+
+           
+        }
+
+    }
+    .inforNav{
+        padding: 10px 0;
+        position: absolute;
+        border: none;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        background-color: #fff;
+        width: 100%;
+        top: 60%;
+        z-index: 5;
+        transition: .4s;
+        .register{
+                font-weight: 600;
+        }
+
+        span{
+            font-size: 16px;            
+        }
+
+        ul>li{
+            padding: 4px 12px;
+
+            &:hover{
+                background-color: rgba($color: #ccc, $alpha: 0.3);
+                cursor: pointer;
+                transition: .4s;
             }
         }
     }
