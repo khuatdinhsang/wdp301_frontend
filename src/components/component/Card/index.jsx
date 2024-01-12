@@ -3,11 +3,13 @@ import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from 'react-router';
 
 function Card(){
+    const navigate = useNavigate()
     return (
         <>
-        <div className='card'>
+        <div className='card' onClick={() => navigate("/detail")}>
             <div className='imageContainer'>
                 <img alt='' src='https://a0.muscache.com/im/pictures/miso/Hosting-53519419/original/df0ef78a-3f63-4d16-a5ac-abff6b82f49b.jpeg?im_w=720'/>
             </div>

@@ -8,9 +8,9 @@ function Footer(){
         <div className='footer'>
             <div className='leftFooter'>
                 <span>© 2024 HomeHola,Inc.</span>
-                <span>Quyền riêng tư</span>
-                <span>Điều khoản</span>
-                <span>Sơ đồ trang web</span>
+                <span className='beforeDot'>Quyền riêng tư</span>
+                <span className='beforeDot'>Điều khoản</span>
+                <span className='beforeDot'>Sơ đồ trang web</span>
             </div>
             <div className='rightFooter'>
                 <div className='language'><LanguageIcon/><span className='vnLanguage'> Tiếng Việt(VN)</span></div>

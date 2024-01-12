@@ -1,12 +1,15 @@
+import { useEffect } from "react"
 import Card from "../../../components/component/Card"
 import Footer from "../../../components/component/Footer"
 import Header from "../../../components/component/Header"
 import "./Home.scss"
 
 function Home(){
+    useEffect(() => {
+        window.scrollTo(0,0);
+    },[])
     return(
         <>
-            <Header/>
             <div className="listCard">
                 <Card/>
                 <Card/>
@@ -17,7 +20,6 @@ function Home(){
                 <Card/>
                 <Card/>
             </div>
-            <Footer/>
         </>
     )
 }

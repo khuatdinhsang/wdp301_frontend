@@ -1,6 +1,9 @@
 .header{
     width: 100%;
-    
+    position: fixed;
+    z-index: 5;
+    top: 0;
+
 
     .topHeader{
         background-color: rgba($color: #ccc, $alpha: 0.2);
@@ -11,14 +14,20 @@
         font-weight: 550;
     }
 
+    .topHeader.scrolled {
+        display: none;
+        transition: opacity 0.5s ease;
+
+    }
+
     .nav{
         display: flex;
         justify-content: space-between;
-        padding: 20px 60px;
+        padding: 20px 60px 0 60px;
         border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-
-       
+        border-bottom: 1px solid #ccc;  
+        background-color: #fff;
+        transition: opacity 0.5s ease;       
 
         .logoHeader{
             width: 15%;
@@ -209,7 +218,7 @@
         }
 
         ul>li{
-            padding: 4px 12px;
+            padding: 4px 16px;
 
             &:hover{
                 background-color: rgba($color: #ccc, $alpha: 0.3);

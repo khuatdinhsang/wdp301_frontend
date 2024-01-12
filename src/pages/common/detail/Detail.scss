@@ -1,0 +1,270 @@
+
+.detail{
+    margin-top: 200px;
+    padding: 0 60px;
+    margin-bottom: 80px;
+    color: #222222;
+
+    .thumnailImage{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        .firstCol{
+            width: 49%;
+
+            img{
+                width: 100%;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+        }
+
+        .secondCol, .thirdCol{
+            width: 24%;
+            display: flex;
+            flex-direction: column;
+            img{
+                width: 95%;
+                height: 46%;
+                margin-bottom: 6px;
+            }
+        }
+
+        .thirdCol{
+            
+            .topRightImg{
+                border-top-right-radius: 10px;
+            }
+            
+            .bottomRightImg{
+                border-bottom-right-radius: 10px;
+            }
+        }
+    }
+
+    .content{
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+
+        .leftContent{
+            width: 70%;
+
+            .detailContent{
+
+                .detailTitle{
+                    padding: 10px 0 20px 0;
+
+                    .roomName{
+
+                    }
+
+                    .descriptionContent{
+                        font-size: 1rem;
+                        color: #222222;
+                    }
+                }
+            }
+
+            .favouriteRoom{
+                font-size: 1rem;
+                font-weight: bold;
+                display: flex;
+                padding: 20px 20px;
+                border: 1px solid #ccc;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 10px;
+
+                .customerFavourite1{
+                    width: 20%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .likeRoom{
+                        text-align: center;
+                    }
+                }
+
+                .customerFavourite2{
+                    width: 35%;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .customerFavourite3{
+                    width: 15%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .customerFavourite4{
+                    width: 15%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    
+
+                    position: relative;
+                    padding-left: 16px;
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        margin-top: 5%;
+                        width: 1px; /* Chiều rộng của đường thẳng dọc */
+                        height: 60%; /* Chiều cao của đường thẳng dọc (bằng chiều cao của thẻ li) */
+                        background-color: #ccc; /* Màu sắc của đường thẳng dọc */
+                    }
+                }
+            }
+
+            .lessorBlog{
+                margin: 20px 0;
+                .lessor{
+                    display: flex;
+                    border-bottom: 1px solid #ccc;
+                    padding: 20px 0;
+
+
+                    .avatar{
+                        width: 5%;
+                        font-size: 40px;
+                    }
+
+                    .detailLessor{
+                        width: 75%;
+
+                        .establish{
+                            font-size: 1rem;
+                            font-weight: 600;
+                        }
+
+                        .experience{
+                            color: #717171;
+                            font-size: 1rem;
+                        }
+                    }
+                }
+
+                .bottomLessorBlog{
+                    padding: 20px 0;
+                    font-size: 1rem;
+                    border-bottom: 1px solid #ccc;
+                    .place{
+                        
+                    }
+
+                    .roomDescription{
+                        margin: 10px 0;
+                        padding: 8px 20px;
+                        border: 1px solid #ccc;
+                        width: 15%;
+                        border-radius: 10px;
+
+                    }
+                }
+
+                .convenience{
+
+                    .equipments{
+                        display: flex;
+                        flex-wrap: wrap;
+                        width: 100%;
+                        .equipment{
+                            width: 48%;
+                            margin: 10px 0;
+                            display: flex;
+                            align-items: center;
+
+                            .nameEquipment{
+                                padding-left: 10px;
+                                font-size: 1.3rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .rightContent{
+            width: 30%;
+        }
+    }
+
+    .ratingBlog{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+        border-bottom: 1px solid #ccc;
+        
+        .numberStar{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .starRating{
+                font-size: 80px;
+                font-weight: bold;
+            }
+
+            img{
+                width: 18%;
+            }
+        }
+
+        .ratingTitle{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            .span{
+                font-weight: bold;
+                font-size: 1.3rem;
+            }
+
+            .titleDes{
+                width: 40%;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .comments{
+        display: flex;
+        padding: 30px 0;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .mapDetail{
+        padding: 30px 0;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ccc;
+        .titleMap{
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .mapImage{
+            width: 100%;
+        }
+
+        .placeName{
+            font-size: 1.5rem;
+            padding: 10px 0;
+            font-weight: bold;
+        }
+
+        .placeDescription{
+            font-size: 1.2rem;
+        }
+    }
+}
