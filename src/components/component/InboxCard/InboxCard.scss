@@ -1,0 +1,38 @@
+
+.inboxCard{
+    display: flex;
+    background-color: var(--color-background);
+    padding: 1.4rem var(--card-padding);
+    border-radius: var(--border-radius-2);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 20px 0;
+
+    &:hover{
+        box-shadow: none;
+    }
+
+    .leftInboxCard{
+        width: 25%;
+        img{
+            width: 4rem;
+            height: 4rem;
+            gap: 2;
+            display: block;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+
+    .rightInboxCard{
+        width: 75%;
+        margin-left: 4px;
+        h4{
+
+        }
+        p{
+
+        }
+    }
+}

@@ -15,17 +15,25 @@
     }
 
     .topHeader.scrolled {
-        display: none;
-        transition: opacity 0.5s ease;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
 
+    }
+
+    .topHeader.disScrolled{
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
     }
 
     .nav{
         display: flex;
         justify-content: space-between;
         padding: 20px 60px 0 60px;
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;  
+        // border-top: 0.2px solid #ccc;
+        // border-bottom: 0.2px solid #ccc;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;  
         background-color: #fff;
         transition: opacity 0.5s ease;       
 
@@ -41,6 +49,11 @@
 
             .logo2{
                 color: #717171;
+            }
+            
+            img{
+                width: 30%;
+                border-radius: 50%;
             }
         }
 
@@ -205,6 +218,7 @@
         border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         background-color: #fff;
+        transition: opacity 0.5s ease-in-out;
         width: 100%;
         top: 60%;
         z-index: 5;
@@ -227,4 +241,6 @@
             }
         }
     }
+
+   
 }

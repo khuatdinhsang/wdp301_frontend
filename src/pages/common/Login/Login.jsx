@@ -1,64 +1,99 @@
-
-import "./Login.scss"
-import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import "./Login.scss";
+
+function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const pathBack = localStorage.getItem('pathDetail');
 
 
-function Login(){
-    const navigate = useNavigate();
-    const pathBack = localStorage.getItem('path');
-
-    return (
-        <div className="loginPage">
-            <div className="leftLogin">
-                <img className="imgLeftLogin" src="https://a0.muscache.com/im/pictures/62aa6971-79d5-4b75-acea-e53de37455bc.jpg?im_w=720" alt="" />
-                <div className="contentLeftLogin">
-                    <h4>Turn Your Ideas into reality</h4>
-                    <u>Start for free and get attractive for offers from the community</u>
-                </div>
-                <span onClick={() => navigate(pathBack)}><ArrowBackIosRoundedIcon className='backIconLogin' /></span>
-
-            </div>
-            <div className="rightLogin">
-                <div className="contentRightLogin">
-                    <div className="titleRightLogin">
-                        <h5>HOLA HOME</h5>
-                    </div>
-                    <div className="notifyRightLogin">
-                        <h5>Login</h5>
-                        <p>Welcome Back! Please enter your details</p>
-                    </div>
-                    <div className="inputRightLogin">
-                        <input type="text" className="inputLogin" placeholder="Email"/>
-                        <input type="password" className="inputLogin" placeholder="Password"/>
-                    </div>
-                    <div className="rememberMe">
-                        <div className="leftRememberMe">
-                            <input type="checkbox" className="rememberCheckbox" />
-                            <span>Remmember me for 30 days</span>
+  return (
+   
+     <div className="loginPage">
+         <div className="containerLogin">
+            <div className="loginContent">
+                <div className="leftContent">
+                
+                    <img
+                        src="https://i.pinimg.com/736x/9f/18/e7/9f18e722622b51be7f98b8f073208869.jpg"
+                        alt=""
+                    />
+                    <span style={{cursor: "pointer"}} onClick={() => navigate(pathBack)}><ArrowBackIosRoundedIcon className='backIconLogin' /></span>
+                    <div className="detailLeftContent">
+                        <div className="signInLeft">
+                        <h1>Sign In</h1>
                         </div>
-                        <div className="rightRememberMe">
-                            <u>Forgot Password?</u>
+                        <div className="privacy">
+                        <h2>Privacy policy {"&"} Term of service</h2>
                         </div>
                     </div>
-                    <div className="loginBtnRightLogin">
-                        <button className="loginBtn">Log in</button>
-                    </div>
-                    <div className="registerRightLogin">
-                        <button className="loginRegister">Register</button>
-                    </div>
-                    <div className="loginGoogleRightLogin">
-                        <button className="loginGoogleBtn">Sign Up With Google</button>
-                    </div>
-                    <div className="signUpRightLogin">
-                        <i>Don't have an account?</i>
-                        <u className="freeSignUp">Sign up for free</u>
+                </div>
+                <div className="rightContent">
+                    <form>
+                        <div className="input">
+                        <label htmlFor="mail">Username: </label>
+                        <input
+                            placeholder="Enter Username "
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            id="mail"
+                        />
+                        </div>
+                        <div className="input">
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            placeholder="Password"
+                            type={"password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="password"
+                        />
+                        </div>
+                        <p
+                        style={{
+                            color: "#f9004d",
+                            textAlign: "left",
+                            fontSize: "12px",
+                            display: "none",
+                        }}
+                        >
+                        Incorrect Email or Password
+                        </p>
+                        <p
+                        style={{
+                            color: "#f9004d",
+                            textAlign: "left",
+                            fontSize: "12px",
+                            display: "none",
+                        }}
+                        >
+                        Account is Blocked
+                        </p>
+                        <div className="handle">
+                        <button className="signUpBtn">Login</button>
+                        <i className="remember" style={{ textAlign: "center" }} >
+                            Change Password
+                        </i>
+                        <i className="remember" onClick={() => navigate("/forgotPassword")}>Forgot Password</i>
+                        </div>
+                    </form>
+                    <div className="register">
+                        <b>You don't have an account? </b>
+                        <p
+                        style={{ cursor: "pointer" }}
+                        onClick={() => navigate('/register')}
+                        >
+                        Register
+                        </p>
                     </div>
                 </div>
-
             </div>
         </div>
-    )
+     </div>
+  );
 }
 
 export default Login

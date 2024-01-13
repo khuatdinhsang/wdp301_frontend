@@ -1,0 +1,49 @@
+
+.chatWithLessor{
+    margin-top: 113px;
+    .chatContent{
+        width: 100vw; 
+        min-height: 100vh; 
+        display: flex;
+        font-size: 1rem;
+        .leftChat{
+            width: 20%;
+            border-right: 0.5px solid #e2e2e2;
+            min-height: 100vh;
+
+            .topLeftChat{
+                width: 100%;
+                border-bottom: 0.5px solid #e2e2e2;
+                height: 32px;
+                padding: 40px 20px;
+                display: flex;
+                align-items: center;
+                font-size: 1.4rem;
+            }
+
+            .bottomLeftChat{
+                width: 100%;
+                padding: 10px 20px;
+            }
+        }
+
+        .rightChat{
+            width: 80%;
+
+            .topRightChat{
+                width: 100%;
+                border-bottom: 0.5px solid #e2e2e2;
+                height: 32px;
+                padding: 40px 20px;
+                display: flex;
+                font-size: 1rem;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .bottomRightChat{
+
+            }
+        }
+    }
+}

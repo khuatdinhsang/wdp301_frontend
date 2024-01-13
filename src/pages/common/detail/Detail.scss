@@ -48,6 +48,8 @@
 
         .leftContent{
             width: 70%;
+            display: flex;
+            flex-direction: column;
 
             .detailContent{
 
@@ -152,9 +154,8 @@
 
                 .bottomLessorBlog{
                     padding: 20px 0;
-                    font-size: 1rem;
                     border-bottom: 1px solid #ccc;
-                    .place{
+                    .place{ 
                         
                     }
 
@@ -164,11 +165,13 @@
                         border: 1px solid #ccc;
                         width: 15%;
                         border-radius: 10px;
+                        font-size: 1rem;
 
                     }
                 }
 
                 .convenience{
+                    padding: 10px 0;
 
                     .equipments{
                         display: flex;
@@ -235,6 +238,56 @@
         }
     }
 
+    .commentAction{
+        padding: 30px 0;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        
+
+        .avatarCommentAction{
+            width: 5%;
+            font-size: 40px;
+        }
+
+        .detailCommentAction{
+            width: 50%;
+            .ratingStarCommentAction{
+
+            }
+
+            .inputComment{
+                font-size: 1rem;
+                outline: none;
+                border-bottom: 2px solid #ccc;
+                padding: 4px 8px;
+                width: 100%;
+                &:focus{
+                  border-bottom: 2px solid #f9004d;
+                    transition: .4s;
+                }
+            }
+
+            .btnComment{
+                text-align: right;
+                
+                .btnCommentAction{
+                    padding: 8px 22px;
+                    font-size: 1rem;
+                    border-radius: 10px;
+                    background-color: #f9004d;
+                    color: #fff;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .4s;
+
+                    &:hover{
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+
     .comments{
         display: flex;
         padding: 30px 0;
@@ -265,6 +318,105 @@
 
         .placeDescription{
             font-size: 1.2rem;
+        }
+    }
+
+    .detailLessor{
+        border-bottom: 1px solid #ccc;
+        padding: 20px 0;
+
+        .topDetailLessor{
+            margin-bottom: 20px;
+            .lessor{
+                display: flex;
+    
+    
+                .avatar{
+                    width: 5%;
+                    font-size: 40px;
+                }
+    
+                .detailLessorTop{
+                    width: 75%;
+    
+                    .establish{
+                        font-size: 1rem;
+                        font-weight: 600;
+                    }
+    
+                    .experience{
+                        color: #717171;
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+
+        .bottomDetailLessor{
+            display: flex;
+            font-size: 1rem;
+            width: 100%;
+            
+            .leftBottomDetailLessor{
+                display: flex;
+                flex-direction: column;
+                width: 70%;
+                .ratingLessor{
+                    display: flex;
+                    margin-bottom: 20px;
+                    
+                    .numberRatingLessor{
+                        display: flex;
+                        align-items: center;
+
+                        span{
+                            margin-left: 8px;
+                        }
+                    }
+                    .authenLessor{
+                        padding-left: 40px;
+                        display: flex;
+                        align-items: center;
+                        span{
+                            margin-left: 8px;
+                        }
+                    }
+    
+                    
+                }
+
+                .lessorDescription{
+                    width: 60%;
+                }
+               
+            }
+
+            .rightBottomDetailLessor{
+                display: flex;
+                flex-direction: column;
+                width: 25%;
+
+                .contactLessor{
+                    font-weight: 600;
+                    padding: 13px 23px;
+                    border-radius: 10px;
+                    width: 60%;
+                    margin: 20px 0;
+                    background-color: transparent;
+                    border: 1px solid #000;
+                    cursor: pointer;
+
+                    &:hover{
+                        transition: .6s;
+                        transform: scale(1.1);
+                        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+                        color: #fff;
+                        background-color: #f9004d;
+                        border: 1px solid transparent;
+                    }
+                }
+            }
+
         }
     }
 }
