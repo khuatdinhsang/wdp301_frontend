@@ -1,0 +1,30 @@
+
+.detailWishList{
+    margin: 200px 0 200px 40px;
+    display: flex;
+
+    .leftDetailWishList{
+        width: 60%;
+        margin-right: 10px;
+
+        
+        .titleWishListDetail{
+            padding: 20px 0;
+        }
+
+        .listCardDetail{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+    }
+
+    .rightDetailWishList{
+        width: 40%;
+
+        .mapDetailWishList{
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

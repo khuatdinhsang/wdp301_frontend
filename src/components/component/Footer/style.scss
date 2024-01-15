@@ -1,0 +1,59 @@
+
+.footer{
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 60px;
+    border-top: 1px solid #ccc;
+    // position: fixed;
+    bottom: 0;
+    z-index: 5;
+    background-color: #fff;
+    color: #222222;
+
+
+    .leftFooter{
+        width: 40%;
+        display: flex;
+        justify-content: space-between;
+
+        .beforeDot{
+            position: relative;
+                padding-left: 16px;
+                &::before{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    margin-top: 10%;
+                    width: 4px; /* Chiều rộng của đường thẳng dọc */
+                    height: 4px; /* Chiều cao của đường thẳng dọc (bằng chiều cao của thẻ li) */
+                    background-color: #ccc; /* Màu sắc của đường thẳng dọc */
+                    border-radius: 50px;
+                }
+        }
+    }
+
+    .rightFooter{
+        width: 30%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+
+        .language{
+            display: flex;
+            align-items: center;
+            
+            .vnLanguage{
+                padding-left: 4px;
+            }
+        }
+
+        .moneyVND{
+            display: flex;
+            align-items: center;
+        }
+    }
+}

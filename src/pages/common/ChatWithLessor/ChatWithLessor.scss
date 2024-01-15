@@ -1,0 +1,100 @@
+
+.chatWithLessor{
+    margin-top: 113px;
+    .chatContent{
+        width: 100vw; 
+        min-height: 100vh; 
+        display: flex;
+        font-size: 1rem;
+        .leftChat{
+            width: 20%;
+            border-right: 0.5px solid #e2e2e2;
+            min-height: 100vh;
+
+            .topLeftChat{
+                width: 100%;
+                border-bottom: 0.5px solid #e2e2e2;
+                height: 32px;
+                padding: 40px 20px;
+                display: flex;
+                align-items: center;
+                font-size: 1.4rem;
+            }
+
+            .bottomLeftChat{
+                width: 100%;
+                padding: 10px 20px;
+            }
+        }
+
+        .rightChat{
+            width: 80%;
+
+            .topRightChat{
+                width: 100%;
+                border-bottom: 0.5px solid #e2e2e2;
+                height: 32px;
+                padding: 40px 20px;
+                display: flex;
+                font-size: 1rem;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .bottomRightChat{   
+                position: relative;
+                width: 100%;
+                height: 100vh;
+
+               .chatBox{
+                    height: 80%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 30px;
+                    .chatMessages{
+                        width: 60%;
+                    }
+               }
+               .inputContainer{
+                    position: absolute;
+                    bottom: 15%;
+                    width: 100%;
+                    height: 20%;
+                    .divSendMessage{
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                        position: relative;
+                        .inputMessage{
+                            padding: 12px 18px;
+                            outline: none;
+                            border-radius: 25px;
+                            border: 1px solid #e2e2e2;
+                            width: 30%;
+    
+                            &:focus{
+                                border: 2px solid #000;
+                            }
+                        }
+    
+                        .uploadMessage{
+                            position: absolute;
+                            right: 36%;
+                            margin-top: 6px;
+                            padding: 2px;
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: var(--border-radius-2);
+                            color: #fff;
+                            background-color: #000;
+                            cursor: pointer;
+                            transition: all 0.3s ease-in-out;
+                        }
+                    }
+                    
+               }
+            }
+        }
+    }
+}
