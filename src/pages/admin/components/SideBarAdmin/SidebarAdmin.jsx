@@ -76,12 +76,7 @@ function SidebarAdmin(){
                         </span>
                         <h3>Reports</h3>
                     </a>
-                    <a href="" >
-                        <span className="material-icons-sharp">
-                            <SettingsIcon/>
-                        </span>
-                        <h3>Settings</h3>
-                    </a>
+                    
                     <a href="" >
                         <span className="material-icons-sharp">
                             <AddIcon/>
