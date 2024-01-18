@@ -8,6 +8,7 @@ import Home from "../pages/common/home/Home"
 import Login from "../pages/common/Login/Login"
 import Register from "../pages/common/register/Register"
 import WishList from "../pages/common/WishList/WishList"
+import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog"
 
 
 const publicRoutes = [
@@ -18,8 +19,9 @@ const publicRoutes = [
     {path: '/contact-host', component: ContactLessor},
     {path: '/wishlist', component: WishList, layout: HeaderOnly},
     {path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly},
+    {path: '/inbox', component: ChatWithLessor, layout: null},
     {path: '/admin/dashboard', component: Dashboard, layout: null},
-    {path: '/inbox', component: ChatWithLessor, layout: null}
+    {path: '/lessor/uploadBlog', component: UploadBlog, layout: null}
 ]
 
 const adminRoutes = [
