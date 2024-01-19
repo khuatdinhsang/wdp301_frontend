@@ -6,32 +6,44 @@ import StarIcon from '@mui/icons-material/Star';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 
-function Card(){
+function Card({blog}){
     const navigate = useNavigate()
     const [status, setStatus] = useState(true)
+     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [sizeImage, setSizeImage] = useState(blog?.image.length)
+
+    const handlePreviousImage = ( ) => {
+         setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
+    }
+
+    const handleForwardImage =  () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex < sizeImage - 1 ? prevIndex + 1 : 0));
+    }
+
     const handleFavouriteRoom = () => {
         setStatus(!status)
+        
     }
     return (
         <div className='card' >
-            <div className='imageContainer' onClick={() => navigate("/detail")}>
-                <img alt='' src='https://a0.muscache.com/im/pictures/miso/Hosting-53519419/original/df0ef78a-3f63-4d16-a5ac-abff6b82f49b.jpeg?im_w=720'/>
+            {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/detail/${blog?._id}`)}>
+                <img alt='' src={blog?.image[currentImageIndex]}/>
             </div>
-            <ArrowBackIosRoundedIcon className='backIcon'/>
-            <ArrowForwardIosRoundedIcon className='nextIcon'/>
+            <ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()}/>
+            <ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>
             <div className='infoCard'>
                 <div className='titleRow'>
-                    <h2 className='titleCard'>Vin Home</h2>
+                    <h2 className='titleCard'>{blog?.title}</h2>
                     <div className='showStar'>
                         <StarIcon  className='starCard'/>
                         <span className='numberStarCard'> 5,0</span>
                     </div>
                 </div>
                 <span className='dateBuilding'>Được xây vào năm 2020</span>
-                <p className='priceCard'><span className='pricePer'>$1098</span> / đêm</p>
+                <p className='priceCard'><span className='pricePer'>{blog?.money?.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span> / tháng</p>
             </div>
             <FavoriteIcon className='heartCard' style={{color: status===true?'':'pink'}} onClick={() => handleFavouriteRoom()}/>
-            <div className='favouriteChoosen'><span>Được khách yêu thích</span></div>
+            <div className='favouriteChoosen'><span>Được khách yêu thích</span></div></>:<></>}
         </div>
 
     )

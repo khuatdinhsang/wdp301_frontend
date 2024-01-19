@@ -8,12 +8,12 @@ import Home from "../pages/common/home/Home"
 import Login from "../pages/common/Login/Login"
 import Register from "../pages/common/register/Register"
 import WishList from "../pages/common/WishList/WishList"
-import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog"
+import BlogManager from "../pages/lessor/BlogManager/BlogManagement"
 
 
 const publicRoutes = [
     {path: '/', component: Home },
-    {path: '/detail', component: Detail},
+    {path: '/detail/:slug', component: Detail},
     {path: '/login', component: Login, layout: null},
     {path: '/register', component: Register, layout: null},
     {path: '/contact-host', component: ContactLessor},
@@ -21,7 +21,7 @@ const publicRoutes = [
     {path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly},
     {path: '/inbox', component: ChatWithLessor, layout: null},
     {path: '/admin/dashboard', component: Dashboard, layout: null},
-    {path: '/lessor/uploadBlog', component: UploadBlog, layout: null}
+    {path: '/lessor/blogManagement', component: BlogManager, layout: null}
 ]
 
 const adminRoutes = [

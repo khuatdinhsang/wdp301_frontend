@@ -1,0 +1,15 @@
+.blogManagement{
+    display: flex;
+
+    .sidebarLessorManagement{
+        width: 20%;
+    }
+
+    .blogManagementContent{
+        width: 75%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-left: 5%;
+    }
+}
