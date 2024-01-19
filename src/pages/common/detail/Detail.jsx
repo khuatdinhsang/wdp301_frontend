@@ -4,17 +4,30 @@ import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Comment from '../../../components/component/Comment';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-
+import { useLocation, useNavigate, useParams } from 'react-router';
+import axios from 'axios';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
 
 
 function Detail(){
     const navigate = useNavigate();
     const [path, setPath] = useState('')
     const {pathname} = useLocation();
+    const {slug} = useParams()
+    const [blog, setBlog] = useState()
+    const [starComment, setStarComment] = useState(0);
+    const [hover, setHover] = useState(-1);
+
+
+    function getLabelText(value) {
+      return `${value} Star${value !== 1 ? 's' : ''}`;
+    }
 
     useEffect(() => {
         localStorage.setItem('pathDetail', pathname);
+
+        
     }, [pathname])
 
     const handleToContact = ( ) => {
@@ -24,24 +37,37 @@ function Detail(){
  
     useEffect(() => {
         window.scrollTo(0,0)
+        axios
+        .get(`/api/blog/detail/${slug}`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data
+                setBlog(data);
+            }            
+        })
+        .catch(err => console.log(err))
     },[])
+
+    const handleComment = () => {
+        console.log(starComment);
+    }
 
     return (
         <div className='detail'>
             <div className='titleDetail'>
-                <h2>The Boot - Chỗ ở cổ tích</h2>
+                <h2>{blog?.title}</h2>
             </div>
             <div className='thumnailImage'>
                 <div className='firstCol'>
-                    <img src="https://a0.muscache.com/im/pictures/9b731de6-b8b6-4eae-aba2-631216bf1bfc.jpg?im_w=1200" alt="1" />
+                    <img src={blog?.image[0]} alt={blog?.image[0]} />
                 </div>
                 <div className="secondCol">
-                    <img src="https://a0.muscache.com/im/pictures/62aa6971-79d5-4b75-acea-e53de37455bc.jpg?im_w=720" alt="2" />
-                    <img src="https://a0.muscache.com/im/pictures/fb3cbc01-5da2-4359-8153-6d5c8eb75ea4.jpg?im_w=720" alt="3" />
+                    <img src={blog?.image[1]} alt={blog?.image[1]} />
+                    <img src={blog?.image[2]} alt={blog?.image[2]} />
                 </div>
                 <div className='thirdCol'>
-                    <img src="https://a0.muscache.com/im/pictures/62aa6971-79d5-4b75-acea-e53de37455bc.jpg?im_w=720" alt="4" className='topRightImg' />
-                    <img src="https://a0.muscache.com/im/pictures/8a22e7ec-1b0d-4536-ad7d-39c535f84d31.jpg?im_w=720" alt="5"  className='bottomRightImg' /> 
+                    <img src={blog?.image[3]} alt={blog?.image[5]} className='topRightImg' />
+                    <img src={blog?.image[4]} alt={blog?.image[4]}  className='bottomRightImg' /> 
                 </div>
             </div>
             <div className='content'>
@@ -49,7 +75,7 @@ function Detail(){
                     <div className='detailContent'>
                         <div className="detailTitle">
                             <h2 className='roomName'>
-                                Nhà siêu nhỏ tại Hoà Lạc
+                                {blog?.description}
                             </h2>
                             <i className="descriptionContent">
                                 2 người ở, 1 phòng ngủ, 1 giường, 1 phòng tắm
@@ -90,7 +116,7 @@ function Detail(){
                             </div>
                             <div className="detailLessor">
                                 <p className="establish">
-                                    Chủ nhà/Người tổ chức: Judy
+                                    Chủ nhà/Người tổ chức: Vương Nguyễn
                                 </p>
                                 <i className='experience'>
                                     Chủ nhà siêu cấp 6 năm kinh nghiệm đón tiếp khách
@@ -102,7 +128,7 @@ function Detail(){
                             <div className="roomDescription">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: 24, width: 24, fill: 'currentcolor'}}><path d="M28 4a2 2 0 0 1 2 1.85v7.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V6a2 2 0 0 1 1.7-1.98l.15-.01L4 4zm2 18H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 6H4v8h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 4H8v4h7zm9 0h-7v4h7z"></path></svg>
                                 <b>Phòng ngủ</b>
-                                <p>1 giường queen</p>
+                                <p>1 giường </p>
                             </div>
                         </div>
                         <div className="convenience">
@@ -150,18 +176,46 @@ function Detail(){
                 </div>
                 <div className="detailCommentAction">
                     <div className="ratingStarCommentAction">
-                        <StarIcon  className='starCard'/>
-                        <StarIcon  className='starCard'/>
-                        <StarIcon  className='starCard'/>
-                        <StarIcon  className='starCard'/>
-                        <StarIcon  className='starCard'/>
+                        <Box
+                            sx={{
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                            >
+                            <Rating
+                                name="hover-feedback"
+                                value={starComment}
+                                precision={1}
+                                getLabelText={getLabelText}
+                                onChange={(event, newValue) => {
+                                    setStarComment(newValue);
+                                }}
+                                onChangeActive={(event, newHover) => {
+                                    setHover(newHover);
+                                }}
+                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                            />
+                            
+                        </Box>
                     </div>
                     <textarea 
                         className="inputComment" 
                         cols="30" rows="10"
                         placeholder='Viết Bình Luận'></textarea>
                     <div className='btnComment'>
-                        <button className='btnCommentAction'>Bình Luận</button>
+                        <button 
+                            className='btnCommentAction' 
+                            onClick={() => handleComment()}
+                             onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault(); 
+                                          handleComment();
+                                        }
+                                      }}
+                        >
+                            Bình Luận
+                        </button>
                     </div>
                 </div>
             </div>

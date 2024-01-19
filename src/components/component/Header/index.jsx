@@ -4,6 +4,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAccount } from '../../../actions/accountActions';
+
 
 const Header = () => {
 
@@ -12,10 +15,18 @@ const Header = () => {
     const [path, setPath] = useState('')
     const navigate = useNavigate()
     const {pathname} = useLocation();
+    const account = useSelector(state => state.account)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         localStorage.setItem('path', pathname);
     }, [pathname])
+
+    const handleLogout = () => {
+        const action = logoutAccount();
+        dispatch(action);
+
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -90,11 +101,12 @@ const Header = () => {
                    <div className='inforNav'>
                     <div className='loginNav'>
                         <ul>
-                            <li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li>
-                            <li onClick={() => handleToLogin()}><span>Đăng nhập</span></li>
-                            <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li>
-                            <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li>
-                            <li onClick={() => navigate('/admin/dashboard')}><span>Dashboard</span></li>
+                            {account?.phone === undefined?<li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li>:<></>}
+                            {account?.phone === undefined?<li onClick={() => handleToLogin()}><span>Đăng nhập</span></li>:<></>}
+                            {account?.phone !== undefined?<li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li>:<></>}
+                            {account?.phone !== undefined?<li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li>:<></>}
+                            {account?.phone !== undefined?<li onClick={() => navigate('/admin/dashboard')}><span>Dashboard</span></li>:<></>}
+                            {account?.phone !== undefined?<li onClick={() => handleLogout()}><span>Đăng xuất</span></li>:<></>}
                         </ul>
                     </div>
                     </div>:<></>}

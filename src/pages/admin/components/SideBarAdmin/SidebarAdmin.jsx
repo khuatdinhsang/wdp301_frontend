@@ -77,11 +77,11 @@ function SidebarAdmin(){
                         <h3>Reports</h3>
                     </a>
                     
-                    <a href="" >
+                    <a href="" onClick={() => navigate("/lessor/uploadBlog")}>
                         <span className="material-icons-sharp">
                             <AddIcon/>
                         </span>
-                        <h3>New Login</h3>
+                        <h3>Upload Blog</h3>
                     </a>
                     <a href="" >
                         <span className="material-icons-sharp">

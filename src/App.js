@@ -1,7 +1,11 @@
+import axios from "axios";
 import { Fragment } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import DefaultLayout from "./components/DefaultLayout";
 import { publicRoutes } from "./routes";
+
+axios.defaults.baseURL = "http://localhost:9999"
 
 function App() {
   return (
@@ -31,6 +35,7 @@ function App() {
                 )
             })}
         </Routes>
+        <ToastContainer/>
      </BrowserRouter>
   );
 }
