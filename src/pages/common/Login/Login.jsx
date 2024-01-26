@@ -7,19 +7,31 @@ import { loginAccount, logout } from "../../../actions/accountActions";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import Loading from "../Loading";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const pathBack = localStorage.getItem('pathDetail');
+    const [isLoading, setIsLoading] = useState(true)
     const dispatch = useDispatch()
+    const [warningUsername, setWarningUsername] = useState(false)
+    const [isBlankPassword, setIsBlankPassword] = useState(false)
+
+    useEffect(() => {
+        username % 1 == 0 ? setWarningUsername(false) : setWarningUsername(true)
+    },[username])
+
+    useEffect(() => {
+        password.trim() === '' ? setIsBlankPassword(true) : setIsBlankPassword(false)
+    },[password])
 
     const handleLogin = () => {
-        if(username.trim() === '' ){
-            console.log("phone is blank");
+        if(username.trim() === '' || username.trim() % 1 !== 0){
+            console.log("Số điện thoại không đúng");
         }else if(password.trim() === ''){
-            console.log(2);
+            console.log("Mật khẩu đang để trống");
         }else{
             const userLogin = {
                 phone: username.trim(),
@@ -33,10 +45,12 @@ function Login() {
 
                     const user = {
                         phone: username.trim(),
-                        accessToken: account
+                        accessToken: account,
+                        token: res.data.data.accessToken
                     }
 
                     const action = loginAccount(user);
+                    setIsLoading(true);
                     dispatch(action);
                     navigate('/')
                 }
@@ -48,7 +62,7 @@ function Login() {
 
     return (
     
-        <div className="loginPage">
+        isLoading ?<div className="loginPage">
             <div className="containerLogin">
                 <div className="loginContent">
                     <div className="leftContent">
@@ -78,6 +92,16 @@ function Login() {
                                 id="mail"
                             />
                             </div>
+                            <p
+                            style={{
+                                color: "#f9004d",
+                                textAlign: "left",
+                                fontSize: "12px",
+                                display: warningUsername? "block" : "none",
+                            }}
+                            >
+                            Số điện thoại phải là số
+                            </p>
                             <div className="input">
                             <label htmlFor="password">Password:</label>
                             <input
@@ -88,16 +112,16 @@ function Login() {
                                 id="password"
                             />
                             </div>
-                            <p
+                            {/* <p
                             style={{
                                 color: "#f9004d",
                                 textAlign: "left",
                                 fontSize: "12px",
-                                display: "none",
+                                display: isBlankPassword?"block":"none",
                             }}
                             >
-                            Incorrect Email or Password
-                            </p>
+                            Mật khẩu đang được để trống
+                            </p> */}
                             <p
                             style={{
                                 color: "#f9004d",
@@ -139,7 +163,7 @@ function Login() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>: <Loading/>
     );
 }
 
