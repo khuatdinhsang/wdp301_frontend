@@ -5,8 +5,8 @@
     font-size: 1rem;
      background-color: #c9d6ff;
     background: linear-gradient(to right,#e2e2e2, #c9d6ff);
-    height: 140vh;
-    padding-top: 100px;
+    height: 160vh;
+    padding-top: 20px;
     .uploadContain{
         margin: 20px 10px 30px 40px;
         display: flex;
@@ -36,6 +36,27 @@
                 margin-bottom: 16px;
                 width: 100%;
 
+                .inputRadio{
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .submitImgUpload{
+                    padding: 8px 12px;
+                    margin-top: 10px;
+                    background-color: #f9004d;
+                    font-weight: 600;
+                    color: #fff;
+                    cursor: pointer;
+                    transition: .4s;
+                    width: 30%;
+                    border-radius: 10px;
+
+                    &:hover{
+                        transform: scale(1.04);
+                    }
+                }
+
                 label{
                     font-weight: 500;
                     letter-spacing: 1.5px;
@@ -46,6 +67,7 @@
                     padding: 6px 12px;
                     border: 1px solid transparent;
                     outline: none;
+                    background-color: transparent;
                     border-bottom: 2px solid #ccc;
                     transition: .4s;
 
@@ -58,19 +80,24 @@
                     padding: 6px 12px;
                 }
             }
+
+            .listImg{
+                display: flex;
+                flex-wrap: wrap;
+            }
             
             .submitForm{
                 display: flex;
                 justify-content: center;
                 margin: 10px 0;
+                z-index: 5;
 
                 .uploadBtn{
                     padding: 8px 20px;
                     font-weight: 600;
                     border: 1px solid transparent;
-                    outline: none;
                     border-radius: 5px;
-                    background-color: var(--primary);
+                    background-color: #f9004d;
                     color: #fff;
                     cursor: pointer;
                     transition: .4s;
