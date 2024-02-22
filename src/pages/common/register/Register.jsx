@@ -32,10 +32,10 @@ function Register() {
                 .post("http://localhost:9999/api/auth/register", userRegister)
                 .then((res) => {
                     if (res.data.status === "ERR") {
-                        toast.error("phone already exists!")
+                        // toast.error("phone already exists!")
                         setIsLoading(true)
                     } else {
-                        toast.success("Create account successfully")
+                        // toast.success("Create account successfully")
                         setIsLoading(true)
                         navigate("/login")
                     }
