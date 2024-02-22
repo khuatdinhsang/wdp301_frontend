@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import { useSelector } from 'react-redux';
 
 
 function Detail(){
@@ -17,7 +18,9 @@ function Detail(){
     const {slug} = useParams()
     const [blog, setBlog] = useState()
     const [starComment, setStarComment] = useState(0);
+    const [feedback, setFeedback] = useState('')
     const [hover, setHover] = useState(-1);
+    const account = useSelector(state => state.account)
 
 
     function getLabelText(value) {
@@ -49,7 +52,25 @@ function Detail(){
     },[])
 
     const handleComment = () => {
-        console.log(starComment);
+        const commentContent = {
+            star: starComment,
+            feedback: feedback,
+            userId: account?.accessToken?.id,
+            blogId: slug
+        }
+
+        axios
+        .post('/api/blog_rate/create', commentContent,{
+            headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+        })
+        .then(res => {
+            console.log('Comment Successfully');
+            setStarComment(0);
+            setFeedback('');
+        })
+        .catch(err => console.log(err))
     }
 
     return (
@@ -170,55 +191,60 @@ function Detail(){
                     <i className='titleDes'>Một trong những ngôi nhà được yêu thích nhất trên Airbnb dựa trên điểm xếp hạng, đánh giá và độ tin cậy</i>
                 </div>
             </div>
-            <div className="commentAction">
-                <div className="avatarCommentAction">
-                    <AccountCircleIcon/>
-                </div>
-                <div className="detailCommentAction">
-                    <div className="ratingStarCommentAction">
-                        <Box
-                            sx={{
-                                width: 200,
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
+            {account?.phone !== undefined ?
+                <div className="commentAction">
+                    <div className="avatarCommentAction">
+                        <AccountCircleIcon/>
+                    </div>
+                    <div className="detailCommentAction">
+                        <div className="ratingStarCommentAction">
+                            <Box
+                                sx={{
+                                    width: 200,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                                >
+                                <Rating
+                                    name="hover-feedback"
+                                    value={starComment}
+                                    precision={1}
+                                    getLabelText={getLabelText}
+                                    onChange={(event, newValue) => {
+                                        setStarComment(newValue);
+                                    }}
+                                    onChangeActive={(event, newHover) => {
+                                        setHover(newHover);
+                                    }}
+                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                />
+                                
+                            </Box>
+                        </div>
+                        <textarea 
+                            className="inputComment" 
+                            cols="30" rows="10"
+                            placeholder='Viết Bình Luận'
+                            value={feedback}
+                            onChange={(e) => setFeedback(e.target.value)}
+                            ></textarea>
+                        <div className='btnComment'>
+                            <button 
+                                className='btnCommentAction' 
+                                onClick={() => handleComment()}
+                                onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                            e.preventDefault(); 
+                                            handleComment();
+                                            }
+                                        }}
                             >
-                            <Rating
-                                name="hover-feedback"
-                                value={starComment}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setStarComment(newValue);
-                                }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover(newHover);
-                                }}
-                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                            />
-                            
-                        </Box>
+                                Bình Luận
+                            </button>
+                        </div>
                     </div>
-                    <textarea 
-                        className="inputComment" 
-                        cols="30" rows="10"
-                        placeholder='Viết Bình Luận'></textarea>
-                    <div className='btnComment'>
-                        <button 
-                            className='btnCommentAction' 
-                            onClick={() => handleComment()}
-                             onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                          e.preventDefault(); 
-                                          handleComment();
-                                        }
-                                      }}
-                        >
-                            Bình Luận
-                        </button>
-                    </div>
-                </div>
-            </div>
+                </div>:<></>
+            }
 
             <div className="comments">
                 <Comment/>

@@ -70,7 +70,7 @@ function UploadBlog(){
           console.log(err);
         });
     } else {
-      return console.log("Ảnh bệnh viện không được để trống");
+      return console.log("Ảnh không được để trống");
     }
   };
 
@@ -86,20 +86,21 @@ function UploadBlog(){
             category: "rent",
             title: title,
             description: description,
-            area: area,
-            money: money,
+            area: +area,
+            money: +money,
             image: dataImg,
             video: [
                 "http://video1.jpg",
                 "http://video2.jpg"
             ],
             addressDetail: addressDetail,
-            totalRoom: totalRoom,
+            totalRoom: +totalRoom,
             rentalObject: rentalObject,
             expiredTime: expiredTime
         }
+        // console.log(blog);
         
-        axios
+         axios
         .post('api/blog/create', blog, {
             headers: {
                     Authorization: `Bearer ${account?.token}`
@@ -140,10 +141,11 @@ function UploadBlog(){
                     </div>
                     <div className="inputBox">
                         <label htmlFor='description'>Diện tích</label>
-                        <textarea
+                        <input
                             className='inputPrice'
                             id='description'
                             placeholder='Nhập diện tích'
+                            type="number"
                             value={area}
                             onChange={(e) => setArea(e.target.value)}/>
                     </div>
@@ -170,7 +172,7 @@ function UploadBlog(){
                                 }}
                                 name="files"
                                 />
-                                <button type="submit" className="submitImgUpload">Xác nhận</button>
+                                <button type="submit" className="submitImgUpload" onClick={submitMultipleImg}>Xác nhận</button>
                             </div>
                         </form>
                     </div>

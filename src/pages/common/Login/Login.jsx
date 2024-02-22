@@ -48,7 +48,7 @@ function Login() {
                         accessToken: account,
                         token: res.data.data.accessToken
                     }
-
+                    
                     const action = loginAccount(user);
                     setIsLoading(true);
                     dispatch(action);

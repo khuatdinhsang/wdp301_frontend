@@ -22,6 +22,7 @@ function Home(){
         .catch(err => console.log(err))
     },[])
 
+    
     return(
         <>
             <div className="listCard">
