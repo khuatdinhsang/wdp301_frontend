@@ -9,6 +9,7 @@ import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 function Detail(){
@@ -70,27 +71,33 @@ function Detail(){
     },[feedback])
 
     const handleComment = () => {
-        const commentContent = {
-            star: starComment,
-            fullname: account?.accessToken.fullName,
-            feedback: feedback,
-            title: feedback,
-            userId: account?.accessToken?.id,
-            blogId: slug
-        }
+        
+        if(starComment === '' || feedback === ''){
+            toast.warn("Cần điền đầy đủ thông tin để bình luận!!")
+        }else{
+            const commentContent = {
+                star: starComment,
+                fullname: account?.accessToken.fullName,
+                feedback: feedback,
+                title: feedback,
+                userId: account?.accessToken?.id,
+                blogId: slug
+            }
 
-        axios
-        .post('/api/blog_rate/create', commentContent,{
-            headers: {
-                    Authorization: `Bearer ${account?.token}`
-                }
-        })
-        .then(res => {
-            console.log('Comment Successfully');
-            setStarComment(0);
-            setFeedback('');
-        })
-        .catch(err => console.log(err))
+            axios
+            .post('/api/blog_rate/create', commentContent,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                console.log('Comment Successfully');
+                setStarComment(0);
+                setFeedback('');
+                toast.success('Bình luận thành công!!')
+            })
+            .catch(err => console.log(err))
+        }
     }
 
     return (

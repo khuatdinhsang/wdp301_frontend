@@ -2,7 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import "./UploadBlog.scss"
+import { toast } from "react-toastify";
 
 function UploadBlog(){
 
@@ -80,7 +82,7 @@ function UploadBlog(){
 
   const handleUploadBlog = () => {
     if(title === '' || description === '' || area === '' || money === '' || dataImg === [] || addressDetail === '' || totalRoom === '' || rentalObject === '' || expiredTime === ''){
-        console.log('Blank');
+      toast.warn("Có thông tin chưa điền!!!")
     }else{
         const blog = {
             category: "rent",
@@ -107,8 +109,8 @@ function UploadBlog(){
                 }
         })
         .then(res => {
-            console.log("Upload Success");
-            navigate('/')
+          toast.success("Tạo blog thành công!!!")
+          navigate('/')
         })
         .catch(err=> console.log(err))
     }
@@ -116,6 +118,7 @@ function UploadBlog(){
  
     return (
             <div className="uploadPage">
+               <span style={{cursor: "pointer"}} onClick={() => {navigate('/admin/dashboard')}}><ArrowBackIosRoundedIcon className='backToDashboard' /></span>
             <div className='uploadContain'>
                 <h3 className="uploadTitle">Upload Product</h3>
                 <div className="uploadContent">

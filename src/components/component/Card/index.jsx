@@ -8,7 +8,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-function Card({blog}){
+function CardHome({blog}){
     const navigate = useNavigate()
     const [status, setStatus] = useState(true)
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,7 +41,7 @@ function Card({blog}){
         
     }
     return (
-        <div className='card' >
+        <div className='cardHome' >
             {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/detail/${blog?._id}`)}>
                 <img alt='' src={blog?.image[currentImageIndex]}/>
             </div>
@@ -65,4 +65,4 @@ function Card({blog}){
     )
 }
 
-export default Card
+export default CardHome

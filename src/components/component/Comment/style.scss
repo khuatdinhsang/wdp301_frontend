@@ -27,9 +27,15 @@
             display: flex;
             flex-direction: column;
 
-            .usernameComment{
-                font-weight: 700;
+            .topDetailUserComment{
+                .usernameComment{
+                    font-weight: 700;
+                }
+                .editIcon{
+                    font-size: 18px;
+                }
             }
+
             .placeComment{
                 
             }

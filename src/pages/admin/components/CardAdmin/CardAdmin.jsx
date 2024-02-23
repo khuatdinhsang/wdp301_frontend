@@ -23,7 +23,7 @@ function CardAdmin({blog}){
     }
 
     return(
-        <div className='card' >
+        <div className='cardHome' >
             {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/admin/editBlog/${blog?._id}`)}>
                 <img alt='' src={blog?.image[currentImageIndex]}/>
             </div>

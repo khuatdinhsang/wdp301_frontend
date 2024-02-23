@@ -7,6 +7,22 @@
     background: linear-gradient(to right,#e2e2e2, #c9d6ff);
     height: 160vh;
     padding-top: 20px;
+    position: relative;
+
+    .backToDashboard{
+        position: absolute;
+        left: 20px;
+        padding: 4px;
+        border-radius: 50%;
+        font-size: 34px;
+        background-color: #fff;
+        z-index: 5;
+        &:hover{
+        transform: scale(1.1);
+        transition: .4s;
+        cursor: pointer;
+        }
+    }
     .uploadContain{
         margin: 20px 10px 30px 40px;
         display: flex;
