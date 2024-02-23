@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAccount } from '../../../actions/accountActions';
+import { toast } from 'react-toastify';
 
 
 const Header = () => {
@@ -24,7 +25,9 @@ const Header = () => {
 
     const handleLogout = () => {
         const action = logoutAccount();
+        toast.success("Đăng xuất thành công")
         dispatch(action);
+        navigate("/");
 
     }
 

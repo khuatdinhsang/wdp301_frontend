@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router'
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import './EditBlogManager.scss'
+import { toast } from 'react-toastify';
 
 function EditBlogManager(){
     const {slug} = useParams();
@@ -39,7 +40,7 @@ function EditBlogManager(){
 
     const handleEditBlog = () => {
         if(title === '' || description === '' || area == '' || money == '' || addressDetail === '' || totalRoom == '' ){
-            console.log("Have a blank");
+            toast.warn('Có thông tin rỗng!!')
         }else{
             const blogEdit = {
                 category: "rent",
@@ -61,7 +62,7 @@ function EditBlogManager(){
                     }
             })
             .then(res =>{
-                console.log("Edit successfully!!");
+                toast.success("Chỉnh sửa thông tin blog thành công!!")
                 navigate('/admin/blogManager');
             })
             .catch(err => console.log(err))

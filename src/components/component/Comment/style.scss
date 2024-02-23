@@ -28,11 +28,21 @@
             flex-direction: column;
 
             .topDetailUserComment{
+                display: flex;
+                align-items: center;
                 .usernameComment{
                     font-weight: 700;
                 }
                 .editIcon{
-                    font-size: 18px;
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: blue;
+                    cursor: pointer;
+                    transition: ease-in-out .4s;
+
+                    &:hover{
+                        transform: scale(1.1);
+                    }
                 }
             }
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
@@ -19,8 +19,12 @@ function UploadBlog(){
     const [hospitalImages, setHospitalImages] = useState([]);
     const account = useSelector(state => state.account)
     const [dataImg, setDataImg] = useState([])
+    const [isConfirm, setIsConfirm] = useState(false)
     const navigate = useNavigate();
 
+    useEffect(() => {
+      setIsConfirm(false);
+    }, [hospitalImages])
 
 
     const getBase64Multiple = (file) => {
@@ -67,6 +71,7 @@ function UploadBlog(){
         })
         .then(async (res) => {
           setDataImg(res.data.data)
+          setIsConfirm(true)
         })
         .catch((err) => {
           console.log(err);
@@ -175,7 +180,7 @@ function UploadBlog(){
                                 }}
                                 name="files"
                                 />
-                                <button type="submit" className="submitImgUpload" onClick={submitMultipleImg}>Xác nhận</button>
+                                {isConfirm ? '' :<button type="submit" className="submitImgUpload" onClick={submitMultipleImg}>Xác nhận</button>}
                             </div>
                         </form>
                     </div>

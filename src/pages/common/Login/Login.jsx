@@ -29,9 +29,9 @@ function Login() {
 
     const handleLogin = () => {
         if (username.trim() === '' || username.trim() % 1 !== 0) {
-            console.log("Số điện thoại không đúng");
+            toast.warn("Số điện thoại không đúng");
         } else if (password.trim() === '') {
-            console.log("Mật khẩu đang để trống");
+            toast.warn("Mật khẩu không được để trống!")
         } else {
             const userLogin = {
                 phone: username.trim(),
@@ -52,7 +52,10 @@ function Login() {
                         const action = loginAccount(user);
                         setIsLoading(true);
                         dispatch(action);
+                        toast.success("Đăng nhập thành công!")
                         navigate('/')
+                    }else{
+                        toast.warn("Tài khoản hoặc mật khẩu không đúng!")
                     }
                 })
                 .catch(err => console.log(err))
