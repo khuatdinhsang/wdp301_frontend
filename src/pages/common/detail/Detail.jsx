@@ -20,9 +20,10 @@ function Detail(){
     const [starComment, setStarComment] = useState(0);
     const [feedback, setFeedback] = useState('')
     const [hover, setHover] = useState(-1);
+    const [blogRates, setBlogRates] = useState([])
     const account = useSelector(state => state.account)
 
-
+    
     function getLabelText(value) {
       return `${value} Star${value !== 1 ? 's' : ''}`;
     }
@@ -51,10 +52,29 @@ function Detail(){
         .catch(err => console.log(err))
     },[])
 
+    useEffect(() => {
+        axios
+        .get(`/api/blog_rate/GetAll`,{
+            headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+        })
+        .then(res => {
+            const data = res.data.data;
+            const blogComments = data.filter(blog => {
+                return blog?.blogId == slug;
+            })
+            setBlogRates(blogComments);
+        })
+        .catch(res => console.log(res))
+    },[feedback])
+
     const handleComment = () => {
         const commentContent = {
             star: starComment,
+            fullname: account?.accessToken.fullName,
             feedback: feedback,
+            title: feedback,
             userId: account?.accessToken?.id,
             blogId: slug
         }
@@ -247,11 +267,9 @@ function Detail(){
             }
 
             <div className="comments">
-                <Comment/>
-                <Comment/>
-                <Comment/>
-                <Comment/>
-                <Comment/>
+                {blogRates?.map(blog => {
+                    return <Comment content={blog}/>
+                })}
             </div>
 
             <div className="mapDetail">

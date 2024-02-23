@@ -64,11 +64,11 @@ function SidebarAdmin(){
                             27
                         </span>
                     </a>
-                    <a href="" >
+                    <a onClick={() => navigate('/admin/blogManager')}>
                         <span className="material-icons-sharp">
                             <InventoryIcon/>
                         </span>
-                        <h3>Sale List</h3>
+                        <h3>Blogs List</h3>
                     </a>
                     <a href="" >
                         <span className="material-icons-sharp">
