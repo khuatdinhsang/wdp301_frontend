@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router'
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import './EditBlogManager.scss'
 
 function EditBlogManager(){
@@ -86,6 +87,7 @@ function EditBlogManager(){
 
     return (
          <div className="uploadPage">
+               <span style={{cursor: "pointer"}} onClick={() => {navigate('/admin/blogManager')}}><ArrowBackIosRoundedIcon className='backToDashboard' /></span>
             <div className='uploadContain'>
                 <h3 className="uploadTitle">Upload Product</h3>
                 <div className="uploadContent">

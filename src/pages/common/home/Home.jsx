@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Card from "../../../components/component/Card"
+import { toast } from "react-toastify"
+import CardHome from "../../../components/component/Card"
 import "./Home.scss"
 
 function Home(){
@@ -28,7 +29,7 @@ function Home(){
             <div className="listCard">
                 {blogs?.map(blog => {
                     return (
-                        <Card 
+                        <CardHome 
                             blog={blog}
                             key={blog?._id}
                         />

@@ -10,10 +10,21 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { logoutAccount } from '../../../../actions/accountActions';
 
 function SidebarAdmin(){
     const navigate = useNavigate();
+    const {pathname} = useLocation();
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+            const action = logoutAccount();
+            dispatch(action);
+            navigate('/');
+        
+    }
 
     return (
         <div className="containerSideBar">
@@ -30,32 +41,32 @@ function SidebarAdmin(){
                     </div>
                 </div>
                 <div className="sidebar">
-                    <a href="">
+                    <a className={pathname?.includes('dashboard')?'active':''} onClick={() => navigate('/admin/dashboard')}>
                         <span className="material-icons-sharp">
                             <DashboardIcon/>
                         </span>
                         <h3>Dashboard</h3>
                     </a>
 
-                    <a href="">
+                    <a >
                         <span className="material-icons-sharp">
                             <PersonIcon/>
                         </span>
                         <h3>Users</h3>
                     </a>
-                    <a href="" >
+                    <a >
                         <span className="material-icons-sharp">
                             <ReceiptLongIcon/>
                         </span>
                         <h3>History</h3>
                     </a>
-                    <a href="" className='active'>
+                    <a >
                         <span className="material-icons-sharp">
                             <InsightsIcon/>
                         </span>
                         <h3>Analytics</h3>
                     </a>
-                    <a href="" >
+                    <a >
                         <span className="material-icons-sharp">
                             <MailOutlineIcon/>
                         </span>
@@ -64,26 +75,26 @@ function SidebarAdmin(){
                             27
                         </span>
                     </a>
-                    <a onClick={() => navigate('/admin/blogManager')}>
+                    <a onClick={() => navigate('/admin/blogManager')} className={pathname?.includes('blogManager')?'active':''}>
                         <span className="material-icons-sharp">
                             <InventoryIcon/>
                         </span>
                         <h3>Blogs List</h3>
                     </a>
-                    <a href="" >
+                    <a >
                         <span className="material-icons-sharp">
                             <ReportGmailerrorredIcon/>
                         </span>
                         <h3>Reports</h3>
                     </a>
                     
-                    <a href="" onClick={() => navigate("/lessor/uploadBlog")}>
+                    <a onClick={() => navigate("/lessor/uploadBlog")}>
                         <span className="material-icons-sharp">
                             <AddIcon/>
                         </span>
                         <h3>Upload Blog</h3>
                     </a>
-                    <a href="" >
+                    <a onClick={() => handleLogout()}>
                         <span className="material-icons-sharp">
                             <LogoutIcon/>
                         </span>
