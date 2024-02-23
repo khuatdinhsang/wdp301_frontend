@@ -35,7 +35,6 @@ function Home(){
                         
                     )
                 })}
-                <Card/>
             </div>
         </>
     )

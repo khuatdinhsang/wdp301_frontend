@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import DefaultLayout from "./components/DefaultLayout";
 import { publicRoutes } from "./routes";
+import Page404 from "../src/pages/common/Page404/Page404.jsx"
 
 axios.defaults.baseURL = "http://localhost:9999"
 
@@ -34,6 +35,7 @@ function App() {
                   />
                 )
             })}
+            <Route path="*" element={<Page404/>}/>
         </Routes>
         <ToastContainer/>
      </BrowserRouter>

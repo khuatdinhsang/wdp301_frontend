@@ -3,7 +3,7 @@ import "./style.scss"
 import StarIcon from '@mui/icons-material/Star';
 
 
-function Comment(){
+function Comment(blog){
     return (
         <div className="comment">
             <div className="userComment">
@@ -12,7 +12,7 @@ function Comment(){
                 </div>
                 <div className="detailUserComment">
                     <span className="usernameComment">
-                        Khuat Dinh Sang
+                        {blog?.content.fullname}
                     </span>
                     <i className="placeComment">
                         Thach That, Ha Noi
@@ -28,7 +28,7 @@ function Comment(){
                 <b className="numberStarComment">3 tuần trước</b>
             </div>
             <div className="commentContent">
-                <p>Ngôi nhà rất dễ thương, khiến tôi cảm thấy như mình đang ở trong một câu chuyện hư cấu. Ngoài ra còn có một chú mèo con đen xuất hiện để chơi đùa, rất thích đứa con nhỏ.</p>
+                <p>{blog?.content.title}</p>
             </div>
         </div>
     )
