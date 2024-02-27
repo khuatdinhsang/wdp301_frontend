@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import StarIcon from '@mui/icons-material/Star';
-import './CardAdmin.scss'
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import StarIcon from "@mui/icons-material/Star";
+import "./CardAdmin.scss";
 
-function CardAdmin({blog}){
+function CardAdmin({ blog }) {
+  const navigate = useNavigate();
+  const [status, setStatus] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [sizeImage, setSizeImage] = useState(blog?.image.length);
+  const account = useSelector((state) => state.account);
 
-    const navigate = useNavigate()
-    const [status, setStatus] = useState(true)
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [sizeImage, setSizeImage] = useState(blog?.image.length);
-    const account = useSelector(state => state.account);
+  const handlePreviousImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : sizeImage - 1
+    );
+  };
 
     const handlePreviousImage = ( ) => {
          setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
@@ -42,7 +47,7 @@ function CardAdmin({blog}){
             </div>
             </>:<></>}
         </div>
-    )
+  );
 }
 
-export default CardAdmin
+export default CardAdmin;
