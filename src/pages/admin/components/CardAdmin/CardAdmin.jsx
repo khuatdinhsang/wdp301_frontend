@@ -13,12 +13,6 @@ function CardAdmin({ blog }) {
   const [sizeImage, setSizeImage] = useState(blog?.image.length);
   const account = useSelector((state) => state.account);
 
-  const handlePreviousImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : sizeImage - 1
-    );
-  };
-
     const handlePreviousImage = ( ) => {
          setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
     }
