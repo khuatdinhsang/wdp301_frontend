@@ -44,6 +44,18 @@
                         transform: scale(1.1);
                     }
                 }
+
+                .deleteIcon{
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: red;
+                    cursor: pointer;
+                    transition: ease-in-out .4s;
+
+                    &:hover{
+                        transform: scale(1.1);
+                    }
+                }
             }
 
             .placeComment{

@@ -19,53 +19,34 @@ function CardAdmin({ blog }) {
     );
   };
 
-  const handleForwardImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex < sizeImage - 1 ? prevIndex + 1 : 0
-    );
-  };
-  return (
-    <div className="cardHome">
-      {blog?.title ? (
-        <>
-          <div
-            className="imageContainer"
-            onClick={() => navigate(`/admin/editBlog/${blog?._id}`)}
-          >
-            <img alt="" src={`http://${blog?.image[currentImageIndex]}`} />
-          </div>
-          <ArrowBackIosRoundedIcon
-            className="backIcon"
-            onClick={() => handlePreviousImage()}
-          />
-          <ArrowForwardIosRoundedIcon
-            className="nextIcon"
-            onClick={() => handleForwardImage()}
-          />
-          <div className="infoCard">
-            <div className="titleRow1">
-              <h2 className="titleCard">{blog?.title}</h2>
-              <div className="showStar">
-                <StarIcon className="starCard" />
-                <span className="numberStarCard"> 5,0</span>
-              </div>
+    const handlePreviousImage = ( ) => {
+         setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
+    }
+
+    const handleForwardImage =  () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex < sizeImage - 1 ? prevIndex + 1 : 0));
+    }
+
+    return(
+        <div className='cardHome' >
+            {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/admin/editBlog/${blog?._id}`)}>
+                <img alt='' src={`http://${blog?.image[currentImageIndex]}`}/>
             </div>
-            <span className="dateBuilding">{blog?.description}</span>
-            <p className="priceCard">
-              <span className="pricePer">
-                {blog?.money?.toLocaleString("vi", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </span>{" "}
-              / tháng
-            </p>
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
-    </div>
+            <ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()}/>
+            <ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>
+            <div className='infoCard'>
+                <div className='titleRow1'>
+                    <h2 className='titleCard'>{blog?.title}</h2>
+                    <div className='showStar'>
+                        <StarIcon  className='starCard'/>
+                        <span className='numberStarCard'> 5,0</span>
+                    </div>
+                </div>
+                <span className='dateBuilding'>{blog?.description}</span>
+                <p className='priceCard'><span className='pricePer'>{blog?.money?.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span> / tháng</p>
+            </div>
+            </>:<></>}
+        </div>
   );
 }
 

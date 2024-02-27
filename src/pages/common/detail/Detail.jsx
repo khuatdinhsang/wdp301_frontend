@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import ClearIcon from '@mui/icons-material/Clear';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -20,9 +21,14 @@ function Detail(){
     const [blog, setBlog] = useState()
     const [starComment, setStarComment] = useState(0);
     const [feedback, setFeedback] = useState('')
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
     const [hover, setHover] = useState(-1);
     const [blogRates, setBlogRates] = useState([])
+    const [isComment, setIsComment] = useState(false)
+    const [lessor, setLessor] = useState({})
     const account = useSelector(state => state.account)
+    const [currentBlogRate, setCurrentBlogRate] = useState();
 
     
     function getLabelText(value) {
@@ -51,37 +57,114 @@ function Detail(){
             }            
         })
         .catch(err => console.log(err))
+
+
+        axios
+        .get(`/api/auth/profile`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            setLessor(res.data.data);
+        })
+        .catch(err => console.log(err)) 
+                
     },[])
 
     useEffect(() => {
-        axios
-        .get(`/api/blog_rate/GetAll`,{
-            headers: {
-                    Authorization: `Bearer ${account?.token}`
+        if(account?.phone !== undefined){
+            axios
+            .get(`/api/blog_rate/check/${slug}`,{
+                    headers: {
+                            Authorization: `Bearer ${account?.token}`
+                        }
+                })
+            .then(res => {
+                if(res.data.data === true){
+                    setIsComment(true);
+                }else{
+                    setIsComment(false);
                 }
-        })
+            })
+            .catch(err => console.log(err))
+        }
+    },[blogRates])
+
+    useEffect(() => {
+        axios
+        .get(`/api/blog_rate/GetAll/${slug}`)
         .then(res => {
             const data = res.data.data;
-            const blogComments = data.filter(blog => {
-                return blog?.blogId == slug;
-            })
-            setBlogRates(blogComments);
+            setBlogRates(data);
         })
         .catch(res => console.log(res))
+        axios
+        .get(`/api/blog/detail/${slug}`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data
+                setBlog(data);
+            }            
+        })
+        .catch(err => console.log(err))
     },[feedback])
 
+    useEffect(() => {
+        axios
+        .get(`/api/blog_rate/GetAll/${slug}`)
+        .then(res => {
+            const data = res.data.data;
+            setBlogRates(data);
+        })
+        .catch(res => console.log(res))
+        axios
+        .get(`/api/blog/detail/${slug}`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data
+                setBlog(data);
+            }            
+        })
+        .catch(err => console.log(err))
+    },[isDelete])
+
+    useEffect(() => {
+        axios
+        .get(`/api/blog_rate/GetAll/${slug}`)
+        .then(res => {
+            const data = res.data.data;
+            setBlogRates(data);
+        })
+        .catch(res => console.log(res))
+        axios
+        .get(`/api/blog/detail/${slug}`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data
+                setBlog(data);
+            }            
+        })
+        .catch(err => console.log(err))
+    },[isUpdating])
+
+
+    const handleDeleteComment = () => {
+        setIsDelete(!isDelete)
+        setIsUpdating(false);
+        setStarComment(0);
+        setFeedback('')
+    }
+
     const handleComment = () => {
-        
         if(starComment === '' || feedback === ''){
             toast.warn("Cần điền đầy đủ thông tin để bình luận!!")
         }else{
             const commentContent = {
-                star: starComment,
-                fullname: account?.accessToken.fullName,
-                feedback: feedback,
+                star: +starComment,
                 title: feedback,
-                userId: account?.accessToken?.id,
-                blogId: slug
+                blogId: slug,
+                file: ['']
             }
 
             axios
@@ -91,13 +174,53 @@ function Detail(){
                     }
             })
             .then(res => {
-                console.log('Comment Successfully');
                 setStarComment(0);
                 setFeedback('');
                 toast.success('Bình luận thành công!!')
             })
             .catch(err => console.log(err))
         }
+    }
+
+    const hanldeUpdateBlogRate = (blog) =>{
+        setIsUpdating(true);
+        setStarComment(blog?.star);
+        setFeedback(blog?.title);
+        setCurrentBlogRate(blog);
+    }
+
+    const handleEdit = () => {
+        if(starComment === '' || feedback ===''){
+            toast.warn("vui lòng điền đầy đủ thông tin trên bình luận");
+        }else{
+            const editContent = {
+                star: starComment,
+                title: feedback,
+                file: currentBlogRate?.file
+            }
+
+            axios
+            .patch(`/api/blog_rate/update/${currentBlogRate?._id}`,editContent,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                if(res.data.statusCode === 200){
+                    toast.success('Chỉnh sửa bình luận thành công')
+                    setIsUpdating(false);
+                }else{
+                    toast.error("Chỉnh sửa bình luân thất bại")
+                }
+            })
+            .catch(err => console.log(err))
+        }
+    }
+
+    const handleClear = () => {
+        setIsUpdating(false);
+        setStarComment(0);
+        setFeedback(0);
     }
 
     return (
@@ -141,7 +264,7 @@ function Detail(){
                                 <span>Khách hàng đánh giá đây là một trong những ngôi nhà được yêu thích trên HolaHome</span>
                             </div>
                             <div className='customerFavourite3' >
-                                <span>4.93</span>
+                                <span>{blog?.avgBlogRate}</span>
                                <div className='starDetail'>
                                    <StarIcon  className='starCard'/>
                                    <StarIcon  className='starCard'/>
@@ -152,7 +275,7 @@ function Detail(){
                                </div>
                             </div>
                             <div className='customerFavourite4' >
-                                <span>117</span>
+                                <span>{blogRates?.length}</span>
                                 <u>đánh giá</u>
                             </div>
                         </div>
@@ -164,7 +287,7 @@ function Detail(){
                             </div>
                             <div className="detailLessor">
                                 <p className="establish">
-                                    Chủ nhà/Người tổ chức: Vương Nguyễn
+                                    Chủ nhà/Người tổ chức: {lessor?.fullName}
                                 </p>
                                 <i className='experience'>
                                     Chủ nhà siêu cấp 6 năm kinh nghiệm đón tiếp khách
@@ -210,72 +333,79 @@ function Detail(){
             <div className="ratingBlog">
                 <div className="numberStar">
                     <img className="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" decoding="async" elementtiming="LCP-target" src="https://a0.muscache.com/pictures/ec500a26-609d-440f-b5d0-9e5f92afd478.jpg" data-original-uri="https://a0.muscache.com/pictures/ec500a26-609d-440f-b5d0-9e5f92afd478.jpg" style={{objectFit: 'cover'}}></img>
-                    <b className='starRating'>4,93</b>
+                    <b className='starRating'>{blog?.avgBlogRate}</b>
                     <img className="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" decoding="async" elementtiming="LCP-target" src="https://a0.muscache.com/pictures/65bb2a6c-0bdf-42fc-8e1c-38cec04b2fa5.jpg" data-original-uri="https://a0.muscache.com/pictures/65bb2a6c-0bdf-42fc-8e1c-38cec04b2fa5.jpg" style={{objectFit: 'cover'}}></img>
                 </div>
                 <div className="ratingTitle">
                     <span>Được khách yêu thích</span>
-                    <i className='titleDes'>Một trong những ngôi nhà được yêu thích nhất trên Airbnb dựa trên điểm xếp hạng, đánh giá và độ tin cậy</i>
+                    <i className='titleDes'>Một trong những ngôi nhà được yêu thích nhất trên HolaRent dựa trên điểm xếp hạng, đánh giá và độ tin cậy</i>
                 </div>
             </div>
-            {account?.phone !== undefined ?
+            {((account?.phone !== undefined && isComment === false ) || isUpdating === true) ?
                 <div className="commentAction">
                     <div className="avatarCommentAction">
                         <AccountCircleIcon/>
                     </div>
                     <div className="detailCommentAction">
-                        <div className="ratingStarCommentAction">
-                            <Box
-                                sx={{
-                                    width: 200,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                                >
-                                <Rating
-                                    name="hover-feedback"
-                                    value={starComment}
-                                    precision={1}
-                                    getLabelText={getLabelText}
-                                    onChange={(event, newValue) => {
-                                        setStarComment(newValue);
+                            <div className="ratingStarCommentAction">
+                                <Box
+                                    sx={{
+                                        width: 200,
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     }}
-                                    onChangeActive={(event, newHover) => {
-                                        setHover(newHover);
-                                    }}
-                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                />
-                                
-                            </Box>
-                        </div>
-                        <textarea 
-                            className="inputComment" 
-                            cols="30" rows="10"
-                            placeholder='Viết Bình Luận'
-                            value={feedback}
-                            onChange={(e) => setFeedback(e.target.value)}
-                            ></textarea>
-                        <div className='btnComment'>
-                            <button 
-                                className='btnCommentAction' 
-                                onClick={() => handleComment()}
-                                onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                            e.preventDefault(); 
-                                            handleComment();
-                                            }
+                                    >
+                                    <Rating
+                                        name="hover-feedback"
+                                        value={starComment}
+                                        precision={1}
+                                        getLabelText={getLabelText}
+                                        onChange={(event, newValue) => {
+                                            setStarComment(newValue);
                                         }}
-                            >
-                                Bình Luận
-                            </button>
-                        </div>
+                                        onChangeActive={(event, newHover) => {
+                                            setHover(newHover);
+                                        }}
+                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    />
+                                    
+                                </Box>
+                            </div>
+                            <textarea 
+                                className="inputComment" 
+                                cols="30" rows="10"
+                                placeholder='Viết Bình Luận'
+                                value={feedback}
+                                onChange={(e) => setFeedback(e.target.value)}
+                                ></textarea>
+                            <div className='btnComment'>
+                                {isUpdating === true ?<span className='clearIcon' onClick={() => handleClear()}><ClearIcon/></span>:''}
+                                <i 
+                                    type='submit'
+                                    className='btnCommentAction' 
+                                    onClick={isUpdating === true ? () => handleEdit() : () => handleComment()}
+                                    onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                e.preventDefault(); 
+                                                handleComment();
+                                                }
+                                            }}
+                                >
+                                    {isUpdating === true ?'Chỉnh sửa' : 'Bình Luân'}
+                                </i>
+                            </div>
                     </div>
                 </div>:<></>
             }
 
             <div className="comments">
                 {blogRates?.map(blog => {
-                    return <Comment content={blog}/>
+                    return <Comment 
+                                key={blog?._id} 
+                                content={blog} 
+                                onDelete={handleDeleteComment} 
+                                onUpdate={() => hanldeUpdateBlogRate(blog)} 
+                            />
                 })}
             </div>
 
@@ -295,7 +425,7 @@ function Detail(){
                         </div>
                         <div className="detailLessorTop">
                             <p className="establish">
-                                Chủ nhà/Người tổ chức: Judy
+                                Chủ nhà/Người tổ chức: {lessor?.fullName}
                             </p>
                             <i className='experience'>
                             Chủ nhà siêu cấp 6 năm kinh nghiệm đón tiếp khách
@@ -309,7 +439,7 @@ function Detail(){
                         <div className="ratingLessor">
                             <div className="numberRatingLessor">
                                 <StarIcon  className='starCard'/>
-                                <span>23 đánh giá</span>
+                                <span>{blogRates?.length} đánh giá</span>
                             </div>
                             <div className="authenLessor">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: 16, width: 16, fill: 'currentcolor'}}><path d="m16 .8.56.37C20.4 3.73 24.2 5 28 5h1v12.5C29 25.57 23.21 31 16 31S3 25.57 3 17.5V5h1c3.8 0 7.6-1.27 11.45-3.83L16 .8zm7 9.08-9.5 9.5-4.5-4.5L6.88 17l6.62 6.62L25.12 12 23 9.88z"></path></svg>

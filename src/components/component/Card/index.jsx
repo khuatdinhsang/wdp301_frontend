@@ -43,7 +43,7 @@ function CardHome({blog}){
     return (
         <div className='cardHome' >
             {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/detail/${blog?._id}`)}>
-                <img alt='' src={blog?.image[currentImageIndex]}/>
+                <img alt='' src={`${blog?.image[currentImageIndex]}`}/>
             </div>
             <ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()}/>
             <ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>

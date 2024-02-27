@@ -112,6 +112,7 @@ const Header = () => {
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/admin/dashboard')}><span>Dashboard</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => handleLogout()}><span>Đăng xuất</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
+                                    {account?.phone !== undefined ? <li onClick={() => navigate("/changePassword")}><span>Đổi mật khẩu</span></li> : <></>}
                                 </ul>
                             </div>
                         </div> : <></>}
