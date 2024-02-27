@@ -14,11 +14,13 @@ import BlogManager from "../pages/lessor/BlogManager/BlogManagement"
 import Profile from "../pages/common/profile/Profile"
 import HeaderNoSearch from "../components/component/HeaderNoSearch/HeaderNoSearch"
 import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog"
+import ChangePassword from "../pages/common/ChangePassword/ChangePassword"
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/detail/:slug', component: Detail },
     { path: '/login', component: Login, layout: null },
+    { path: '/changePassword', component: ChangePassword, layout: null },
     { path: '/register', component: Register, layout: null },
     { path: '/contact-host', component: ContactLessor },
     { path: '/wishlist', component: WishList, layout: HeaderOnly },
@@ -30,6 +32,7 @@ const publicRoutes = [
     { path: '/lessor/blogManager', component: BlogManager, layout: null },
     { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
     { path: '/profile', component: Profile, layout: HeaderOnly },
+
 ]
 
 const adminRoutes = [

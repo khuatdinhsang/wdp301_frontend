@@ -148,9 +148,7 @@ function Login() {
                                 >
                                     Login
                                 </span>
-                                <i className="remember" style={{ textAlign: "center" }} >
-                                    Change Password
-                                </i>
+                                
                                 <i className="remember" onClick={() => navigate("/forgotPassword")}>Forgot Password</i>
                             </div>
                         </form>

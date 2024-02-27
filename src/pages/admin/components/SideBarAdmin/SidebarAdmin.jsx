@@ -13,6 +13,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { logoutAccount } from '../../../../actions/accountActions';
+import { toast } from 'react-toastify';
 
 function SidebarAdmin(){
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ function SidebarAdmin(){
     const handleLogout = () => {
             const action = logoutAccount();
             dispatch(action);
+            toast.success("Đăng xuất thành công!");
             navigate('/');
         
     }

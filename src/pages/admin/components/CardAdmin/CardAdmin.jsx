@@ -25,7 +25,7 @@ function CardAdmin({blog}){
     return(
         <div className='cardHome' >
             {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/admin/editBlog/${blog?._id}`)}>
-                <img alt='' src={blog?.image[currentImageIndex]}/>
+                <img alt='' src={`http://${blog?.image[currentImageIndex]}`}/>
             </div>
             <ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()}/>
             <ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>
