@@ -15,19 +15,18 @@ import { useDispatch } from 'react-redux';
 import { logoutAccount } from '../../../../actions/accountActions';
 import { toast } from 'react-toastify';
 
-function SidebarAdmin(){
+function SidebarAdmin() {
     const navigate = useNavigate();
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-            const action = logoutAccount();
-            dispatch(action);
-            toast.success("Đăng xuất thành công!");
-            navigate('/');
-        
-    }
+        const action = logoutAccount();
+        dispatch(action);
+        toast.success("Đăng xuất thành công!");
+        navigate('/');
 
+    }
     return (
         <div className="containerSideBar">
             <aside>
@@ -38,67 +37,67 @@ function SidebarAdmin(){
                     </div>
                     <div className="close" id='close-btn'>
                         <span className="material-icons-sharp">
-                            <CloseIcon/>
+                            <CloseIcon />
                         </span>
                     </div>
                 </div>
                 <div className="sidebar">
-                    <a className={pathname?.includes('dashboard')?'active':''} onClick={() => navigate('/admin/dashboard')}>
+                    <a className={pathname?.includes('dashboard') ? 'active' : ''} onClick={() => navigate('/admin/dashboard')}>
                         <span className="material-icons-sharp">
-                            <DashboardIcon/>
+                            <DashboardIcon />
                         </span>
                         <h3>Dashboard</h3>
                     </a>
 
-                    <a >
+                    <a onClick={() => navigate('/admin/users')} className={pathname?.includes('users') ? 'active' : ''}>
                         <span className="material-icons-sharp">
-                            <PersonIcon/>
+                            <PersonIcon />
                         </span>
                         <h3>Users</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
-                            <ReceiptLongIcon/>
+                            <ReceiptLongIcon />
                         </span>
                         <h3>History</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
-                            <InsightsIcon/>
+                            <InsightsIcon />
                         </span>
                         <h3>Analytics</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
-                            <MailOutlineIcon/>
+                            <MailOutlineIcon />
                         </span>
                         <h3>Tickets</h3>
                         <span className="message-count">
                             27
                         </span>
                     </a>
-                    <a onClick={() => navigate('/admin/blogManager')} className={pathname?.includes('blogManager')?'active':''}>
+                    <a onClick={() => navigate('/admin/blogManager')} className={pathname?.includes('blogManager') ? 'active' : ''}>
                         <span className="material-icons-sharp">
-                            <InventoryIcon/>
+                            <InventoryIcon />
                         </span>
                         <h3>Blogs List</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
-                            <ReportGmailerrorredIcon/>
+                            <ReportGmailerrorredIcon />
                         </span>
                         <h3>Reports</h3>
                     </a>
-                    
+
                     <a onClick={() => navigate("/lessor/uploadBlog")}>
                         <span className="material-icons-sharp">
-                            <AddIcon/>
+                            <AddIcon />
                         </span>
                         <h3>Upload Blog</h3>
                     </a>
                     <a onClick={() => handleLogout()}>
                         <span className="material-icons-sharp">
-                            <LogoutIcon/>
+                            <LogoutIcon />
                         </span>
                         <h3>Logout</h3>
                     </a>

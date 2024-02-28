@@ -1,0 +1,98 @@
+.userManagement {
+  display: flex;
+}
+
+.sidebarLessorManagement {
+  /* Thiết lập kích thước hoặc các thuộc tính khác cho SidebarAdmin */
+}
+
+main {
+  flex-grow: 1;
+}
+
+h3 {
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.userManagementContent1 {
+  padding: 20px;
+  /* Điều chỉnh khoảng cách nếu cần */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.listUserManagerAdmin {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-orders {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  /* Điều chỉnh kiểu border nếu cần */
+  border-radius: 5px;
+  /* Điều chỉnh góc bo nếu cần */
+  overflow: auto;
+  /* Kích hoạt thanh cuộn nếu bảng quá dài */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f2f2f2;
+  /* Màu nền header */
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  /* Điều chỉnh kiểu border dưới nếu cần */
+}
+
+th:last-child,
+td:last-child {
+  text-align: center;
+  /* Canh giữa nội dung cột cuối */
+}
+
+.primary {
+  cursor: pointer;
+  /* Đổi con trỏ chuột thành kiểu chỉ chỉ vào */
+  color: blue;
+  /* Màu chữ cho cột 'Details' */
+}
+
+.userTypeButtons {
+  margin-bottom: 20px;
+}
+
+.userTypeButtons button {
+  background-color: #4CAF50;
+  /* Màu nền */
+  border: none;
+  color: white;
+  /* Màu chữ */
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.userTypeButtons button:hover {
+  background-color: #45a049;
+  /* Màu nền khi hover */
+}
