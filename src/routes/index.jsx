@@ -1,5 +1,6 @@
 import HeaderOnly from "../components/HeaderOnly"
 import BlogManagerAdmin from "../pages/admin/pages/BlogManagerAdmin/BlogManagerAdmin"
+import UsersManagerAdmin from "../pages/admin/pages/UsersManagerAdmin/UsersManagerAdmin"
 import Dashboard from "../pages/admin/pages/Dashboard/Dashboard"
 import EditBlogManager from "../pages/admin/pages/EditBlogManager/EditBlogManager"
 import ChatWithLessor from "../pages/common/ChatWithLessor/ChatWithLessor"
@@ -27,8 +28,9 @@ const publicRoutes = [
     { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
     { path: '/inbox', component: ChatWithLessor, layout: null },
     { path: '/admin/dashboard', component: Dashboard, layout: null },
-    { path: '/admin/blogManager', component: BlogManagerAdmin , layout: null },
+    { path: '/admin/blogManager', component: BlogManagerAdmin, layout: null },
     { path: '/admin/editBlog/:slug', component: EditBlogManager, layout: null },
+    { path: '/admin/users', component: UsersManagerAdmin, layout: null },
     { path: '/lessor/blogManager', component: BlogManager, layout: null },
     { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
     { path: '/profile', component: Profile, layout: HeaderOnly },
