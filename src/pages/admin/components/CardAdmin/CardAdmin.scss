@@ -16,3 +16,27 @@
         }
     }
 }
+
+.isAcceptIcon{
+     position: absolute;
+    top: 4%;
+    right: 4%;
+    color: green;
+    cursor: pointer;
+
+    &:hover{
+        color: red;
+    }
+}
+
+.notAcceptIcon{
+     position: absolute;
+    top: 4%;
+    right: 4%;
+    color: red;
+    cursor: pointer;
+
+    &:hover{
+        color: green;
+    }
+}

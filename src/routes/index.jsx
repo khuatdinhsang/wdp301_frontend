@@ -33,7 +33,7 @@ const publicRoutes = [
     { path: '/admin/users', component: UsersManagerAdmin, layout: null },
     { path: '/lessor/blogManager', component: BlogManager, layout: null },
     { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
-    { path: '/profile', component: Profile, layout: HeaderOnly },
+    { path: '/profile', component: Profile, layout: null },
 
 ]
 

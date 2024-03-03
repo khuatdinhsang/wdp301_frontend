@@ -7,5 +7,53 @@
     flex-wrap: wrap;
     padding: 0 40px;
     margin-bottom: 80px;
+}
+
+
+.homePage{
+    display: flex;
     margin-top: 200px;
+
+    .leftHomePage{
+        width: 20%;
+        padding: 20px 40px;
+        border-right: 2px solid #ccc;
+
+        .minPrice, .maxPrice{
+            margin-top: 20px;
+
+            .h3Price{
+                text-align: left;
+                font-size: 16px;
+            }
+
+            .pPrice{
+                font-size: 14px;
+                font-weight: 500;
+            }
+        }
+
+        .divSearchHome{
+            display: flex;
+            justify-content: right;
+            margin-top: 20px;
+        }
+    }
+
+    .listCard{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        .topListCard{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .bottomListCard{
+            display: flex;
+            justify-content: center;
+        }
+    }
 }

@@ -4,9 +4,10 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import StarIcon from '@mui/icons-material/Star';
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function CardHome({blog}){
     const navigate = useNavigate()
@@ -14,6 +15,7 @@ function CardHome({blog}){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [sizeImage, setSizeImage] = useState(blog?.image.length);
     const account = useSelector(state => state.account);
+    const [listFavorite, setListFavorite] = useState()  
 
     const handlePreviousImage = ( ) => {
          setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
@@ -22,6 +24,10 @@ function CardHome({blog}){
     const handleForwardImage =  () => {
         setCurrentImageIndex((prevIndex) => (prevIndex < sizeImage - 1 ? prevIndex + 1 : 0));
     }
+
+    useEffect(() => {
+
+    },[])
 
     const handleFavouriteRoom = () => {
         setStatus(!status)
@@ -35,24 +41,26 @@ function CardHome({blog}){
                     }
         })
         .then(res => {
-            console.log(account);
+            toast.success("Yêu thích blog thành công")
         })
         .catch(err => console.log(err))
         
     }
+
+
     return (
         <div className='cardHome' >
             {blog?.title?<><div className='imageContainer' onClick={() => navigate(`/detail/${blog?._id}`)}>
-                <img alt='' src={`${blog?.image[currentImageIndex]}`}/>
+                <img alt='' src={`http://${blog?.image[currentImageIndex]}`}/>
             </div>
-            <ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()}/>
-            <ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>
+            {currentImageIndex!== 0 ?<ArrowBackIosRoundedIcon className='backIcon' onClick={() => handlePreviousImage()} />:''}
+            {currentImageIndex!== sizeImage-1 ?<ArrowForwardIosRoundedIcon className='nextIcon' onClick={() => handleForwardImage()}/>:""}
             <div className='infoCard'>
                 <div className='titleRow'>
                     <h2 className='titleCard'>{blog?.title}</h2>
                     <div className='showStar'>
                         <StarIcon  className='starCard'/>
-                        <span className='numberStarCard'> 5,0</span>
+                        <span className='numberStarCard'> {blog?.avgBlogRate.toFixed(1)}</span>
                     </div>
                 </div>
                 <span className='dateBuilding'>{blog?.description}</span>
