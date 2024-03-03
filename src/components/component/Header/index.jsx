@@ -64,11 +64,11 @@ const Header = () => {
                     <img src="https://res.cloudinary.com/dggciohw8/image/upload/v1705070813/417012680_904990781626845_39715534048793428_n_zj9jly.png" alt="" />
                 </div>
                 <div className='centerHeader'>
-                    <ul className='search'>
+                    {/* <ul className='search'>
                         <li >
                             <span>Địa điểm</span>
                             <input type="text" placeholder='Tìm kiếm điểm đến' />
-                        </li>
+                        </li> */}
                         {/* <li className='beforeVertical'>
                             <span>Nhận phòng</span>
                             <input type="text" placeholder='Thêm ngày' />
@@ -78,7 +78,7 @@ const Header = () => {
                             <input type="text" placeholder='Thêm ngày' />
                         </li> */}
 
-                        <li className='searchIcon beforeVertical'>
+                        {/* <li className='searchIcon beforeVertical'>
                             <div className='actionSearch'>
                                 <div className='leftSearch'>
                                     <span>Khách</span>
@@ -91,7 +91,7 @@ const Header = () => {
                         </li>
 
 
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className='action' onClick={() => setShowRegister(!showRegister)}>
                     <div className='borderAction'>
@@ -109,7 +109,7 @@ const Header = () => {
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/profile')}><span>Profile</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/admin/dashboard')}><span>Dashboard</span></li> : <></>}
+                                    {account?.phone !== undefined ? <li onClick={() => navigate('/admin/blogManager')}><span>Dashboard</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => handleLogout()}><span>Đăng xuất</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate("/changePassword")}><span>Đổi mật khẩu</span></li> : <></>}
