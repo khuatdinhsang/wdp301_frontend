@@ -1,10 +1,11 @@
-
 import './Detail.scss'
 import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Comment from '../../../components/component/Comment';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
@@ -29,20 +30,24 @@ function Detail(){
     const account = useSelector(state => state.account)
     const [currentBlogRate, setCurrentBlogRate] = useState();
     const [isComment, setIsComment] = useState(false)
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [sizeImage, setSizeImage] = useState();
+
+    const handlePreviousImage = ( ) => {
+         setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
+    }
+
+    const handleForwardImage =  () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex < sizeImage - 1 ? prevIndex + 1 : 0));
+    }
+
     
     function getLabelText(value) {
       return `${value} Star${value !== 1 ? 's' : ''}`;
     }
 
-    useEffect(() => {
-        localStorage.setItem('pathDetail', pathname);
-
-        
-    }, [pathname])
-
     const handleToContact = ( ) => {
-        setPath(pathname)
-        navigate('/contact-host')
+        navigate('/contact-host')   
     }
  
     useEffect(() => {
@@ -53,6 +58,7 @@ function Detail(){
             if(res.data.isSuccess === true){
                 const data = res.data.data
                 setBlog(data);
+                setSizeImage(data.image.length);
             }            
         })
         .catch(err => console.log(err))
@@ -223,15 +229,14 @@ function Detail(){
             </div>
             <div className='thumnailImage'>
                 <div className='firstCol'>
-                    <img src={`http://${blog?.image[0]}`} alt={blog?.image[0]} />
+                    <img src={`http://${blog?.image[currentImageIndex]}`} alt={blog?.image[0]} />
                 </div>
+                {currentImageIndex!== 0 ?<ArrowBackIosRoundedIcon className='backIconDetail' onClick={() => handlePreviousImage()} />:''}
+                {currentImageIndex!== sizeImage-1 ?<ArrowForwardIosRoundedIcon className='nextIconDetail' onClick={() => handleForwardImage()}/>:""}
                 <div className="secondCol">
-                    <img src={`http://${blog?.image[1]}`} alt={blog?.image[1]} />
-                    <img src={`http://${blog?.image[2]}`} alt={blog?.image[2]} />
                 </div>
                 <div className='thirdCol'>
-                    <img src={`http://${blog?.image[3]}`} alt={blog?.image[5]} className='topRightImg' />
-                    <img src={`http://${blog?.image[4]}`} alt={blog?.image[4]}  className='bottomRightImg' /> 
+                     
                 </div>
             </div>
             <div className='content'>
