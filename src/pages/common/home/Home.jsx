@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import CardHome from "../../../components/component/Card"
 import 'rc-slider/assets/index.css';
 import "./Home.scss"
-import { Button, Pagination, Stack } from "@mui/material"
+import { Box, FormControl, InputLabel, NativeSelect, Button, Pagination, Stack } from "@mui/material"
 
 function Home(){
 
@@ -26,6 +26,7 @@ function Home(){
     const [currentPage, setCurrentPage] = useState(1)
     const [status, setStatus] = useState(false);
     const [numberPage, setNumberPage] = useState();
+    const [statusSearch, setStatusSearch] = useState('');
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -44,6 +45,22 @@ function Home(){
         })
         .catch(err => console.log(err))
     },[])
+
+    useEffect(() => {
+        axios
+        .get(`/api/blog/getAllAccepted/${statusSearch}?page=1&&limit=10`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setStatus(false);
+                setBlogs(data)
+                setDisplayBlogs(data);
+                setNumberPage(Math.ceil(size/10));
+            }
+        })
+        .catch(err => console.log(err))
+    },[statusSearch])
 
     useEffect(() => {
         if(status=== false){
@@ -134,6 +151,10 @@ function Home(){
     const handleChangePage = (event, value) => {
         setCurrentPage(value);
     }
+
+    const handleChangeStatus = (status) => {
+        setStatusSearch(status);
+    }
     
     return(
         <div className="homePage">
@@ -186,7 +207,26 @@ function Home(){
 
             </div>
             <div className="listCard">
-                
+                <div className="typeListCard">
+                    <Box sx={{ minWidth: 120 }} className={'selectType'}>
+                        <FormControl fullWidth>
+                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                            Loại phòng
+                            </InputLabel>
+                            <NativeSelect
+                                defaultValue={statusSearch}
+                                inputProps={{
+                                    name: 'age',
+                                    id: 'uncontrolled-native',
+                                }}
+                                onChange={e => handleChangeStatus(e.target.value)}
+                            >
+                            <option value={`rent`}>Thuê phòng</option>
+                            <option value={`find_roommates`}>Tìm bạn ở ghép</option>
+                            </NativeSelect>
+                        </FormControl>
+                    </Box>
+                </div>
                 <div className="topListCard">
                     {displayBlogs?.slice().reverse().map(blog => {
                         if( blog?.isAccepted === true){

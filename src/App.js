@@ -15,6 +15,7 @@ function App() {
 
   const account = useSelector(state => state.account);
   const [userDetail, setUserDetail] = useState();
+  const [role, setRole] = useState();
 
   useEffect(() => {
     axios
@@ -27,7 +28,7 @@ function App() {
       const data = res.data.data;
       if(res.data.isSuccess === true){
         setUserDetail(data);
-        console.log(data?.role);
+        setRole(data.role);
       }else{
         toast.warn("Có vấn đề khi tải thông tin người dùng!");
       }
@@ -73,7 +74,7 @@ function App() {
                 }
 
                 return(
-                  ((userDetail?.role === 'lessor') &&
+                  ((role === 'lessor') &&
                     <Route
                       path={route?.path}
                       element={
@@ -99,7 +100,7 @@ function App() {
                 }
 
                 return(
-                  ((userDetail?.role === 'admin') &&
+                  ((role === 'admin') &&
                     <Route
                       path={route?.path}
                       element={
