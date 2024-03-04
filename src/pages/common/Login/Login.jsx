@@ -13,7 +13,6 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const pathBack = localStorage.getItem('pathDetail');
     const [isLoading, setIsLoading] = useState(true)
     const dispatch = useDispatch()
     const [warningUsername, setWarningUsername] = useState(false)
@@ -81,7 +80,7 @@ function Login() {
                             src="https://res.cloudinary.com/dggciohw8/image/upload/v1705079434/20_French_Country-Style_Homes_with_European_Elegance_lhby5k.jpg"
                             alt=""
                         />
-                        <span style={{ cursor: "pointer" }} onClick={() => navigate(pathBack)}><ArrowBackIosRoundedIcon className='backIconLogin' /></span>
+                        <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}><ArrowBackIosRoundedIcon className='backIconLogin' /></span>
                         <div className="detailLeftContent">
                             <div className="signInLeft">
                                 <h1>Sign In</h1>
