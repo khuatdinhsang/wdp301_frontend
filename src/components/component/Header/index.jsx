@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAccount } from '../../../actions/accountActions';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 const Header = () => {
@@ -18,10 +19,38 @@ const Header = () => {
     const { pathname } = useLocation();
     const account = useSelector(state => state.account)
     const dispatch = useDispatch()
+    const [userProfile, setUserProfile] = useState()
+    const [avatarHeader, setAvatarHeader] = useState('https://cdn-icons-png.freepik.com/512/219/219986.png')
 
     useEffect(() => {
         localStorage.setItem('path', pathname);
     }, [pathname])
+
+    useEffect(() => {
+        axios
+        .get('/api/auth/profile',{
+        headers: {
+            Authorization: `Bearer ${account?.token}`
+        }
+        })
+        .then(res => {
+        const data = res.data.data;
+        if(res.data.isSuccess === true){
+            setUserProfile(data);
+        }else{
+            toast.warn("Có vấn đề khi tải thông tin người dùng!");
+        }
+        })
+        .catch(err => console.log(err))
+    },[])
+
+    useEffect(() => {
+        if(userProfile?.avatar !== undefined){
+            setAvatarHeader(`http://${userProfile?.avatar}`);
+        }else{
+            setAvatarHeader('https://cdn-icons-png.freepik.com/512/219/219986.png');
+        }
+    },[userProfile])
 
     const handleLogout = () => {
         const action = logoutAccount();
@@ -97,7 +126,7 @@ const Header = () => {
                     <div className='borderAction'>
                         <ReorderIcon />
                         <div className='userAvatar'>
-                            <AccountCircleIcon />
+                            {account?.phone !== undefined?<img className="avatarHeader" src={avatarHeader} />:<AccountCircleIcon />}
                         </div>
                     </div>
                     {showRegister === true ?
