@@ -46,32 +46,32 @@ function SidebarAdmin() {
                         <span className="material-icons-sharp">
                             <DashboardIcon />
                         </span>
-                        <h3>Dashboard</h3>
+                        <h3 className='typeDashboard'>Dashboard</h3>
                     </a>
 
                     <a onClick={() => navigate('/admin/users')} className={pathname?.includes('users') ? 'active' : ''}>
                         <span className="material-icons-sharp">
                             <PersonIcon />
                         </span>
-                        <h3>Users</h3>
+                        <h3 className='typeDashboard'>Users</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
                             <ReceiptLongIcon />
                         </span>
-                        <h3>History</h3>
+                        <h3 className='typeDashboard'>History</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
                             <InsightsIcon />
                         </span>
-                        <h3>Analytics</h3>
+                        <h3 className='typeDashboard'>Analytics</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
                             <MailOutlineIcon />
                         </span>
-                        <h3>Tickets</h3>
+                        <h3 className='typeDashboard'>Tickets</h3>
                         <span className="message-count">
                             27
                         </span>
@@ -80,26 +80,26 @@ function SidebarAdmin() {
                         <span className="material-icons-sharp">
                             <InventoryIcon />
                         </span>
-                        <h3>Blogs List</h3>
+                        <h3 className='typeDashboard'>Blogs List</h3>
                     </a>
                     <a >
                         <span className="material-icons-sharp">
                             <ReportGmailerrorredIcon />
                         </span>
-                        <h3>Reports</h3>
+                        <h3 className='typeDashboard'>Reports</h3>
                     </a>
 
                     <a onClick={() => navigate("/lessor/uploadBlog")}>
                         <span className="material-icons-sharp">
                             <AddIcon />
                         </span>
-                        <h3>Upload Blog</h3>
+                        <h3 className='typeDashboard'>Upload Blog</h3>
                     </a>
                     <a onClick={() => handleLogout()}>
                         <span className="material-icons-sharp">
                             <LogoutIcon />
                         </span>
-                        <h3>Logout</h3>
+                        <h3 className='typeDashboard'>Logout</h3>
                     </a>
                 </div>
 
