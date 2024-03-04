@@ -135,7 +135,7 @@ function Home(){
         }
 
         axios
-        .post(`/api/blog/searchBlog?page=1&&limit=10`,dataSearch)
+        .post(`/api/blog/searchBlog/${statusSearch}?page=1&&limit=10`,dataSearch)
         .then(res => {
             const data = res.data.data.allBlog;
              const size = res.data.data.totalBlog;
@@ -143,7 +143,7 @@ function Home(){
              setStatus(true);
             setDisplayBlogs(data);
             console.log(lengthData);
-            // setNumberPage(Math.ceil(lengthData.length/10));
+            setNumberPage(Math.ceil(lengthData.length/10));
         })
         .catch(err => console.log(err))
     }
