@@ -46,14 +46,21 @@ function Login() {
                         const user = {
                             phone: username.trim(),
                             accessToken: account,
-                            token: res.data.data.accessToken
+                            token: res.data.data.accessToken,
+                            role: account.role
                         }
 
                         const action = loginAccount(user);
                         setIsLoading(true);
                         dispatch(action);
                         toast.success("Đăng nhập thành công!")
-                        navigate('/')
+                        if(account.role === 'renter'){
+                            navigate('/')
+                        }else if(account.role === 'lessor'){
+                            navigate('/lessor/uploadBlog')
+                        }else if(account.role === 'admin'){
+                            navigate('/admin/blogManager');
+                        }
                     }else{
                         toast.warn("Tài khoản hoặc mật khẩu không đúng!")
                     }

@@ -14,27 +14,8 @@ axios.defaults.baseURL = "http://localhost:9999"
 function App() {
 
   const account = useSelector(state => state.account);
-  const [userDetail, setUserDetail] = useState();
-  const [role, setRole] = useState();
-
-  useEffect(() => {
-    axios
-    .get('/api/auth/profile',{
-      headers: {
-        Authorization: `Bearer ${account?.token}`
-      }
-    })
-    .then(res => {
-      const data = res.data.data;
-      if(res.data.isSuccess === true){
-        setUserDetail(data);
-        setRole(data.role);
-      }else{
-        toast.warn("Có vấn đề khi tải thông tin người dùng!");
-      }
-    })
-    .catch(err => console.log(err))
-  },[])
+ 
+ 
 
   return (
      <BrowserRouter>
@@ -74,7 +55,7 @@ function App() {
                 }
 
                 return(
-                  ((role === 'lessor') &&
+                  ((account.role === 'lessor') &&
                     <Route
                       path={route?.path}
                       element={
@@ -100,7 +81,7 @@ function App() {
                 }
 
                 return(
-                  ((role === 'admin') &&
+                  ((account.role === 'admin') &&
                     <Route
                       path={route?.path}
                       element={
