@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { Box, FormControl, InputLabel, NativeSelect, Pagination, Stack } from '@mui/material';
 import axios from 'axios';
 import {  useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
@@ -9,22 +9,24 @@ import './BlogManagerAdmin.scss'
 function BlogManagerAdmin(){
 
     const account = useSelector(state => state.account);
-    const [blogsSize, setBlogsSize] = useState()
     const [blogs, setBlogs] = useState([])
     const [statusSearch, setStatusSearch] = useState(true);
     const [displayBlogs, setDisplayBlogs] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [numberPage, setNumberPage] = useState()
 
     useEffect(() => {
         axios
-        .get('/api/blog/getAll/admin',{
+        .get(`/api/blog/getAllAccepted/admin?limit=10&&page=1`,{
             headers: {
                     Authorization: `Bearer ${account?.token}`
                 }
         })
         .then(res => {
             const data = res.data.data.allBlog;
+            const size = res.data.data.totalBlog;
             setBlogs(data);
-            setBlogsSize(data.length)
+            setNumberPage(Math.ceil(size/10))
             setDisplayBlogs(data);
         })
         .catch(err => console.log(err))
@@ -35,24 +37,112 @@ function BlogManagerAdmin(){
     }
 
     useEffect(() => {
-        const resultSearch = blogs.filter((blog) => blog.isAccepted == Boolean(statusSearch));
-        setDisplayBlogs(resultSearch)
+        setCurrentPage(1);
+        if(statusSearch === true){
+            axios
+            .get(`/api/blog/getAllAccepted/admin?limit=10&&page=1`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }else{
+            axios
+            .get(`/api/blog/getAllUnaccepted/admin?limit=10&&page=1`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }
+        // setDisplayBlogs(resultSearch)
     },[statusSearch]);
 
+
+    useEffect(() => {
+        if(statusSearch === true){
+            axios
+            .get(`/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }else{
+            axios
+            .get(`/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }
+    },[currentPage])
+
     const handleDeleteComment = () => {
-         axios
-        .get('/api/blog/getAll/admin',{
-            headers: {
-                    Authorization: `Bearer ${account?.token}`
-                }
-        })
-        .then(res => {
-            const data = res.data.data.allBlog;
-            setBlogs(data);
-            setBlogsSize(data.length)
-            setDisplayBlogs(data);
-        })
-        .catch(err => console.log(err))
+         if(statusSearch === true){
+            axios
+            .get(`/api/blog/getAllAccepted/admin?limit=10&&page=1`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }else{
+            axios
+            .get(`/api/blog/getAllUnaccepted/admin?limit=10&&page=1`,{
+                headers: {
+                        Authorization: `Bearer ${account?.token}`
+                    }
+            })
+            .then(res => {
+                const data = res.data.data.allBlog;
+                const size = res.data.data.totalBlog;
+                setBlogs(data);
+                setNumberPage(Math.ceil(size/10))
+                setDisplayBlogs(data);
+            })
+            .catch(err => console.log(err))
+        }
+    }
+
+     const handleChangePage = (event, value) => {
+        setCurrentPage(value);
     }
         
 
@@ -83,8 +173,7 @@ function BlogManagerAdmin(){
                     </Box>
                 </div>
                 <div className='listBlogManagerAdmin'>
-                        {displayBlogs?.map(blog =>{
-                            if(blog.isAccepted == Boolean(statusSearch)){
+                        {displayBlogs?.slice().reverse().map(blog =>{
                                 return (
                                     <CardAdmin
                                         blog={blog}
@@ -92,12 +181,16 @@ function BlogManagerAdmin(){
                                         onDelete={handleDeleteComment} 
                                     />
                                 )
-                            }
                         })}
                     <CardAdmin/>
                     <CardAdmin/>
                     <CardAdmin/>
                     <CardAdmin/>
+                </div>
+                <div className="bottomListCard">
+                    <Stack spacing={2}>
+                        <Pagination count={numberPage} page={currentPage} variant="outlined" shape="rounded"  onChange={handleChangePage}/>
+                    </Stack>
                 </div>
 
             </div>

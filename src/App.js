@@ -72,7 +72,7 @@ function App() {
                 }
 
                 return(
-                  ((userDetail?.role === 'lessor') &&
+                  ((userDetail?.role == 'lessor') &&
                     <Route
                       path={route?.path}
                       element={
@@ -98,7 +98,7 @@ function App() {
                 }
 
                 return(
-                  ((userDetail?.role === 'admin') &&
+                  ((userDetail?.role == 'admin') &&
                     <Route
                       path={route?.path}
                       element={
