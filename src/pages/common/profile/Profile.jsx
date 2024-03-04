@@ -1,117 +1,329 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './Profile.scss'
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router";
+// import InstagramIcon from '@mui/icons-material/Instagram';
+// import FacebookIcon from '@mui/icons-material/Facebook';
+import { toast } from "react-toastify";
+import HomeIcon from '@mui/icons-material/Home';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
 
 export default function Profile() {
   const [userDetail, setUserDetail] = useState()
   const account = useSelector(state => state.account);
   const [email, setEmail] = useState('')
+  const [avatar, setAvatar] = useState('')
   const [fullName, setFullName] = useState('')
-  const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [smallName, setSmallName] = useState();
   const [isEditing, setIsEditing] = useState(false)
-  const [failPhoneNumber, setFailPhoneNumber] = useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isChangeImg, setIsChangeImg] = useState(false);
+  const [gender, setGender] = useState()
+  const [hospitalImage, setHospitalImage] = useState({
+    file: "",
+    base64: "",
+  });
   const navigate = useNavigate();
 
-  const handleSaveChanges = () => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const profile = {
-      email: email,
-      fullName: fullName,
-      phone: phone,
-      address: address,
-    }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    axios
-      .post('api/auth/editProfile', profile, {
-        headers: {
-          Authorization: `Bearer ${account?.token}`
-        }
-      })
-      .then(res => {
-        if (res.data.statusCode === 500) {
-          setFailPhoneNumber(!failPhoneNumber)
-        }
-        else {
-          navigate('/')
-        }
-      })
-      .catch(err => console.log(err))
+  const fileInputRef = useRef(null);
 
-  }
+  // Hàm xử lý khi click vào hình ảnh
+  const handleImageClick = () => {
+    // Kích hoạt sự kiện click cho input file khi click vào hình ảnh
+    fileInputRef.current.click();
+  };
 
-  const handleEdit = () => {
-    if (!isEditing) {
+  // Hàm xử lý khi có sự thay đổi trong input file
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    getBase64(file).then((res) => {
+      setHospitalImage({
+        file: file,
+        base64: res,
+      });
+    });
+    
+  };
+  
+  useEffect(()=>{
+    submit();
+  },[hospitalImage])
 
-    }
-    setIsEditing(!isEditing);
-  }
-  useEffect(() => {
-    if (!userDetail) {
-      axios
-        .get(`api/auth/profile`, {
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+ 
+  const submit = async (e) => {
+    const formImage = new FormData();
+    formImage.append("file", hospitalImage.file);
+    if (hospitalImage.file.name) {
+      await axios
+        .post(`api/upload/file`, formImage,{
           headers: {
             Authorization: `Bearer ${account?.token}`
           }
         })
-        .then(res => {
-          const userData = res.data.data
-          setUserDetail(userData)
-        })
-        .catch(error => {
-          console.error(error)
-        });
-    }
-  }, [userDetail, account])
-  return (
-    <div className="bottomDetailLessor">
-      <div className="leftDetailProfile">
-        <div className="card">
-          <img className='image' src="https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg" alt="Avatar" />
-          <div className="container">
-            <h4><b>{userDetail?.fullName}</b></h4>
-            <p>{userDetail?.role}</p>
-          </div>
-        </div>
-      </div>
-      <div className='rightDetailProfile'>
-        <div className="card">
-          <h2>About {userDetail?.fullName}</h2>
-          <span className="editBtn" onClick={handleEdit}>
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </span>
-          <div className='detailInfo'>
-            {isEditing ? (
-              <>
-                <b>Full Name: </b> <input className='inputName' type="text" defaultValue={userDetail?.fullName} value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                <br />
-                <b>Phone: </b> <input className='inputName' defaultValue={userDetail?.phone} type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                <br />
-                <b>Address: </b> <input className='inputName' defaultValue={userDetail?.address} type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-                <br />
-                <b>Email: </b> <input className='inputName' defaultValue={userDetail?.email} type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <br />
-                {failPhoneNumber ? (
-                  <>
-                    <div className="error"> Phone Number already exists!!! </div>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <button className="editBtn" onClick={() => handleSaveChanges()}>Save Changes</button>
-              </>
+        .then(async (res) => {
+          setAvatar(res.data.data);
+          setIsChangeImg(true);
 
-            ) : (
-              <>
-                <i><b>Full Name: </b>{userDetail?.fullName}</i><br />
-                <i><b>Gender: </b>{userDetail?.gender ? 'male' : 'female'}</i><br />
-                <i><b>Phone number: </b>{userDetail?.phone}</i><br />
-                <i><b>Address: </b>{userDetail?.address}</i><br />
-                <i><b>Email: </b>{userDetail?.email}</i><br />
-              </>
-            )}
+          const userProfile = {
+            fullName: userDetail?.fullName,
+            email: userDetail?.email,
+            avatar: res.data.data,
+            gender: true,
+            phone: userDetail?.phone,
+            address: userDetail?.address
+          }
+          axios
+          .post(`/api/auth/editProfile`, userProfile,{
+            headers: {
+              Authorization: `Bearer ${account?.token}`
+            }
+          })
+          .then(res => {
+            toast.success("Thay đổi ảnh đại diện thành công");
+          })
+          .catch(err => console.log(err))
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return console.log("Ảnh không được để trống", 1);
+    }
+  };
+
+  useEffect(() => {
+    axios
+    .get('/api/auth/profile',{
+      headers: {
+        Authorization: `Bearer ${account?.token}`
+      }
+    })
+    .then(res => {
+      const data = res.data.data;
+      if(res.data.isSuccess === true){
+        setUserDetail(data);
+      }else{
+        toast.warn("Có vấn đề khi tải thông tin người dùng!");
+      }
+    })
+    .catch(err => console.log(err))
+  },[])
+
+  useEffect(() => {
+     axios
+    .get('/api/auth/profile',{
+      headers: {
+        Authorization: `Bearer ${account?.token}`
+      }
+    })
+    .then(res => {
+      const data = res.data.data;
+      if(res.data.isSuccess === true){
+        setUserDetail(data);
+      }else{
+        toast.warn("Có vấn đề khi tải thông tin người dùng!");
+      }
+    })
+    .catch(err => console.log(err))
+  },[isEdit])
+
+  useEffect(() => {
+    setFullName(userDetail?.fullName);
+    setEmail(userDetail?.email);
+    setAvatar(userDetail?.avatar);
+    setAddress(userDetail?.address);
+    setGender(userDetail?.gender)
+    var arrName = userDetail?.fullName.split(' ');
+    arrName?.forEach((element, index) => {
+        var last =''
+        if(index === 0){
+          setFirstName(element)
+        }else{
+          last+=element;
+        }
+        setLastName(last);
+    });
+    setSmallName(arrName);
+  }, [userDetail])
+
+  const handleEditProfile = () =>{
+    const userInfor = {
+      fullName: fullName,
+      email: email,
+      avatar: userDetail?.avatar,
+      gender: true,
+      phone: userDetail?.phone,
+      address: address
+    }
+    axios
+    .post(`/api/auth/editProfile`, userInfor,{
+      headers: {
+        Authorization: `Bearer ${account?.token}`
+      }
+    })
+    .then(res => {
+      toast.success("Thay đổi thông tin thành công");
+      handleClose();
+      setIsEdit(!isEdit);
+    })
+    .catch(err => console.log(err))
+  }
+
+  return (
+    <div className="profilePage">
+      <div className="cardProfile">
+        <div className="card-inner">
+          <div className="front">
+            <h2>{userDetail?.fullName}</h2>
+            <p>{userDetail?.address}</p>
+            <button>hover me</button>
+          </div>
+          <div className="back">
+            <div className="topBack">
+              <span className="homeIcon" onClick={() => navigate("/")}><HomeIcon/></span>
+              <form onSubmit={submit}>
+                {/* <input
+                  type="file"
+                  className="hospitalImage absolute bottom-0 right-0 w-8 h-8 rounded-[50%] cursor-pointer opacity-0"
+                  onChange={(e) => {
+                    convertImage(e);
+                  }}
+                  name="file"
+                /> */}
+                <input
+                  type="file"
+                  style={{ display: 'none' }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  name="file"
+                />
+                {isChangeImg !== true
+                ?
+                  userDetail?.avatar === undefined?<img onClick={handleImageClick} className="avatarProfile" src={`https://cdn-icons-png.freepik.com/512/219/219986.png`} />
+                  :<img onClick={() => handleImageClick()} className="avatarProfile" src={`http://${userDetail?.avatar}`} />
+                :
+                  <img onClick={() => handleImageClick()} className="avatarProfile" src={`http://${avatar}`} />
+                }
+                {/* <button type="submit">Submit</button> */}
+              </form>
+               
+            </div>
+            <h1>{firstName} <span>{lastName}</span></h1>
+            <p>{userDetail?.email}
+            <br />
+            <span>{userDetail?.phone}</span>
+            </p>
+            <div className="rowProfile">
+              <div className="colProfile">
+                <h2>{userDetail?.blogsFavorite.length}</h2>
+                <p>Liked Blogs</p>
+              </div>
+              <div className="colProfile">
+                <h2>250</h2>
+                <p>days</p>
+              </div>
+              <div className="colProfile">
+                <h2>{userDetail?.blogsPost.length}</h2>
+                <p>Blogs Post</p>
+              </div>
+            </div>
+
+            <div className="rowProfile">
+              <button variant="outlined" onClick={handleClickOpen}>Edit</button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  component: 'form',
+                  onSubmit: (event) => {
+                    handleClose();
+                  },
+                }}
+              >
+                <DialogTitle>Chỉnh sửa thông tin</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Vui lòng điền đầy đủ thông tin vào trong khung
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    label="Tên đầy đủ"
+                    // type="email"
+                    value={fullName}
+                    onChange={e => setFullName(e.target.value)}
+                    fullWidth
+                    variant="standard"
+                  />
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    label="Email "
+                    // type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    fullWidth
+                    variant="standard"
+                  />
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    label="Địa chỉ"
+                    // type="email"
+                    value={address}
+                    onChange={e => setAddress(e.target.value)}
+                    fullWidth
+                    variant="standard"
+                  />
+                  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group"
+                    onChange={e => setGender(e.target.value)}
+                  >
+                    <div style={{display: "flex"}}>
+                      <FormControlLabel value="false" control={<Radio />} label="Nữ" />
+                      <FormControlLabel value="true" control={<Radio />} label="Nam" />
+                      {/* <FormControlLabel value="other" control={<Radio />} label="Other" /> */}
+                    </div>
+                  </RadioGroup>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Bỏ qua</Button>
+                  <Button onClick={handleEditProfile}>Thay đổi</Button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </div>
         </div>
       </div>

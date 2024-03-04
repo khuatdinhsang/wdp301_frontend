@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAccount } from '../../../actions/accountActions';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 const Header = () => {
@@ -18,10 +19,38 @@ const Header = () => {
     const { pathname } = useLocation();
     const account = useSelector(state => state.account)
     const dispatch = useDispatch()
+    const [userProfile, setUserProfile] = useState()
+    const [avatarHeader, setAvatarHeader] = useState('https://cdn-icons-png.freepik.com/512/219/219986.png')
 
     useEffect(() => {
         localStorage.setItem('path', pathname);
     }, [pathname])
+
+    useEffect(() => {
+        axios
+        .get('/api/auth/profile',{
+        headers: {
+            Authorization: `Bearer ${account?.token}`
+        }
+        })
+        .then(res => {
+        const data = res.data.data;
+        if(res.data.isSuccess === true){
+            setUserProfile(data);
+        }else{
+            toast.warn("Có vấn đề khi tải thông tin người dùng!");
+        }
+        })
+        .catch(err => console.log(err))
+    },[])
+
+    useEffect(() => {
+        if(userProfile?.avatar !== undefined){
+            setAvatarHeader(`http://${userProfile?.avatar}`);
+        }else{
+            setAvatarHeader('https://cdn-icons-png.freepik.com/512/219/219986.png');
+        }
+    },[userProfile])
 
     const handleLogout = () => {
         const action = logoutAccount();
@@ -64,11 +93,11 @@ const Header = () => {
                     <img src="https://res.cloudinary.com/dggciohw8/image/upload/v1705070813/417012680_904990781626845_39715534048793428_n_zj9jly.png" alt="" />
                 </div>
                 <div className='centerHeader'>
-                    <ul className='search'>
+                    {/* <ul className='search'>
                         <li >
                             <span>Địa điểm</span>
                             <input type="text" placeholder='Tìm kiếm điểm đến' />
-                        </li>
+                        </li> */}
                         {/* <li className='beforeVertical'>
                             <span>Nhận phòng</span>
                             <input type="text" placeholder='Thêm ngày' />
@@ -78,7 +107,7 @@ const Header = () => {
                             <input type="text" placeholder='Thêm ngày' />
                         </li> */}
 
-                        <li className='searchIcon beforeVertical'>
+                        {/* <li className='searchIcon beforeVertical'>
                             <div className='actionSearch'>
                                 <div className='leftSearch'>
                                     <span>Khách</span>
@@ -91,27 +120,27 @@ const Header = () => {
                         </li>
 
 
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className='action' onClick={() => setShowRegister(!showRegister)}>
                     <div className='borderAction'>
                         <ReorderIcon />
                         <div className='userAvatar'>
-                            <AccountCircleIcon />
+                            {account?.phone !== undefined?<img className="avatarHeader" src={avatarHeader} />:<AccountCircleIcon />}
                         </div>
                     </div>
                     {showRegister === true ?
                         <div className='inforNav'>
                             <div className='loginNav'>
                                 <ul>
-                                    {account?.phone === undefined ? <li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li> : <></>}
+                                    {account?.phone === undefined  ? <li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li> : <></>}
                                     {account?.phone === undefined ? <li onClick={() => handleToLogin()}><span>Đăng nhập</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'renter'? <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'renter' ? <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/profile')}><span>Profile</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/admin/dashboard')}><span>Dashboard</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'admin'? <li onClick={() => navigate('/admin/blogManager')}><span>Dashboard</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => handleLogout()}><span>Đăng xuất</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'lessor'? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate("/changePassword")}><span>Đổi mật khẩu</span></li> : <></>}
                                 </ul>
                             </div>

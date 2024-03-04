@@ -25,11 +25,10 @@ function Detail(){
     const [isDelete, setIsDelete] = useState(false);
     const [hover, setHover] = useState(-1);
     const [blogRates, setBlogRates] = useState([])
-    const [isComment, setIsComment] = useState(false)
     const [lessor, setLessor] = useState({})
     const account = useSelector(state => state.account)
     const [currentBlogRate, setCurrentBlogRate] = useState();
-
+    const [isComment, setIsComment] = useState(false)
     
     function getLabelText(value) {
       return `${value} Star${value !== 1 ? 's' : ''}`;
@@ -70,32 +69,21 @@ function Detail(){
         })
         .catch(err => console.log(err)) 
                 
+        axios
+        .get(`/api/blog_rate/GetAll/${slug}`)
+        .then(res => {
+            const data = res.data.data.allFeedback;
+            setBlogRates(data);
+        })
+        .catch(res => console.log(res))
     },[])
 
-    useEffect(() => {
-        if(account?.phone !== undefined){
-            axios
-            .get(`/api/blog_rate/check/${slug}`,{
-                    headers: {
-                            Authorization: `Bearer ${account?.token}`
-                        }
-                })
-            .then(res => {
-                if(res.data.data === true){
-                    setIsComment(true);
-                }else{
-                    setIsComment(false);
-                }
-            })
-            .catch(err => console.log(err))
-        }
-    },[blogRates])
 
     useEffect(() => {
         axios
         .get(`/api/blog_rate/GetAll/${slug}`)
         .then(res => {
-            const data = res.data.data;
+            const data = res.data.data.allFeedback;
             setBlogRates(data);
         })
         .catch(res => console.log(res))
@@ -108,13 +96,13 @@ function Detail(){
             }            
         })
         .catch(err => console.log(err))
-    },[feedback])
+    },[isComment])
 
     useEffect(() => {
         axios
         .get(`/api/blog_rate/GetAll/${slug}`)
         .then(res => {
-            const data = res.data.data;
+            const data = res.data.data.allFeedback;
             setBlogRates(data);
         })
         .catch(res => console.log(res))
@@ -133,7 +121,7 @@ function Detail(){
         axios
         .get(`/api/blog_rate/GetAll/${slug}`)
         .then(res => {
-            const data = res.data.data;
+            const data = res.data.data.allFeedback;
             setBlogRates(data);
         })
         .catch(res => console.log(res))
@@ -176,6 +164,7 @@ function Detail(){
             .then(res => {
                 setStarComment(0);
                 setFeedback('');
+                setIsComment(!isComment);
                 toast.success('Bình luận thành công!!')
             })
             .catch(err => console.log(err))
@@ -209,6 +198,9 @@ function Detail(){
                 if(res.data.statusCode === 200){
                     toast.success('Chỉnh sửa bình luận thành công')
                     setIsUpdating(false);
+                    setFeedback('')
+                    setStarComment(0)
+                    setCurrentBlogRate({});
                 }else{
                     toast.error("Chỉnh sửa bình luân thất bại")
                 }
@@ -221,6 +213,7 @@ function Detail(){
         setIsUpdating(false);
         setStarComment(0);
         setFeedback(0);
+        setCurrentBlogRate({})
     }
 
     return (
@@ -230,15 +223,15 @@ function Detail(){
             </div>
             <div className='thumnailImage'>
                 <div className='firstCol'>
-                    <img src={blog?.image[0]} alt={blog?.image[0]} />
+                    <img src={`http://${blog?.image[0]}`} alt={blog?.image[0]} />
                 </div>
                 <div className="secondCol">
-                    <img src={blog?.image[1]} alt={blog?.image[1]} />
-                    <img src={blog?.image[2]} alt={blog?.image[2]} />
+                    <img src={`http://${blog?.image[1]}`} alt={blog?.image[1]} />
+                    <img src={`http://${blog?.image[2]}`} alt={blog?.image[2]} />
                 </div>
                 <div className='thirdCol'>
-                    <img src={blog?.image[3]} alt={blog?.image[5]} className='topRightImg' />
-                    <img src={blog?.image[4]} alt={blog?.image[4]}  className='bottomRightImg' /> 
+                    <img src={`http://${blog?.image[3]}`} alt={blog?.image[5]} className='topRightImg' />
+                    <img src={`http://${blog?.image[4]}`} alt={blog?.image[4]}  className='bottomRightImg' /> 
                 </div>
             </div>
             <div className='content'>
@@ -333,7 +326,7 @@ function Detail(){
             <div className="ratingBlog">
                 <div className="numberStar">
                     <img className="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" decoding="async" elementtiming="LCP-target" src="https://a0.muscache.com/pictures/ec500a26-609d-440f-b5d0-9e5f92afd478.jpg" data-original-uri="https://a0.muscache.com/pictures/ec500a26-609d-440f-b5d0-9e5f92afd478.jpg" style={{objectFit: 'cover'}}></img>
-                    <b className='starRating'>{blog?.avgBlogRate}</b>
+                    <b className='starRating'>{blog?.avgBlogRate.toFixed(1)}</b>
                     <img className="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" decoding="async" elementtiming="LCP-target" src="https://a0.muscache.com/pictures/65bb2a6c-0bdf-42fc-8e1c-38cec04b2fa5.jpg" data-original-uri="https://a0.muscache.com/pictures/65bb2a6c-0bdf-42fc-8e1c-38cec04b2fa5.jpg" style={{objectFit: 'cover'}}></img>
                 </div>
                 <div className="ratingTitle">
@@ -341,7 +334,7 @@ function Detail(){
                     <i className='titleDes'>Một trong những ngôi nhà được yêu thích nhất trên HolaRent dựa trên điểm xếp hạng, đánh giá và độ tin cậy</i>
                 </div>
             </div>
-            {((account?.phone !== undefined && isComment === false ) || isUpdating === true) ?
+            {(account?.phone !== undefined || isUpdating === true) ?
                 <div className="commentAction">
                     <div className="avatarCommentAction">
                         <AccountCircleIcon/>
@@ -399,7 +392,8 @@ function Detail(){
             }
 
             <div className="comments">
-                {blogRates?.map(blog => {
+                {blogRates?.map(blog => { 
+                    if(blog?._id !== currentBlogRate?._id)
                     return <Comment 
                                 key={blog?._id} 
                                 content={blog} 

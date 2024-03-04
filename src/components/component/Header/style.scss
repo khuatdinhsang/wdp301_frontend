@@ -192,9 +192,10 @@
             justify-content: end;
             position: relative;
             .borderAction{
+                width: 60%;
                 display: flex;
-                align-items: flex-start;
                 align-items: center;
+                justify-content: space-between;
                 border: 1px solid #ccc;
                 height: 50%;
                 padding: 12px 20px;
@@ -204,6 +205,15 @@
                     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
                     transition: .4s;
                     cursor: pointer;
+                }
+
+                .userAvatar{
+                    display: flex;
+                    justify-content: flex-end;
+                    .avatarHeader{
+                        width: 60%;
+                        border-radius: 50%;
+                    }
                 }
             }
 
