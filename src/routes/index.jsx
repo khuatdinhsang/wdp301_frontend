@@ -27,22 +27,21 @@ const publicRoutes = [
     { path: '/wishlist', component: WishList, layout: HeaderOnly },
     { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
     { path: '/inbox', component: ChatWithLessor, layout: null },
-    { path: '/admin/dashboard', component: Dashboard, layout: null },
-    { path: '/admin/blogManager', component: BlogManagerAdmin, layout: null },
     { path: '/admin/editBlog/:slug', component: EditBlogManager, layout: null },
-    { path: '/admin/users', component: UsersManagerAdmin, layout: null },
-    { path: '/lessor/blogManager', component: BlogManager, layout: null },
-    { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
     { path: '/profile', component: Profile, layout: null },
-
 ]
 
+
 const adminRoutes = [
+    { path: '/admin/dashboard', component: Dashboard, layout: null },
+    { path: '/admin/blogManager', component: BlogManagerAdmin, layout: null },
+    { path: '/admin/users', component: UsersManagerAdmin, layout: null },
 
 ]
 
 const renterRoutes = [
-
+    { path: '/lessor/blogManager', component: BlogManager, layout: null },
+    { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
 ]
 
 const lessorRoutes = [
