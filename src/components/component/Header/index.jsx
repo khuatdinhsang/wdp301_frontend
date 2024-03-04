@@ -133,14 +133,14 @@ const Header = () => {
                         <div className='inforNav'>
                             <div className='loginNav'>
                                 <ul>
-                                    {account?.phone === undefined ? <li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li> : <></>}
+                                    {account?.phone === undefined  ? <li onClick={() => navigate("/register")}><span className='register'>Đăng ký</span></li> : <></>}
                                     {account?.phone === undefined ? <li onClick={() => handleToLogin()}><span>Đăng nhập</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'renter'? <li onClick={() => navigate('/inbox')}><span>Tin nhắn</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'renter' ? <li onClick={() => navigate('/wishlist')}><span>Danh sách yêu thích</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate('/profile')}><span>Profile</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate('/admin/blogManager')}><span>Dashboard</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'admin'? <li onClick={() => navigate('/admin/blogManager')}><span>Dashboard</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => handleLogout()}><span>Đăng xuất</span></li> : <></>}
-                                    {account?.phone !== undefined ? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
+                                    {account?.phone !== undefined && account.role === 'lessor'? <li onClick={() => navigate("/lessor/uploadBlog")}><span>Upload</span></li> : <></>}
                                     {account?.phone !== undefined ? <li onClick={() => navigate("/changePassword")}><span>Đổi mật khẩu</span></li> : <></>}
                                 </ul>
                             </div>
