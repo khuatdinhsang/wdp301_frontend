@@ -8,7 +8,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
+import { pathBackViewProfile } from "../../../actions/pathActions";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Rating } from "@mui/material";
 
 function Comment({content, onDelete, onUpdate}){
@@ -17,9 +19,15 @@ function Comment({content, onDelete, onUpdate}){
     const [commentId, setCommentId] = useState('')
     const [blogId, setBlogId] = useState('');
     const [star, setStar] = useState()
+    const path = useLocation();
     const [time, setTime] = useState()
     const [open, setOpen] = useState(false);
+    const [pathName, setPathName] = useState();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
+   
 
     function getLabelText(value) {
       return `${value} Star${value !== 1 ? 's' : ''}`;
@@ -29,10 +37,20 @@ function Comment({content, onDelete, onUpdate}){
         setCommentId(content?._id);
         setBlogId(content?.blogId);
         setStar(content?.star);
-
         const timeComment = content?.time.split('T')[0];
         setTime(timeComment);
+        setPathName(path.pathname)
     },[])
+
+    const handleMoveToProfile = () => {
+        if(account?.phone !== undefined){
+            const action = pathBackViewProfile(pathName);
+            dispatch(action);
+            navigate(`/viewProfile/${content?.userId}`);
+        }else{
+            toast.warn("Vui lòng đăng nhập để xem thông tin ngườI dùng này");
+        }
+    }
 
     const handleUpdate = () =>{
         onUpdate(content);
@@ -71,8 +89,8 @@ function Comment({content, onDelete, onUpdate}){
     return (
         <div className="comment">
             <div className="userComment">
-                <div className="avatarComment">
-                    <img class="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" alt="Gaby" decoding="async" elementtiming="LCP-target" src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" data-original-uri="https://a0.muscache.com/im/pictures/user/4225ae51-026e-4a06-b468-59bbad9b93b8.jpg?im_w=240" style={{objectFit: "cover"}}></img>
+                <div className="avatarComment" onClick={() => handleMoveToProfile()} >
+                    <img class="i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" alt="Gaby" decoding="async" elementtiming="LCP-target" src={`http://${content?.avt}`} data-original-uri="https://a0.muscache.com/im/pictures/user/4225ae51-026e-4a06-b468-59bbad9b93b8.jpg?im_w=240" style={{objectFit: "cover"}}></img>
                 </div>
                 <div className="detailUserComment">
                     <div className="topDetailUserComment">

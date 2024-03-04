@@ -16,6 +16,7 @@ import Profile from "../pages/common/profile/Profile"
 import HeaderNoSearch from "../components/component/HeaderNoSearch/HeaderNoSearch"
 import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog"
 import ChangePassword from "../pages/common/ChangePassword/ChangePassword"
+import ViewProfile from "../pages/common/ViewProfile/ViewProfile"
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -29,6 +30,8 @@ const publicRoutes = [
     { path: '/inbox', component: ChatWithLessor, layout: null },
     { path: '/admin/editBlog/:slug', component: EditBlogManager, layout: null },
     { path: '/profile', component: Profile, layout: null },
+    { path: '/viewProfile/:slug', component: ViewProfile, layout: null },
+    
 ]
 
 
