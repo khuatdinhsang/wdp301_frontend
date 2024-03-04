@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import CardHome from "../../../components/component/Card"
 import 'rc-slider/assets/index.css';
 import "./Home.scss"
-import { Box, FormControl, InputLabel, NativeSelect, Button, Pagination, Stack } from "@mui/material"
+import { Box, FormControl, InputLabel, NativeSelect, Button, Pagination, Stack, TextField } from "@mui/material"
 
 function Home(){
 
@@ -25,6 +25,7 @@ function Home(){
     const [areaSearchMax, setAreaSearchMax] = useState(maxAreaMax);
     const [currentPage, setCurrentPage] = useState(1)
     const [status, setStatus] = useState(false);
+    const [searchContent, setSearchContent] = useState('');
     const [numberPage, setNumberPage] = useState();
     const [statusSearch, setStatusSearch] = useState('');
 
@@ -65,7 +66,7 @@ function Home(){
     useEffect(() => {
         if(status=== false){
             axios
-            .get(`/api/blog/getAllAccepted/rent?page=${currentPage}&&limit=10`)
+            .get(`/api/blog/getAllAccepted/${statusSearch}?page=${currentPage}&&limit=10`)
             .then(res => {
                 if(res.data.isSuccess === true){
                     const data = res.data.data.allBlog;
@@ -85,14 +86,13 @@ function Home(){
             }
 
             axios
-            .post(`/api/blog/searchBlog?page=${currentPage}&&limit=10`,dataSearch)
+            .post(`/api/blog/searchBlog/${statusSearch}?page=${currentPage}&&limit=10&&search=${searchContent}`,dataSearch)
             .then(res => {
                 const data = res.data.data.allBlog;
                 const size = res.data.data.totalBlog;
-                const lengthData = data.filter(d => d.isAccepted === true)
                 setDisplayBlogs(data);
                 setBlogs(data)
-                setNumberPage(Math.ceil(lengthData.length/10));
+                setNumberPage(Math.ceil(size/10));
             })
             .catch(err => console.log(err))
         }
@@ -135,15 +135,13 @@ function Home(){
         }
 
         axios
-        .post(`/api/blog/searchBlog/${statusSearch}?page=1&&limit=10`,dataSearch)
+        .post(`/api/blog/searchBlog/${statusSearch}?page=1&&limit=10&&search=${searchContent}`,dataSearch)
         .then(res => {
             const data = res.data.data.allBlog;
              const size = res.data.data.totalBlog;
-             const lengthData = data.filter(d => Boolean(d.isAccepted) === true)
              setStatus(true);
             setDisplayBlogs(data);
-            console.log(lengthData);
-            setNumberPage(Math.ceil(lengthData.length/10));
+            setNumberPage(Math.ceil(size/10));
         })
         .catch(err => console.log(err))
     }
@@ -160,6 +158,10 @@ function Home(){
         <div className="homePage">
             <div className="leftHomePage"> 
                 <h1>Tìm kiếm</h1>
+                <div className="maxPrice">
+                    <h3 className="h3Price">Từ tìm kiếm</h3>
+                    <input type="text" className="inputSearchHome" placeholder="Nhập từ tìm kiếm" value={searchContent} onChange={e => setSearchContent(e.target.value)} />
+                </div>
                 <div className="minPrice">
                     <h3 className="h3Price">Giá thấp nhất</h3>
                     <Slider

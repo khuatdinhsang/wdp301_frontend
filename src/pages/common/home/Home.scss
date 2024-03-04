@@ -22,6 +22,18 @@
         .minPrice, .maxPrice{
             margin-top: 12px;
 
+            .inputSearchHome{
+                font-size: 16px;
+                padding: 6px 6px;
+                border-bottom: 2px solid var(--color-success);
+                outline: none;
+                
+                &:hover{
+                    transition: ease-in-out .4s;
+                    border-bottom: 3px solid var(--color-primary);
+                    transform: scale(1.05);
+                }
+            }
             .h3Price{
                 text-align: left;
                 font-size: 16px;
