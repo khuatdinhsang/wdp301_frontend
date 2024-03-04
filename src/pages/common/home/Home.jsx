@@ -55,7 +55,7 @@ function Home(){
                     const size = res.data.data.totalBlog;
                     setBlogs(data)
                     setDisplayBlogs(data);
-                    setNumberPage(Math.ceil(size/10));
+                    // setNumberPage(Math.ceil(size/10));
                 }
             })
             .catch(err => console.log(err))
@@ -75,7 +75,7 @@ function Home(){
                 const lengthData = data.filter(d => d.isAccepted === true)
                 setDisplayBlogs(data);
                 setBlogs(data)
-                setNumberPage(Math.ceil(lengthData.length/10));
+                // setNumberPage(Math.ceil(lengthData.length/10));
             })
             .catch(err => console.log(err))
         }
@@ -125,7 +125,7 @@ function Home(){
              const lengthData = data.filter(d => d.isAccepted === true)
              setStatus(true);
             setDisplayBlogs(data);
-            setNumberPage(Math.ceil(lengthData.length/10));
+            // setNumberPage(Math.ceil(lengthData.length/10));
         })
         .catch(err => console.log(err))
     }
