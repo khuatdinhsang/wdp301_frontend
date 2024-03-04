@@ -44,6 +44,11 @@
         width: 80%;
         display: flex;
         flex-direction: column;
+
+        .typeListCard{
+            width: 15%;
+        }
+
         .topListCard{
             width: 100%;
             display: flex;
