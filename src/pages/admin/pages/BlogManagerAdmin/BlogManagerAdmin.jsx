@@ -37,6 +37,22 @@ function BlogManagerAdmin() {
       })
       .catch((err) => console.log(err));
   }, []);
+  useEffect(() => {
+    axios
+      .get(`/api/blog/getAllBlogsPost/?limit=10&&page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.data.allBlog;
+        const size = res.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleChangeStatus = (status) => {
     setStatusSearch(!statusSearch);
