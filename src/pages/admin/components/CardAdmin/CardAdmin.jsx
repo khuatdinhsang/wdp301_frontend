@@ -38,18 +38,19 @@ function CardAdmin({ blog, onDelete }) {
     const dateFrom = new Date(timestampInSeconds);
     const dateTo = new Date(Date.now());
     const differenceInMilliseconds = Math.abs(dateTo - dateFrom);
-    const differenceInDate = differenceInMilliseconds / (60 * 1000 * 60);
-    if (differenceInDate > 60) {
-      setTimeAfter(Math.ceil(differenceInDate / 60));
-      setTimeUnit("giờ");
-    } else if (differenceInDate > 60 * 24) {
+    const differenceInDate = differenceInMilliseconds / (60 * 1000);
+    console.log("diff", differenceInDate);
+    if (differenceInDate > 60 * 24) {
       setTimeAfter(Math.ceil(differenceInDate / 60 / 24));
       setTimeUnit("ngày");
+    } else if (differenceInDate > 60) {
+      setTimeAfter(Math.ceil(differenceInDate / 60));
+      setTimeUnit("giờ");
     } else {
       setTimeAfter(Math.ceil(differenceInDate));
       setTimeUnit("phút");
     }
-  }, []);
+  }, [blog?.createdAt]);
 
   const style = {
     position: "absolute",
