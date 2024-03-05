@@ -1,42 +1,42 @@
-import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin"
-import "./Dashboard.scss"
-import MenuIcon from '@mui/icons-material/Menu';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
+import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
+import "./Dashboard.scss";
+import MenuIcon from "@mui/icons-material/Menu";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
-function Dashboard(){
-    const Orders = [
-        {
-            productName: 'JavaScript Tutorial',
-            productNumber: '85743',
-            paymentStatus: 'Due',
-            status: 'Pending'
-        },
-        {
-            productName: 'CSS Full Course',
-            productNumber: '97245',
-            paymentStatus: 'Refunded',
-            status: 'Declined'
-        },
-        {
-            productName: 'Flex-Box Tutorial',
-            productNumber: '36452',
-            paymentStatus: 'Paid',
-            status: 'Active'
-        },
-    ]
+function Dashboard() {
+  const Orders = [
+    {
+      productName: "JavaScript Tutorial",
+      productNumber: "85743",
+      paymentStatus: "Due",
+      status: "Pending",
+    },
+    {
+      productName: "CSS Full Course",
+      productNumber: "97245",
+      paymentStatus: "Refunded",
+      status: "Declined",
+    },
+    {
+      productName: "Flex-Box Tutorial",
+      productNumber: "36452",
+      paymentStatus: "Paid",
+      status: "Active",
+    },
+  ];
 
-
-    return (
-        <div className="dasdboard">
-            <SidebarAdmin className="sidebarDas"/>
-            <main>
-                <h1>Analytics</h1>
+  return (
+    <div className="dasdboard">
+      <SidebarAdmin className="sidebarDas" />
+      <h1 style={{ textAlign: "center" }}>Thống kê</h1>
+      <main>
+        {/* <h1>Analytics</h1>
 
                 <div className="analyse">
                     <div className="sales">
@@ -142,10 +142,10 @@ function Dashboard(){
                         </tbody>
                         <a href="">Show All</a>
                     </table>
-                </div>
-            </main>
+                </div> */}
+      </main>
 
-            <div className="right-section">
+      {/* <div className="right-section">
                 <div className="navDash">
                     <button id="menu-btn">
                         <span className="material-icons-sharp">
@@ -239,11 +239,9 @@ function Dashboard(){
                     </div>
                     
                 </div>
-            </div>
-
-            
-        </div>
-    )
+            </div> */}
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

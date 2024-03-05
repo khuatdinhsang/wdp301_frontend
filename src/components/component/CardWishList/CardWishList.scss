@@ -1,19 +1,17 @@
-
-.cardWishListPage{
-    width: 22%;
+.cardWishListPage {
     cursor: pointer;
+    margin-right: 30px;
 
-    .imageWishList{
-        
-        img{
-            width: 100%;
+    .imageWishList {
+
+        img {
             border-radius: 10px;
             border: 4px solid #fff;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
     }
 
-    .titleWishList{
+    .titleWishList {
         font-size: 1rem;
         padding: 4px 0;
     }

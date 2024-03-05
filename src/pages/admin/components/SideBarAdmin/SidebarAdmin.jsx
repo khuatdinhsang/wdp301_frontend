@@ -64,7 +64,7 @@ function SidebarAdmin() {
             <span className="material-icons-sharp">
               <PersonIcon />
             </span>
-            <h3 className="typeDashboard">Users</h3>
+            <h3 className="typeDashboard">Users Manager</h3>
           </a>
           <a
             onClick={() => navigate("/admin/blogManager")}

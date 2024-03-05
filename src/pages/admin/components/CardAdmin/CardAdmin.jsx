@@ -32,15 +32,23 @@ function CardAdmin({ blog, onDelete }) {
   const [openShowData, setOpenShowData] = useState(false);
   const [newBlog, setNewBlog] = useState();
   const [timeAfter, setTimeAfter] = useState("");
-  console.log("a", account);
-  console.log("daaa", blog);
+  const [timeUnit, setTimeUnit] = useState("phút");
   useEffect(() => {
     const timestampInSeconds = Math.floor(new Date(blog?.createdAt).getTime());
     const dateFrom = new Date(timestampInSeconds);
     const dateTo = new Date(Date.now());
     const differenceInMilliseconds = Math.abs(dateTo - dateFrom);
-    const differenceInDate = differenceInMilliseconds / (60 * 1000);
-    setTimeAfter(Math.ceil(differenceInDate));
+    const differenceInDate = differenceInMilliseconds / (60 * 1000 * 60);
+    if (differenceInDate > 60) {
+      setTimeAfter(Math.ceil(differenceInDate / 60));
+      setTimeUnit("giờ");
+    } else if (differenceInDate > 60 * 24) {
+      setTimeAfter(Math.ceil(differenceInDate / 60 / 24));
+      setTimeUnit("ngày");
+    } else {
+      setTimeAfter(Math.ceil(differenceInDate));
+      setTimeUnit("phút");
+    }
   }, []);
 
   const style = {
@@ -159,7 +167,10 @@ function CardAdmin({ blog, onDelete }) {
               {!isAccept ? (
                 <h2 className="titleCard">
                   Thời gian:{" "}
-                  <span style={{ color: "red" }}> {timeAfter} phút</span> trước
+                  <span style={{ color: "red" }}>
+                    {timeAfter} {timeUnit}
+                  </span>{" "}
+                  trước
                 </h2>
               ) : (
                 <></>
