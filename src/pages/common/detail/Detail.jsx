@@ -12,12 +12,11 @@ import Box from '@mui/material/Box';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 
 function Detail(){
     const navigate = useNavigate();
-    const [path, setPath] = useState('')
-    const {pathname} = useLocation();
     const {slug} = useParams()
     const [blog, setBlog] = useState()
     const [starComment, setStarComment] = useState(0);
@@ -32,6 +31,19 @@ function Detail(){
     const [isComment, setIsComment] = useState(false)
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [sizeImage, setSizeImage] = useState();
+    const [open, setOpen] = useState(false);
+
+    const handleClose =( ) => {
+        setOpen(false);
+    }
+
+     const handleRentBlog = ( ) => {
+        
+    }
+
+    const handleClickOpen = () =>{
+        setOpen(true);
+    }
 
     const handlePreviousImage = ( ) => {
          setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sizeImage - 1));
@@ -62,18 +74,6 @@ function Detail(){
             }            
         })
         .catch(err => console.log(err))
-
-
-        axios
-        .get(`/api/auth/profile`,{
-            headers: {
-                Authorization: `Bearer ${account?.token}`
-            }
-        })
-        .then(res => {
-            setLessor(res.data.data);
-        })
-        .catch(err => console.log(err)) 
                 
         axios
         .get(`/api/blog_rate/GetAll/${slug}`)
@@ -83,6 +83,21 @@ function Detail(){
         })
         .catch(res => console.log(res))
     },[])
+
+    useEffect(() => {
+        axios
+      .get(`/api/auth/getProfileUserOther/${blog?.userId}`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+      .then(res => {
+        const data = res.data.data;
+        setLessor(data);
+        console.log(data);
+      })
+      .catch(err => console.log(err))
+    },[blog])
 
 
     useEffect(() => {
@@ -226,6 +241,9 @@ function Detail(){
         <div className='detail'>
             <div className='titleDetail'>
                 <h2>{blog?.title}</h2>
+                <div className="rentedBtn">
+                    <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
+                </div>
             </div>
             <div className='thumnailImage'>
                 <div className='firstCol'>
@@ -234,22 +252,39 @@ function Detail(){
                 {currentImageIndex!== 0 ?<ArrowBackIosRoundedIcon className='backIconDetail' onClick={() => handlePreviousImage()} />:''}
                 {currentImageIndex!== sizeImage-1 ?<ArrowForwardIosRoundedIcon className='nextIconDetail' onClick={() => handleForwardImage()}/>:""}
                 <div className="secondCol">
+                        <h2>Thông tin mô tả</h2>
+                    <div className="equipment1">
+                        <i className='boldEquipment'>Tên trọ: </i><i className='nameEquipment1'>{blog?.title}</i>
+                    </div>
+                    <div className="equipment1">
+                        <i className='boldEquipment'>Miêu tả: </i><i className='nameEquipment1'>{blog?.description}</i>
+                    </div>
+                    <div className="equipment1">
+                        <i className='boldEquipment'>Diện tích: </i><i className='nameEquipment1'>{blog?.area} m2</i>
+                    </div>
+                    <div className="equipment1">
+                        <i className='boldEquipment'>Giá tiền: </i><i className='nameEquipment1'>{blog?.money?.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</i>
+                    </div>
+                    <div className="equipment1">
+                        <i className='boldEquipment'>Địa chỉ: </i><i className='nameEquipment1'>{blog?.addressDetail}, {blog?.ward}, {blog?.district}, {blog?.province}</i>
+                    </div>
+                    {/* <div className="equipment1">
+                        <i className='boldEquipment'>Ngày hết hạn bài đăng: </i><i className='nameEquipment1'>{blog?.expiredTime.split('T')[0]}</i>
+                    </div> */}
                 </div>
-                <div className='thirdCol'>
-                     
-                </div>
+                
             </div>
             <div className='content'>
                 <div className="leftContent">
                     <div className='detailContent'>
-                        <div className="detailTitle">
+                        {/* <div className="detailTitle">
                             <h2 className='roomName'>
                                 {blog?.description}
                             </h2>
                             <i className="descriptionContent">
                                 2 người ở, 1 phòng ngủ, 1 giường, 1 phòng tắm
                             </i>
-                        </div>
+                        </div> */}
                         <div className="favouriteRoom">
                             <div className='customerFavourite1'>
                                 <svg viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg" height="36"><g clipPath="url(#clip0_5880_37773)"><path fillRule="evenodd" clipRule="evenodd" d="M15.4895 25.417L14.8276 24.4547L16.5303 23.6492L17.1923 24.6116L16.3409 25.0143L17.1923 24.6116C18.6638 26.751 17.9509 29.3868 15.5999 30.4989C14.8548 30.8513 14.0005 31.0196 13.1221 30.987L12.8044 30.9752L12.7297 29.2305L13.0474 29.2423C13.5744 29.2618 14.0871 29.1608 14.5341 28.9494C15.9447 28.2821 16.3725 26.7007 15.4895 25.417Z" fill="#222222"></path><path fillRule="evenodd" clipRule="evenodd" d="M8.32441 10.235C10.0819 8.96204 10.9247 7.4878 10.853 5.81232C10.7813 4.13685 9.80929 2.59524 7.93708 1.18749C6.17964 2.46049 5.33678 3.93473 5.40851 5.6102C5.48024 7.28568 6.45221 8.82729 8.32441 10.235Z" fill="#F7F7F7"></path><path fillRule="evenodd" clipRule="evenodd" d="M7.19425 0.489275C7.55718 0.226387 8.10753 0.246818 8.49416 0.537533C10.5385 2.07473 11.7071 3.84975 11.7923 5.84026C11.8775 7.83076 10.8574 9.52453 8.93841 10.9146C8.57548 11.1775 8.02513 11.157 7.6385 10.8663C5.59415 9.32914 4.4256 7.55411 4.34039 5.56361C4.25517 3.57311 5.27521 1.87933 7.19425 0.489275ZM7.92362 2.3684C6.77985 3.38355 6.29788 4.47199 6.3478 5.63813C6.39772 6.80428 6.97457 7.93203 8.20904 9.03547C9.35281 8.02032 9.83478 6.93187 9.78486 5.76573C9.73493 4.59959 9.15809 3.47184 7.92362 2.3684Z" fill="#222222"></path><path fillRule="evenodd" clipRule="evenodd" d="M15.6806 24.0529C14.1314 22.353 12.4326 21.4688 10.5842 21.4001C8.73575 21.3315 7.10737 22.0923 5.69905 23.6824C7.24822 25.3823 8.94702 26.2666 10.7955 26.3352C12.6439 26.4038 14.2723 25.6431 15.6806 24.0529Z" fill="#F7F7F7"></path><path fillRule="evenodd" clipRule="evenodd" d="M4.90529 24.1787C4.60807 23.8526 4.58911 23.4097 4.8593 23.1046C6.38985 21.3765 8.27538 20.4331 10.521 20.5164C12.7666 20.5998 14.7391 21.6864 16.4227 23.5339C16.7199 23.86 16.7389 24.303 16.4687 24.608C14.9381 26.3361 13.0526 27.2795 10.807 27.1962C8.56134 27.1128 6.5889 26.0262 4.90529 24.1787ZM6.98781 23.7198C8.22307 24.8808 9.46778 25.4045 10.7323 25.4515C11.9968 25.4984 13.2005 25.0656 14.3402 23.9928C13.1049 22.8318 11.8602 22.3081 10.5957 22.2611C9.3312 22.2142 8.12744 22.6471 6.98781 23.7198Z" fill="#222222"></path><path fillRule="evenodd" clipRule="evenodd" d="M10.6766 20.7043C10.2137 18.5957 9.16392 17.0928 7.52727 16.1956C5.89062 15.2984 3.99442 15.1864 1.83867 15.8596C2.30157 17.9683 3.35135 19.4712 4.988 20.3684C6.62465 21.2656 8.52085 21.3775 10.6766 20.7043Z" fill="#F7F7F7"></path><path fillRule="evenodd" clipRule="evenodd" d="M0.791956 15.9443C0.703053 15.5393 0.94431 15.1569 1.37329 15.023C3.7337 14.2859 5.9714 14.3695 7.95247 15.4554C9.92449 16.5364 11.1013 18.3139 11.6022 20.5956C11.6911 21.0006 11.4499 21.3829 11.0209 21.5169C8.66048 22.254 6.42277 22.1704 4.4417 21.0844C2.46969 20.0034 1.29285 18.226 0.791956 15.9443ZM2.95349 16.4656C3.43375 17.9951 4.27991 19.007 5.41321 19.6282C6.5306 20.2407 7.84423 20.4286 9.44069 20.0743C8.96043 18.5448 8.11427 17.5329 6.98097 16.9116C5.86358 16.2991 4.54995 16.1113 2.95349 16.4656Z" fill="#222222"></path><path fillRule="evenodd" clipRule="evenodd" d="M7.90911 15.6267C8.65652 13.6743 8.53705 11.9555 7.55072 10.4702C6.56438 8.98484 4.90844 8.03014 2.58291 7.60605C1.8355 9.55846 1.95497 11.2773 2.9413 12.7626C3.92764 14.2479 5.58357 15.2026 7.90911 15.6267Z" fill="#F7F7F7"></path><path fillRule="evenodd" clipRule="evenodd" d="M1.66037 7.28295C1.80927 6.89397 2.26578 6.67525 2.74598 6.76282C5.29848 7.22831 7.26368 8.31371 8.44396 10.0911C9.61955 11.8614 9.70866 13.854 8.89805 15.9715C8.74915 16.3605 8.29264 16.5792 7.81244 16.4916C5.25994 16.0261 3.29474 14.9407 2.11446 13.1634C0.938866 11.393 0.849755 9.40048 1.66037 7.28295ZM3.3385 8.6613C2.94038 10.1267 3.14588 11.3465 3.83454 12.3835C4.51397 13.4067 5.60091 14.1584 7.21992 14.5931C7.61804 13.1278 7.41254 11.9079 6.72388 10.8709C6.04445 9.84774 4.95751 9.09607 3.3385 8.6613Z" fill="#222222"></path></g><defs><clipPath id="clip0_5880_37773"><rect width="18.8235" height="32" fill="white" transform="translate(0.453125 0.000488281)"></rect></clipPath></defs></svg>
@@ -279,7 +314,7 @@ function Detail(){
                         </div>
                     </div>
                     <div className='lessorBlog'>
-                        <div className="lessor">
+                        {account?.phone !== undefined?<div className="lessor">
                             <div className='avatar'>
                                 <AccountCircleIcon/>
                             </div>
@@ -288,19 +323,20 @@ function Detail(){
                                     Chủ nhà/Người tổ chức: {lessor?.fullName}
                                 </p>
                                 <i className='experience'>
-                                    Chủ nhà siêu cấp 6 năm kinh nghiệm đón tiếp khách
+                                    Số điện thoại: {lessor?.phone}
                                 </i>
                             </div>
-                        </div>
-                        <div className="bottomLessorBlog">
+                        </div>:<></>}
+                        
+                        {/* <div className="bottomLessorBlog">
                             <h2 className='place'>Nơi bạn sẽ ngủ nghỉ</h2>
                             <div className="roomDescription">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: 24, width: 24, fill: 'currentcolor'}}><path d="M28 4a2 2 0 0 1 2 1.85v7.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V6a2 2 0 0 1 1.7-1.98l.15-.01L4 4zm2 18H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 6H4v8h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 4H8v4h7zm9 0h-7v4h7z"></path></svg>
                                 <b>Phòng ngủ</b>
                                 <p>1 giường </p>
                             </div>
-                        </div>
-                        <div className="convenience">
+                        </div> */}
+                        {/* <div className="convenience">
                             <h2>Nơi này có những gì cho bạn</h2>
                             <div className="equipments">
                                 <div className="equipment">
@@ -321,7 +357,7 @@ function Detail(){
                                 </div>
 
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="rightCotent">
@@ -408,32 +444,33 @@ function Detail(){
                 })}
             </div>
 
-            <div className="mapDetail">
+            {/* <div className="mapDetail">
                 <h2 className="titleMap">
                     Nơi bạn sẽ đến
                 </h2>
                 <iframe className='mapImage' src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.503215788895!2d105.52278657495464!3d21.012541880632742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBGUFQ!5e0!3m2!1svi!2s!4v1705049670971!5m2!1svi!2s" width="600" height="450" style={{border: 0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 <span className='placeName'>Hoà Lạc, Hà Nội</span>
                 <p className='placeDescription'>The Boot nằm ở vị trí lý tưởng để khám phá Vườn quốc gia Abel Tasman, các nhà máy rượu vang, bãi biển và Vườn quốc gia Kahurangi. Chúng tôi cũng gần thị trấn Motueka và làng Mapua.</p>
-            </div>
+            </div> */}
             <div className="detailLessor">
-                <div className="topDetailLessor">
-                    <div className="lessor">
-                        <div className='avatar'>
-                            <AccountCircleIcon/>
-                        </div>
-                        <div className="detailLessorTop">
-                            <p className="establish">
-                                Chủ nhà/Người tổ chức: {lessor?.fullName}
-                            </p>
-                            <i className='experience'>
-                            Chủ nhà siêu cấp 6 năm kinh nghiệm đón tiếp khách
-                            </i>
+                {account?.phone !== undefined?
+                <>
+                    <div className="topDetailLessor">
+                        <div className="lessor">
+                            <div className='avatar'>
+                                <AccountCircleIcon/>
+                            </div>
+                            <div className="detailLessorTop">
+                                <p className="establish">
+                                    Chủ nhà/Người tổ chức: {lessor?.fullName}
+                                </p>
+                                <i className='experience'>
+                                Số điện thoại: {lessor?.phone}
+                                </i>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="bottomDetailLessor">
+                    <div className="bottomDetailLessor">
                     <div className="leftBottomDetailLessor">
                         <div className="ratingLessor">
                             <div className="numberRatingLessor">
@@ -446,7 +483,7 @@ function Detail(){
                             </div>
                         </div>
                         <div className="lessorDescription">
-                            <p>Tôi là một người pahadi địa phương, đam mê cung cấp cho du khách trải nghiệm Himachali khao khát. Tôi là một giáo viên chuyên nghiệp và thích gặp gỡ những người mới từ khắp nơi trên thế giới.</p>
+                            <p>Tôi là một người địa phương ở Hoà Lạc, đam mê cung cấp cho sinh viên trải nghiệm nhà trọ tuyệt vời nhất trong thời gian sinh viên.</p>
                         </div>
                     </div>
                     <div className="rightBottomDetailLessor">
@@ -458,6 +495,29 @@ function Detail(){
                         </button>
                     </div>
                 </div>
+                </>:<></>}
+                     <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {`Hola Rent - Ứng dụng tìm trọ khu vực Hoà Lạc`}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        {`Bạn chắc chắn muốn thuê trọ này`}
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleClose}>Để sau</Button>
+                        <Button onClick={() => handleRentBlog()} autoFocus>
+                            Đồng ý
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                
 
             </div>
         </div>
