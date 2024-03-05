@@ -132,12 +132,14 @@ const Header = () => {
                     </ul> */}
           <div>
             <h1 style={{ textAlign: "center", fontSize: "30px" }}>
-              Tìm kiếm chỗ thuê ưng ý
+              <h4 className="titleBanner">Tìm kiếm chỗ thuê ưng ý</h4>
             </h1>
-            <h4 style={{ textAlign: "center", fontSize: "16px" }}>
-              Kênh thông tin Phòng trọ số 1 tại Hòa Lạc - Website đăng tin cho
-              thuê phòng trọ,tìm người ở ghép nhanh, hiệu quả với 100.000+ tin
-              đăng và 2.500.000 lượt xem mỗi tháng.
+            <h4 style={{ textAlign: "center", fontSize: "16px" }} >
+              <i className="banner">
+                Kênh thông tin Phòng trọ số 1 tại Hòa Lạc - Website đăng tin cho
+                thuê phòng trọ,tìm người ở ghép nhanh, hiệu quả với 100.000+ tin
+                đăng và 2.500.000 lượt xem mỗi tháng.
+              </i>
             </h4>
           </div>
         </div>
