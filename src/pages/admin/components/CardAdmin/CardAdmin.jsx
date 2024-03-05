@@ -232,45 +232,48 @@ function CardAdmin({ blog, onDelete }) {
           >
             <Box sx={style}>
               <h2>Thông tin chi tiết </h2>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Tên phòng trọ: {blog?.title}
+              <Typography id="modal-modal-title" style={{marginTop: 20}}>
+               <b> Tên phòng trọ:</b> {blog?.title}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Miêu tả: {blog?.description}
+                <b>Miêu tả:</b> {blog?.description}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Chủ trọ:{account.accessToken.fullName}
+                <b>Chủ trọ:</b> {account.accessToken.fullName}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Diện tích: {blog?.area} m<m2>2</m2>
+                <b>Diện tích:</b> {blog?.area} m<m2>2</m2>
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Giá tiền:{" "}
+                <b>Giá tiền:</b>{" "}
                 {blog?.money?.toLocaleString("vi", {
                   style: "currency",
                   currency: "VND",
                 })}
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Hình ảnh minh họa:
-                {blog.image.map((item) => {
-                  return (
-                    <div key={item}>
-                      <img
-                        width={100}
-                        height={100}
-                        src={`http://${item}`}
-                        alt="ảnh minh họa"
-                      />
-                    </div>
-                  );
-                })}
+              <Typography id="modal-modal-description" className="imgCardAdmin" sx={{ mt: 2 }}>
+                <b>Hình ảnh minh họa:</b>
+                <div className="listImgCardShow">
+                  {blog.image.map((item) => {
+                    return (
+                      <div key={item}>
+                        <img
+                          className="imgShowAdmin"
+                          width={100}
+                          height={100}
+                          src={`http://${item}`}
+                          alt="ảnh minh họa"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Địa chỉ: {blog?.addressDetail}
+                <b>Địa chỉ:</b> {blog?.addressDetail}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Thời gian hết hạn: {blog?.expiredTime.split("T")[0]}
+                <b>Thời gian hết hạn:</b> {blog?.expiredTime.split("T")[0]}
               </Typography>
             </Box>
           </Modal>

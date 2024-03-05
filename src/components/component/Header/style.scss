@@ -3,7 +3,7 @@
     position: fixed;
     z-index: 5;
     top: 0;
-
+    margin-bottom: 50px;
 
     .topHeader{
         background-color: rgba($color: #ccc, $alpha: 0.2);
@@ -56,12 +56,21 @@
                 border-radius: 50%;
             }
         }
+        
 
         .centerHeader{
             width: 40%;
             display: flex;
             justify-content: center;
-            height: 60px;
+            height: 100px;
+            .titleBanner{
+                font-size: 20px;
+            }
+
+             .banner{
+                    font-size: 12px;
+                }
+
             .search{
                 display: flex;
                 justify-content: center;
@@ -120,6 +129,7 @@
                     // }
                 }
               
+               
             }
 
             .beforeVertical{

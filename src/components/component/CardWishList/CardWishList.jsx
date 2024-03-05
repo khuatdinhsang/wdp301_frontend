@@ -3,8 +3,9 @@ import "./CardWishList.scss";
 
 function CardWishList({ item }) {
   const navigate = useNavigate();
-  console.log("irtm", item);
-  const handleNavigate = () => {};
+  const handleNavigate = () => {
+    navigate(`/detail/${item?._id}`);
+  };
 
   return (
     <div className="cardWishListPage" onClick={() => handleNavigate()}>
@@ -17,8 +18,8 @@ function CardWishList({ item }) {
         />
       </div>
       <div className="titleWishList">
-        <h4>{item.title}</h4>
-        <i>Đã lưu 2 mục</i>
+        <h4>{item?.title}</h4>
+        {/* <i>Đã lưu 2 mục</i> */}
       </div>
     </div>
   );
