@@ -1,21 +1,19 @@
-
-.wishListPage{
+.wishListPage {
     margin-top: 200px;
 
-    .favouriteWishList{
+
+    .favouriteWishList {
         margin-left: 10%;
         font-size: 1.5rem;
         padding: 10px 0 20px 0;
+
     }
 
-    .container{
-        width: 80%;
+    .topListCard {
+        width: 100%;
         display: flex;
-        margin-left: 10%;
-
-        .listCardWishList{
-            display: flex;
-            justify-content: space-between;
-        }
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
+
 }

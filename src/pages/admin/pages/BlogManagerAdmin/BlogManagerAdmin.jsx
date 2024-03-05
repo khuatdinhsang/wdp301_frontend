@@ -156,7 +156,7 @@ function BlogManagerAdmin() {
       <div className="blogManagementContent1">
         <div className="topBlogManagementContent1">
           <div></div>
-          <h3>Blog Manager</h3>
+          <h3>Blogs Manager</h3>
           <Box sx={{ minWidth: 120 }} className={"selectType"}>
             <FormControl fullWidth>
               <InputLabel variant="standard" htmlFor="uncontrolled-native">
