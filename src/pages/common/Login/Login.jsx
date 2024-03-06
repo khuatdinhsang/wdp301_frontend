@@ -58,7 +58,7 @@ function Login() {
             if (account.role === "renter") {
               navigate("/");
             } else if (account.role === "lessor") {
-              navigate("/lessor/uploadBlog");
+              navigate("/lessor/blogManager");
             } else if (account.role === "admin") {
               navigate("/admin/blogManager");
             }
