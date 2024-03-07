@@ -2,7 +2,7 @@ import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DefaultLayout from "./components/DefaultLayout";
-import { adminRoutes, lessorRoutes, publicRoutes } from "./routes";
+import { adminRoutes, lessorRoutes, publicRoutes, renterRoutes } from "./routes";
 import Page404 from "../src/pages/common/Page404/Page404.jsx"
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +41,31 @@ function App() {
                     }
                     key={index}
                   />
+                )
+            })}
+            {renterRoutes?.map((route, index)=> {
+                const Page = route.component;
+                let Layout = DefaultLayout;
+                
+                if(route.layout){
+                  Layout = route.layout
+                }
+                else if(route.layout === null){
+                  Layout = Fragment;
+                }
+
+                return(
+                  ((account.role === 'renter') &&
+                    <Route
+                      path={route?.path}
+                      element={
+                        <Layout>
+                            <Page/>
+                        </Layout>
+                      }
+                      key={index}
+                    />
+                  )
                 )
             })}
             {lessorRoutes?.map((route, index) => {
