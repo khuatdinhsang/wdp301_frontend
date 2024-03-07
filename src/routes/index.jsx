@@ -43,12 +43,12 @@ const adminRoutes = [
 ]
 
 const renterRoutes = [
-    
+    { path: '/uploadBlog', component: UploadBlog, layout: null },
 ]
 
 const lessorRoutes = [
-    { path: '/lessor/blogManager', component: BlogManager, layout: null },
-    { path: '/lessor/uploadBlog', component: UploadBlog, layout: null },
+    { path: '/blogManager', component: BlogManager, layout: null },
+    { path: '/uploadBlog', component: UploadBlog, layout: null },
 ]
 
 export { publicRoutes, adminRoutes, renterRoutes, lessorRoutes }
