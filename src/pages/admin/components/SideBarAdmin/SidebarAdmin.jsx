@@ -11,7 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation, useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAccount } from "../../../../actions/accountActions";
 import { toast } from "react-toastify";
 
@@ -19,6 +19,7 @@ function SidebarAdmin() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const account = useSelector((state) => state.account);
 
   const handleLogout = () => {
     const action = logoutAccount();
@@ -56,7 +57,6 @@ function SidebarAdmin() {
             </span>
             <h3 className="typeDashboard">Dashboard</h3>
           </a>
-
           <a
             onClick={() => navigate("/admin/users")}
             className={pathname?.includes("users") ? "active" : ""}

@@ -9,14 +9,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-function CardHome({ blog }) {
+function CardHome({ blog, isHome }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sizeImage, setSizeImage] = useState(blog?.image?.length);
   const account = useSelector((state) => state.account);
   const [listFavorite, setListFavorite] = useState();
-
+  console.log("cas", blog);
   const handlePreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex > 0 ? prevIndex - 1 : sizeImage - 1
@@ -80,12 +80,20 @@ function CardHome({ blog }) {
               <div className="showStar">
                 <StarIcon className="starCard" />
                 <span className="numberStarCard">
-                  {" "}
                   {blog?.avgBlogRate.toFixed(1)}
                 </span>
               </div>
             </div>
             <span className="dateBuilding">{blog?.description}</span>
+            {!isHome ? (
+              account.role === "lessor" && blog.isAccepted ? (
+                <p style={{ color: "green", fontSize: "16px" }}>Đã duyệt</p>
+              ) : (
+                <p style={{ color: "red", fontSize: "16px" }}>Đang chờ duyệt</p>
+              )
+            ) : (
+              <></>
+            )}
             <p className="priceCard">
               <span className="pricePer">
                 {blog?.money?.toLocaleString("vi", {
