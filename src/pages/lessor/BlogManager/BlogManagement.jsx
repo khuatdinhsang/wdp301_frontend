@@ -4,73 +4,133 @@ import axios from 'axios';
 import Card from '../../../components/component/Card';
 import SidebarAdmin from '../../admin/components/SideBarAdmin/SidebarAdmin';
 import './BlogManagement.scss';
+import { Button, Pagination, Stack } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function BlogManager() {
     const [blogs, setBlogs] = useState([]);
     const [totalBlogs, setTotalBlogs] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [numberPage, setNumberPage] = useState();
     const [limit, setLimit] = useState(10); 
     const [search, setSearch] = useState('');
-    const [itemsPerPage] = useState(5);
     const account = useSelector(state => state.account); 
 
-    useEffect(() => {
-        fetchBlogs();
-    }, [currentPage, limit, search]);
-
-    const fetchBlogs = async () => {
-        try {
-            const response = await axios.get(`/api/auth/getAllBlogsPost`, {
-                params: {
+   useEffect(() => {
+        axios
+        .get(`/api/auth/getAllBlogsPost`,{
+            params: {
                     userId: account.userId,
-                    limit,
+                    limit: limit,
                     page: currentPage,
-                    search
+                    search: search
                 },
                 headers: {
                     Authorization: `Bearer ${account?.token}`
                 }
-            });
-            setBlogs(response.data.allBlog);
-            setTotalBlogs(response.data.totalBlog);
-        } catch (error) {
-            console.error('Error fetching blogs:', error);
-        }
-    };
+        })
+        .then(res => {
+             setBlogs(res.data.allBlog);
+            setTotalBlogs(res.data.totalBlog);
+        })
+        .catch(err => console.log(err))
+   },[])
 
-    const handlePageChange = (page) => {
+
+    useEffect(() => {
+        axios
+        .get(`/api/auth/getAllBlogsPost`,{
+            params: {
+                    userId: account.userId,
+                    limit: limit,
+                    page: currentPage,
+                    search: search
+                },
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+        })
+        .then(res => {
+             setBlogs(res.data.allBlog);
+            setTotalBlogs(res.data.totalBlog);
+        })
+        .catch(err => console.log(err))
+    },[currentPage])
+
+    useEffect(() => {
+        setNumberPage(Math.ceil(totalBlogs/limit));
+    },[totalBlogs])
+
+    const handleChangePage = (event, page) => {
         setCurrentPage(page);
     };
 
-    const handleSearchChange = (event) => {
-        setSearch(event.target.value);
-    };
+    const handleSearch = () => {
+        setCurrentPage(1);
+        axios
+        .get(`/api/auth/getAllBlogsPost`,{
+            params: {
+                    userId: account.userId,
+                    limit: limit,
+                    page: 1,
+                    search: search
+                },
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+        })
+        .then(res => {
+             setBlogs(res.data.allBlog);
+            setTotalBlogs(res.data.totalBlog);
+        })
+        .catch(err => console.log(err))
+    }
+  
 
-    const totalPages = Math.ceil(totalBlogs / itemsPerPage);
 
     return (
         <div className="blogManagement">
             <SidebarAdmin className="sidebarLessorManagement" />
-            <div className="blogManagementContent">
-                {blogs.map(blog => (
-                    <Card key={blog.id} blog={blog} className="card" />
-                ))}
-            </div>
-            <div className="searchContainer">
-                <input
-                    type="text"
-                    value={search}
-                    onChange={handleSearchChange}
-                    placeholder="Search..."
-                />
-            </div>
-            <div className="pagination">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
+                <div className='mainBlogManagementContent'>
+                    <div className="searchContainerLessor">
+                        <input
+                            className='inputSearchContainerLessor'
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search..."
+                        />
+                        <Button variant="contained" onClick={() => handleSearch()}>
+                            Xác nhận
+                        </Button>
+                    </div>
+                    <div className="blogManagementContentLessor">
+                        {blogs.slice().reverse()?.map(blog => (
+                            <Card key={blog.id} blog={blog} className="card" />
+                        ))}
+                            <Card className="card" />
+                            <Card className="card" />
+
+                    </div>
+                    <div className="paginationLessor">
+                        {/* {Array.from({ length: numberPage }, (_, index) => (
+                            <button key={index + 1} onClick={() => handleChangePage(index + 1)}>
+                                {index + 1}
+                            </button>
+                        ))} */}
+
+                        <Stack spacing={2}>
+                            <Pagination
+                                count={numberPage}
+                                page={currentPage}
+                                variant="outlined"
+                                shape="rounded"
+                                onChange={handleChangePage}
+                            />
+                        </Stack>
+                    </div>
+                </div>
+            
         </div>
     );
 }
