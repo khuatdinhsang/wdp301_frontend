@@ -134,7 +134,7 @@ const Header = () => {
             <h1 style={{ textAlign: "center", fontSize: "30px" }}>
               <h4 className="titleBanner">Tìm kiếm chỗ thuê ưng ý</h4>
             </h1>
-            <h4 style={{ textAlign: "center", fontSize: "16px" }} >
+            <h4 style={{ textAlign: "center", fontSize: "16px" }}>
               <i className="banner">
                 Kênh thông tin Phòng trọ số 1 tại Hòa Lạc - Website đăng tin cho
                 thuê phòng trọ,tìm người ở ghép nhanh, hiệu quả với 100.000+ tin
@@ -200,6 +200,13 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
+                  {account?.phone !== undefined && account.role === "lessor" ? (
+                    <li onClick={() => navigate("/blogManager")}>
+                      <span>Manager Blog</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
                   {account?.phone !== undefined ? (
                     <li onClick={() => handleLogout()}>
                       <span>Đăng xuất</span>
@@ -207,7 +214,8 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
-                  {account?.phone !== undefined && (account.role === "lessor" || account.role === "renter")? (
+                  {account?.phone !== undefined &&
+                  (account.role === "lessor" || account.role === "renter") ? (
                     <li onClick={() => navigate("/uploadBlog")}>
                       <span>Upload</span>
                     </li>

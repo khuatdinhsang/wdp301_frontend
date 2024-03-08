@@ -299,7 +299,7 @@ function Home() {
             .reverse()
             .map((blog) => {
               if (blog?.isAccepted === true) {
-                return <CardHome blog={blog} key={blog?._id} />;
+                return <CardHome blog={blog} key={blog?._id} isHome={true} />;
               }
             })}
           <CardHome />
