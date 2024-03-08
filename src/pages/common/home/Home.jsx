@@ -158,7 +158,7 @@ function Home() {
       minArea: areaSearchMin,
       maxArea: areaSearchMax,
     };
-    if (searchContent.length > 0 || searchContent !== null) {
+    if (searchContent.trim() === '') {
       axios
         .post(
           `/api/blog/searchBlog/${statusSearch}?page=1&&limit=10`,
