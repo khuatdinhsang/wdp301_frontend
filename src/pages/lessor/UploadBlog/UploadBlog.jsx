@@ -21,6 +21,7 @@ function UploadBlog() {
   const [isConfirm, setIsConfirm] = useState(false);
   const [timeDuration, setTimeDuration] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pathBack, setPathBack] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,10 @@ function UploadBlog() {
       };
     });
   };
+
+  useEffect(() => {
+    account?.role === 'renter'?setPathBack("/"):setPathBack("/blogManager")
+  },[account])
 
   const convertMultipleImage = (e) => {
     const files = e.target.files;
@@ -154,7 +159,8 @@ function UploadBlog() {
       <span
         style={{ cursor: "pointer" }}
         onClick={() => {
-          navigate("/admin/dashboard");
+          navigate(pathBack);
+          // {account?.role === "renter"? () => navigate("/") : navigate('/admin/dashboard')}
         }}
       >
         <ArrowBackIosRoundedIcon className="backToDashboard" />
