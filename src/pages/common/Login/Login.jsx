@@ -41,30 +41,35 @@ function Login() {
       axios
         .post("/api/auth/login", userLogin)
         .then((res) => {
-          if (res.data.isSuccess === true) {
-            const account = jwt_decode(res.data.data.accessToken);
+          
+            const data =res.data;
+            if(data.statusCode === 200){
+              const account = jwt_decode(res.data.data.accessToken);
+              const user = {
+                phone: username.trim(),
+                accessToken: account,
+                token: res.data.data.accessToken,
+                role: account.role,
+              };
 
-            const user = {
-              phone: username.trim(),
-              accessToken: account,
-              token: res.data.data.accessToken,
-              role: account.role,
-            };
-
-            const action = loginAccount(user);
-            setIsLoading(true);
-            dispatch(action);
-            toast.success("Đăng nhập thành công!");
-            if (account.role === "renter") {
-              navigate("/");
-            } else if (account.role === "lessor") {
-              navigate("/blogManager");
-            } else if (account.role === "admin") {
-              navigate("/admin/blogManager");
+              const action = loginAccount(user);
+              setIsLoading(true);
+              dispatch(action);
+              toast.success("Đăng nhập thành công!");
+              if (account.role === "renter") {
+                navigate("/");
+              } else if (account.role === "lessor") {
+                navigate("/blogManager");
+              } else if (account.role === "admin") {
+                navigate("/admin/blogManager");
+              }
+            }else if(data.statusCode === 500){
+              if(data.message === "Phone number does not exist"){
+                toast.warn("Số điện thoại chưa được đăng ký");
+              }else if(data.message === "Password is invalid"){
+                toast.warn("Mật khẩu không đúng");
+              }
             }
-          } else {
-            toast.warn("Tài khoản hoặc mật khẩu không đúng!");
-          }
         })
         .catch((err) => console.log(err));
     }
