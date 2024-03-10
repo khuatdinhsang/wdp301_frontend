@@ -42,7 +42,8 @@ function CardHome({ blog }) {
   }, []);
 
   const handleFavouriteRoom = () => {
-    const blogFavorite = {
+    if(account?.token){
+      const blogFavorite = {
       id: blog?._id,
     };
     axios
@@ -60,6 +61,9 @@ function CardHome({ blog }) {
       setStatus(!status);
       })
       .catch((err) => console.log(err));
+    }else{
+      toast.warn("Vui lòng đăng nhập để yêu thích!")
+    }
   };
 
   return (
