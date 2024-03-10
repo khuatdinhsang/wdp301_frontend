@@ -1,0 +1,25 @@
+
+.rentRoom{
+    margin-top: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .titleRentRoom{
+        width: 80%;
+        display: flex;
+        justify-content: left;
+    }
+
+    .rentRoomList{
+        margin-top: 30px;
+        margin-bottom: 40px;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .cardInWishList{
+            width: 28%;
+        };
+    }
+}
