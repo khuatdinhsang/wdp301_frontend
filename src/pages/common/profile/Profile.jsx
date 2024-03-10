@@ -1,29 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
-import './Profile.scss'
+import "./Profile.scss";
 import axios from "axios";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 // import InstagramIcon from '@mui/icons-material/Instagram';
 // import FacebookIcon from '@mui/icons-material/Facebook';
 import { toast } from "react-toastify";
-import HomeIcon from '@mui/icons-material/Home';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material";
 
 export default function Profile() {
-  const [userDetail, setUserDetail] = useState()
-  const account = useSelector(state => state.account);
-  const [email, setEmail] = useState('')
-  const [avatar, setAvatar] = useState('')
-  const [fullName, setFullName] = useState('')
-  const [address, setAddress] = useState('')
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [userDetail, setUserDetail] = useState();
+  const account = useSelector((state) => state.account);
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [smallName, setSmallName] = useState();
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isChangeImg, setIsChangeImg] = useState(false);
-  const [gender, setGender] = useState()
+  const [gender, setGender] = useState();
+  const [dayCreated, setDayCreated] = useState(0);
   const [hospitalImage, setHospitalImage] = useState({
     file: "",
     base64: "",
@@ -55,12 +68,11 @@ export default function Profile() {
         base64: res,
       });
     });
-    
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     submit();
-  },[hospitalImage])
+  }, [hospitalImage]);
 
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -74,16 +86,16 @@ export default function Profile() {
       };
     });
   };
- 
+
   const submit = async (e) => {
     const formImage = new FormData();
     formImage.append("file", hospitalImage.file);
     if (hospitalImage.file.name) {
       await axios
-        .post(`api/upload/file`, formImage,{
+        .post(`api/upload/file`, formImage, {
           headers: {
-            Authorization: `Bearer ${account?.token}`
-          }
+            Authorization: `Bearer ${account?.token}`,
+          },
         })
         .then(async (res) => {
           setAvatar(res.data.data);
@@ -93,21 +105,20 @@ export default function Profile() {
             fullName: userDetail?.fullName,
             email: userDetail?.email,
             avatar: res.data.data,
-            gender: true,
+            gender: userDetail?.gender,
             phone: userDetail?.phone,
-            address: userDetail?.address
-          }
+            address: userDetail?.address,
+          };
           axios
-          .post(`/api/auth/editProfile`, userProfile,{
-            headers: {
-              Authorization: `Bearer ${account?.token}`
-            }
-          })
-          .then(res => {
-            toast.success("Thay đổi ảnh đại diện thành công");
-          })
-          .catch(err => console.log(err))
-
+            .post(`/api/auth/editProfile`, userProfile, {
+              headers: {
+                Authorization: `Bearer ${account?.token}`,
+              },
+            })
+            .then((res) => {
+              toast.success("Thay đổi ảnh đại diện thành công");
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
@@ -119,81 +130,86 @@ export default function Profile() {
 
   useEffect(() => {
     axios
-    .get('/api/auth/profile',{
-      headers: {
-        Authorization: `Bearer ${account?.token}`
-      }
-    })
-    .then(res => {
-      const data = res.data.data;
-      if(res.data.isSuccess === true){
-        setUserDetail(data);
-      }else{
-        toast.warn("Có vấn đề khi tải thông tin người dùng!");
-      }
-    })
-    .catch(err => console.log(err))
-  },[])
+      .get("/api/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.data;
+        if (res.data.isSuccess === true) {
+          setUserDetail(data);
+        } else {
+          toast.warn("Có vấn đề khi tải thông tin người dùng!");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
-     axios
-    .get('/api/auth/profile',{
-      headers: {
-        Authorization: `Bearer ${account?.token}`
-      }
-    })
-    .then(res => {
-      const data = res.data.data;
-      if(res.data.isSuccess === true){
-        setUserDetail(data);
-      }else{
-        toast.warn("Có vấn đề khi tải thông tin người dùng!");
-      }
-    })
-    .catch(err => console.log(err))
-  },[isEdit])
+    axios
+      .get("/api/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.data;
+        if (res.data.isSuccess === true) {
+          setUserDetail(data);
+        } else {
+          toast.warn("Có vấn đề khi tải thông tin người dùng!");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [isEdit]);
 
   useEffect(() => {
     setFullName(userDetail?.fullName);
     setEmail(userDetail?.email);
     setAvatar(userDetail?.avatar);
     setAddress(userDetail?.address);
-    setGender(userDetail?.gender)
-    var arrName = userDetail?.fullName.split(' ');
+    setGender(userDetail?.gender);
+    var arrName = userDetail?.fullName.split(" ");
     arrName?.forEach((element, index) => {
-        var last =''
-        if(index === 0){
-          setFirstName(element)
-        }else{
-          last+=element;
-        }
-        setLastName(last);
+      var last = "";
+      if (index === 0) {
+        setFirstName(element);
+      } else {
+        last += element;
+      }
+      setLastName(last);
     });
     setSmallName(arrName);
-  }, [userDetail])
-
-  const handleEditProfile = () =>{
+    const dateFrom = new Date(userDetail?.createdAt).getTime();
+    const dateTo = new Date(Date.now());
+    const differenceInMilliseconds = Math.abs(dateTo - dateFrom);
+    const differenceInDate = differenceInMilliseconds / (60 * 1000 * 60 * 24);
+    setDayCreated(Math.ceil(differenceInDate));
+  }, [userDetail]);
+  const handleEditProfile = () => {
+    console.log("gender", gender);
     const userInfor = {
       fullName: fullName,
       email: email,
       avatar: userDetail?.avatar,
-      gender: true,
+      gender: Boolean(gender),
       phone: userDetail?.phone,
-      address: address
-    }
+      address: address,
+    };
     axios
-    .post(`/api/auth/editProfile`, userInfor,{
-      headers: {
-        Authorization: `Bearer ${account?.token}`
-      }
-    })
-    .then(res => {
-      toast.success("Thay đổi thông tin thành công");
-      handleClose();
-      setIsEdit(!isEdit);
-    })
-    .catch(err => console.log(err))
-  }
+      .post(`/api/auth/editProfile`, userInfor, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Thay đổi thông tin thành công");
+        handleClose();
+        setIsEdit(!isEdit);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="profilePage">
@@ -206,7 +222,9 @@ export default function Profile() {
           </div>
           <div className="back">
             <div className="topBack">
-              <span className="homeIcon" onClick={() => navigate("/")}><HomeIcon/></span>
+              <span className="homeIcon" onClick={() => navigate("/")}>
+                <HomeIcon />
+              </span>
               <form onSubmit={submit}>
                 {/* <input
                   type="file"
@@ -218,26 +236,44 @@ export default function Profile() {
                 /> */}
                 <input
                   type="file"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   name="file"
                 />
-                {isChangeImg !== true
-                ?
-                  userDetail?.avatar === undefined?<img onClick={handleImageClick} className="avatarProfile" src={`https://cdn-icons-png.freepik.com/512/219/219986.png`} />
-                  :<img onClick={() => handleImageClick()} className="avatarProfile" src={`http://${userDetail?.avatar}`} />
-                :
-                  <img onClick={() => handleImageClick()} className="avatarProfile" src={`http://${avatar}`} />
-                }
+                {isChangeImg !== true ? (
+                  userDetail?.avatar === undefined ? (
+                    <img
+                      onClick={handleImageClick}
+                      className="avatarProfile"
+                      src={`https://cdn-icons-png.freepik.com/512/219/219986.png`}
+                    />
+                  ) : (
+                    <img
+                      onClick={() => handleImageClick()}
+                      className="avatarProfile"
+                      src={`http://${userDetail?.avatar}`}
+                    />
+                  )
+                ) : (
+                  <img
+                    onClick={() => handleImageClick()}
+                    className="avatarProfile"
+                    src={`http://${avatar}`}
+                  />
+                )}
                 {/* <button type="submit">Submit</button> */}
               </form>
-               
             </div>
-            <h1>{firstName} <span>{lastName}</span></h1>
-            <p>{userDetail?.email}
-            <br />
-            <span>{userDetail?.phone}</span>
+            <h1>
+              {firstName} <span>{lastName}</span>
+            </h1>
+            <p>
+              <span>Email: {userDetail?.email}</span>
+              <br />
+              <span>SDT:{userDetail?.phone}</span>
+              <br />
+              <span>Giới tính:{userDetail?.gender ? "Nam" : "Nữ"}</span>
             </p>
             <div className="rowProfile">
               <div className="colProfile">
@@ -245,7 +281,7 @@ export default function Profile() {
                 <p>Liked Blogs</p>
               </div>
               <div className="colProfile">
-                <h2>250</h2>
+                <h2>{dayCreated}</h2>
                 <p>days</p>
               </div>
               <div className="colProfile">
@@ -255,12 +291,14 @@ export default function Profile() {
             </div>
 
             <div className="rowProfile">
-              <button variant="outlined" onClick={handleClickOpen}>Edit</button>
+              <button variant="outlined" onClick={handleClickOpen}>
+                Edit
+              </button>
               <Dialog
                 open={open}
                 onClose={handleClose}
                 PaperProps={{
-                  component: 'form',
+                  component: "form",
                   onSubmit: (event) => {
                     handleClose();
                   },
@@ -278,7 +316,7 @@ export default function Profile() {
                     label="Tên đầy đủ"
                     // type="email"
                     value={fullName}
-                    onChange={e => setFullName(e.target.value)}
+                    onChange={(e) => setFullName(e.target.value)}
                     fullWidth
                     variant="standard"
                   />
@@ -289,7 +327,7 @@ export default function Profile() {
                     label="Email "
                     // type="email"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     fullWidth
                     variant="standard"
                   />
@@ -300,20 +338,30 @@ export default function Profile() {
                     label="Địa chỉ"
                     // type="email"
                     value={address}
-                    onChange={e => setAddress(e.target.value)}
+                    onChange={(e) => setAddress(e.target.value)}
                     fullWidth
                     variant="standard"
                   />
-                  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    Gender
+                  </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
+                    value={gender}
                     name="radio-buttons-group"
-                    onChange={e => setGender(e.target.value)}
+                    onChange={(e) => setGender(e.target.value)}
                   >
-                    <div style={{display: "flex"}}>
-                      <FormControlLabel value="false" control={<Radio />} label="Nữ" />
-                      <FormControlLabel value="true" control={<Radio />} label="Nam" />
+                    <div style={{ display: "flex" }}>
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="Nữ"
+                      />
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="Nam"
+                      />
                       {/* <FormControlLabel value="other" control={<Radio />} label="Other" /> */}
                     </div>
                   </RadioGroup>
@@ -330,6 +378,3 @@ export default function Profile() {
     </div>
   );
 }
-
-
-

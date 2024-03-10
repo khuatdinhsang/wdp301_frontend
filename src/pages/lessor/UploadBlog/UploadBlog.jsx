@@ -42,8 +42,8 @@ function UploadBlog() {
   };
 
   useEffect(() => {
-    account?.role === 'renter'?setPathBack("/"):setPathBack("/blogManager")
-  },[account])
+    account?.role === "renter" ? setPathBack("/") : setPathBack("/blogManager");
+  }, [account]);
 
   const convertMultipleImage = (e) => {
     const files = e.target.files;
@@ -127,7 +127,7 @@ function UploadBlog() {
 
   const handleOk = () => {
     const blog = {
-      category: "rent",
+      category: account.role === "lessor" ? "rent" : "find_roommates",
       title: title,
       description: description,
       area: +area,
@@ -169,7 +169,7 @@ function UploadBlog() {
         <h2 className="uploadTitle">Đăng bài </h2>
         <div className="uploadContent">
           <div className="inputBox">
-            <label htmlFor="inputName">Tiêu đề Blog</label>
+            <label htmlFor="inputName">Tiêu đề</label>
             <input
               type="text"
               className="inputName"
@@ -296,7 +296,7 @@ function UploadBlog() {
             />
           </div>
           <div className="inputBox">
-            <label htmlFor="inputQuantity">Đối tượng thuê</label>
+            <label htmlFor="inputQuantity">Đối tượng</label>
             <div className="inputRadio">
               <label htmlFor="both">
                 <input
@@ -337,7 +337,7 @@ function UploadBlog() {
             </div>
           </div>
           <p style={{ color: "red" }}>
-            Note: Chi phí thuê phòng trọ : mỗi ngày tương đương với 3000đ
+            Note: Chi phí đăng bài : mỗi ngày tương đương với 3000đ
           </p>
           <div className="inputBox">
             <label htmlFor="inputQuantity">Ngày hết hạn bài đăng</label>
@@ -350,10 +350,12 @@ function UploadBlog() {
               onChange={(e) => handleExpiredTime(e)}
             />
           </div>
-          <p>
-            Thời gian tồn tại bài viết với{" "}
-            <span style={{ color: "red" }}>{timeDuration}</span> ngày
-          </p>
+          {expiredTime && (
+            <p>
+              Thời gian tồn tại bài viết với{" "}
+              <span style={{ color: "red" }}>{timeDuration}</span> ngày
+            </p>
+          )}
           <div className="submitForm">
             <span className="uploadBtn" onClick={() => handleUploadBlog()}>
               Đăng bài
