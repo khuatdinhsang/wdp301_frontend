@@ -57,7 +57,11 @@ function CardHome({ blog, isHome }) {
         <>
           <div
             className="imageContainer"
-            onClick={() => navigate(`/edit/${blog?._id}`)}
+            onClick={() =>
+              isHome
+                ? navigate(`/detail/${blog?._id}`)
+                : navigate(`/edit/${blog?._id}`)
+            }
           >
             <img alt="" src={`http://${blog?.image[currentImageIndex]}`} />
           </div>

@@ -233,14 +233,14 @@ function CardAdmin({ blog, onDelete }) {
           >
             <Box sx={style}>
               <h2>Thông tin chi tiết </h2>
-              <Typography id="modal-modal-title" style={{marginTop: 20}}>
-               <b> Tên phòng trọ:</b> {blog?.title}
+              <Typography id="modal-modal-title" style={{ marginTop: 20 }}>
+                <b> Tên phòng trọ:</b> {blog?.title}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <b>Miêu tả:</b> {blog?.description}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <b>Chủ trọ:</b> {account.accessToken.fullName}
+                <b>Người đăng bài:</b> {account.accessToken.fullName}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <b>Diện tích:</b> {blog?.area} m<m2>2</m2>
@@ -252,7 +252,11 @@ function CardAdmin({ blog, onDelete }) {
                   currency: "VND",
                 })}
               </Typography>
-              <Typography id="modal-modal-description" className="imgCardAdmin" sx={{ mt: 2 }}>
+              <Typography
+                id="modal-modal-description"
+                className="imgCardAdmin"
+                sx={{ mt: 2 }}
+              >
                 <b>Hình ảnh minh họa:</b>
                 <div className="listImgCardShow">
                   {blog.image.map((item) => {
