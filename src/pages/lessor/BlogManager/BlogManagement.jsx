@@ -44,13 +44,15 @@ function BlogManager() {
             (item) => item.isAccepted
           );
           setBlogs(newAllBlogsAccepted);
-          setTotalBlogs(newAllBlogsAccepted.length);
+          // setTotalBlogs(newAllBlogsAccepted.length);
+          setTotalBlogs(res.data.totalBlog);
         } else {
           const newAllBlogsUnAccepted = res.data.allBlog.filter(
             (item) => !item.isAccepted
           );
           setBlogs(newAllBlogsUnAccepted);
-          setTotalBlogs(newAllBlogsUnAccepted.length);
+          // setTotalBlogs(newAllBlogsUnAccepted.length);
+          setTotalBlogs(res.data.totalBlog);
         }
       })
       .catch((err) => console.log(err));

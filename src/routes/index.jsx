@@ -12,6 +12,7 @@ import Login from "../pages/common/Login/Login";
 import Register from "../pages/common/register/Register";
 import WishList from "../pages/common/WishList/WishList";
 import BlogManager from "../pages/lessor/BlogManager/BlogManagement";
+import editBlog from "../pages/common/editBlog/editBlog";
 import Profile from "../pages/common/profile/Profile";
 import HeaderNoSearch from "../components/component/HeaderNoSearch/HeaderNoSearch";
 import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog";
@@ -24,6 +25,7 @@ const publicRoutes = [
   { path: "/login", component: Login, layout: null },
   { path: "/changePassword", component: ChangePassword, layout: null },
   { path: "/register", component: Register, layout: null },
+  { path: "/edit/:slug", component: editBlog},
   { path: "/contact-host", component: ContactLessor },
   { path: "/wishlist", component: WishList, layout: HeaderOnly },
   { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
@@ -46,6 +48,7 @@ const renterRoutes = [
 const lessorRoutes = [
   { path: "/blogManager", component: BlogManager, layout: HeaderOnly },
   { path: "/uploadBlog", component: UploadBlog, layout: null },
+  
 ];
 
 export { publicRoutes, adminRoutes, renterRoutes, lessorRoutes };
