@@ -11,11 +11,10 @@ import { toast } from "react-toastify";
 
 function CardHome({ blog }) {
   const navigate = useNavigate();
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sizeImage, setSizeImage] = useState(blog?.image?.length);
   const account = useSelector((state) => state.account);
-  const [listFavorite, setListFavorite] = useState();
 
   const handlePreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -29,21 +28,36 @@ function CardHome({ blog }) {
     );
   };
 
-  useEffect(() => {}, []);
-
-  const handleFavouriteRoom = () => {
-    setStatus(!status);
-    const blogFavorite = {
-      id: blog?._id,
-    };
+  useEffect(() => {
     axios
-      .post("/api/auth/blog/favorite", blogFavorite, {
+    .get(`/api/auth/checkFavoutireBlog/${blog?._id}`,{
         headers: {
           Authorization: `Bearer ${account?.token}`,
         },
       })
-      .then((res) => {
+    .then(res => {
+      setStatus(res.data.data);
+    })
+    .catch(err => console.log(err))
+  }, []);
+
+  const handleFavouriteRoom = () => {
+    const blogFavorite = {
+      id: blog?._id,
+    };
+    axios
+    .post("/api/auth/blog/favorite", blogFavorite, {
+      headers: {
+        Authorization: `Bearer ${account?.token}`,
+      },
+    })
+    .then((res) => {
+      if(status === false){
         toast.success("Yêu thích blog thành công");
+      }else{
+        toast.success("Bỏ yêu thích blog thành công");
+      }
+      setStatus(!status);
       })
       .catch((err) => console.log(err));
   };
@@ -96,11 +110,11 @@ function CardHome({ blog }) {
               / tháng
             </p>
           </div>
-          <FavoriteIcon
+          {account?.role === 'renter'?<FavoriteIcon
             className="heartCard"
-            style={{ color: status === true ? "" : "pink" }}
+            style={{ color: status === true ? "pink" : "" }}
             onClick={() => handleFavouriteRoom()}
-          />
+          />:<></>}
           <div className="favouriteChoosen">
             <span>Được khách yêu thích</span>
           </div>

@@ -7,10 +7,11 @@
 
 
     .sidebarDas{
-        width: 20%;
+        width: 15%;
     }
 
     main{
+        margin: 0 20px ;
         width: 65%;
         margin-top: 1.4rem;
         font-size: 1rem;
@@ -547,5 +548,37 @@
 
     .right-section .navDash button span{
         font-size: 2rem;
+    }
+}
+
+.chartDiv{
+     display: flex;
+     margin-top: 20px;
+
+    .chartDay {
+      width: 50%;
+      margin-right: 10px;
+    }
+
+    .chartMonth {
+      width: 50%;
+      margin-left: 10px;
+    }
+
+    .buttonExport {
+      padding: 6px 16px;
+      outline: none;
+      background-color: #FF0060;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      border: 1px solid transparent;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+
+      .iconBtn {
+        margin-right: 6px;
+      }
     }
 }

@@ -200,6 +200,13 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
+                  {account?.phone !== undefined && account.role === "lessor" ? (
+                    <li onClick={() => navigate("/lessor/blogManager")}>
+                      <span>Dashboard</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
                   {account?.phone !== undefined ? (
                     <li onClick={() => handleLogout()}>
                       <span>Đăng xuất</span>
@@ -210,6 +217,13 @@ const Header = () => {
                   {account?.phone !== undefined && (account.role === "lessor" || account.role === "renter")? (
                     <li onClick={() => navigate("/uploadBlog")}>
                       <span>Upload</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
+                  {account?.phone !== undefined && account.role === "renter"? (
+                    <li onClick={() => navigate("/rentRoomList")}>
+                      <span>Phòng đăng ký</span>
                     </li>
                   ) : (
                     <></>

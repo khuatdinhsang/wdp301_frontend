@@ -11,7 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation, useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAccount } from "../../../../actions/accountActions";
 import { toast } from "react-toastify";
 
@@ -19,6 +19,7 @@ function SidebarAdmin() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const account = useSelector(state => state.account);
 
   const handleLogout = () => {
     const action = logoutAccount();
@@ -47,6 +48,7 @@ function SidebarAdmin() {
           </div>
         </div>
         <div className="sidebar">
+          {account?.role === 'admin'?
           <a
             className={pathname?.includes("dashboard") ? "active" : ""}
             onClick={() => navigate("/admin/dashboard")}
@@ -56,7 +58,8 @@ function SidebarAdmin() {
             </span>
             <h3 className="typeDashboard">Dashboard</h3>
           </a>
-
+          :<></>}
+          {account?.role === 'admin'?
           <a
             onClick={() => navigate("/admin/users")}
             className={pathname?.includes("users") ? "active" : ""}
@@ -65,7 +68,9 @@ function SidebarAdmin() {
               <PersonIcon />
             </span>
             <h3 className="typeDashboard">Users Manager</h3>
-          </a>
+          </a>:
+          <></>}
+          {account?.role === 'admin'?
           <a
             onClick={() => navigate("/admin/blogManager")}
             className={pathname?.includes("blogManager") ? "active" : ""}
@@ -74,7 +79,30 @@ function SidebarAdmin() {
               <InventoryIcon />
             </span>
             <h3 className="typeDashboard">Blogs Manager</h3>
-          </a>
+          </a>:
+          <></>}
+          {account?.role === 'lessor'?
+          <a
+            onClick={() => navigate("/lessor/blogManager")}
+            className={pathname?.includes("blogManager") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Blogs Manager</h3>
+          </a>:
+          <></>}
+          {account?.role === 'lessor'?
+          <a
+            onClick={() => navigate("/lessor/blogRentManager")}
+            className={pathname?.includes("blogRentManager") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Blog Rent</h3>
+          </a>:
+          <></>}
           <a onClick={() => handleLogout()}>
             <span className="material-icons-sharp">
               <LogoutIcon />

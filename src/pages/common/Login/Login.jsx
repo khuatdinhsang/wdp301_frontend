@@ -51,7 +51,6 @@ function Login() {
                 token: res.data.data.accessToken,
                 role: account.role,
               };
-
               const action = loginAccount(user);
               setIsLoading(true);
               dispatch(action);
@@ -59,7 +58,7 @@ function Login() {
               if (account.role === "renter") {
                 navigate("/");
               } else if (account.role === "lessor") {
-                navigate("/blogManager");
+                navigate("/lessor/blogManager");
               } else if (account.role === "admin") {
                 navigate("/admin/blogManager");
               }

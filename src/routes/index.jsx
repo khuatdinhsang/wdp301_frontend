@@ -17,6 +17,8 @@ import HeaderNoSearch from "../components/component/HeaderNoSearch/HeaderNoSearc
 import UploadBlog from "../pages/lessor/UploadBlog/UploadBlog"
 import ChangePassword from "../pages/common/ChangePassword/ChangePassword"
 import ViewProfile from "../pages/common/ViewProfile/ViewProfile"
+import RentRoomList from "../pages/common/RentRoomList/RentRoomList"
+import BlogRentManager from "../pages/lessor/BlogRentManager/BlogRentManager"
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -25,8 +27,6 @@ const publicRoutes = [
     { path: '/changePassword', component: ChangePassword, layout: null },
     { path: '/register', component: Register, layout: null },
     { path: '/contact-host', component: ContactLessor },
-    { path: '/wishlist', component: WishList, layout: HeaderOnly },
-    { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
     { path: '/inbox', component: ChatWithLessor, layout: null },
     { path: '/admin/editBlog/:slug', component: EditBlogManager, layout: null },
     { path: '/profile', component: Profile, layout: null },
@@ -44,11 +44,16 @@ const adminRoutes = [
 
 const renterRoutes = [
     { path: '/uploadBlog', component: UploadBlog, layout: null },
+    { path: '/rentRoomList', component: RentRoomList, layout: HeaderOnly },
+    { path: '/wishlist', component: WishList, layout: HeaderOnly },
+    { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
 ]
 
 const lessorRoutes = [
-    { path: '/blogManager', component: BlogManager, layout: null },
+    { path: '/lessor/blogManager', component: BlogManager, layout: null },
     { path: '/uploadBlog', component: UploadBlog, layout: null },
+    { path: '/lessor/blogRentManager', component: BlogRentManager, layout: null },
+    
 ]
 
 export { publicRoutes, adminRoutes, renterRoutes, lessorRoutes }
