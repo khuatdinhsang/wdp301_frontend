@@ -24,7 +24,8 @@ function BlogManager() {
   const [search, setSearch] = useState("");
   const account = useSelector((state) => state.account);
   const [statusSearch, setStatusSearch] = useState(false);
-
+  console.log("number", numberPage);
+  console.log("total", totalBlogs);
   useEffect(() => {
     axios
       .get(`/api/auth/getAllBlogsPost`, {
@@ -44,13 +45,15 @@ function BlogManager() {
             (item) => item.isAccepted
           );
           setBlogs(newAllBlogsAccepted);
-          setTotalBlogs(newAllBlogsAccepted.length);
+          // setTotalBlogs(newAllBlogsAccepted.length);
+          setTotalBlogs(res.data.totalBlog);
         } else {
           const newAllBlogsUnAccepted = res.data.allBlog.filter(
             (item) => !item.isAccepted
           );
           setBlogs(newAllBlogsUnAccepted);
-          setTotalBlogs(newAllBlogsUnAccepted.length);
+          // setTotalBlogs(newAllBlogsUnAccepted.length);
+          setTotalBlogs(res.data.totalBlog);
         }
       })
       .catch((err) => console.log(err));

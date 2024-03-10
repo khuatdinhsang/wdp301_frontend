@@ -16,7 +16,6 @@ function CardHome({ blog, isHome }) {
   const [sizeImage, setSizeImage] = useState(blog?.image?.length);
   const account = useSelector((state) => state.account);
   const [listFavorite, setListFavorite] = useState();
-  console.log("cas", blog);
   const handlePreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex > 0 ? prevIndex - 1 : sizeImage - 1
@@ -32,20 +31,24 @@ function CardHome({ blog, isHome }) {
   useEffect(() => {}, []);
 
   const handleFavouriteRoom = () => {
-    setStatus(!status);
-    const blogFavorite = {
-      id: blog?._id,
-    };
-    axios
-      .post("/api/auth/blog/favorite", blogFavorite, {
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then((res) => {
-        toast.success("Yêu thích blog thành công");
-      })
-      .catch((err) => console.log(err));
+    if (account.token) {
+      setStatus(!status);
+      const blogFavorite = {
+        id: blog?._id,
+      };
+      axios
+        .post("/api/auth/blog/favorite", blogFavorite, {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        })
+        .then((res) => {
+          toast.success("Yêu thích blog thành công");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast.warn("Bạn chưa đăng nhập!! Xin vui lòng đăng nhập");
+    }
   };
 
   return (
