@@ -57,7 +57,7 @@ function CardHome({ blog, isHome }) {
         <>
           <div
             className="imageContainer"
-            onClick={() => navigate(`/detail/${blog?._id}`)}
+            onClick={() => navigate(`/edit/${blog?._id}`)}
           >
             <img alt="" src={`http://${blog?.image[currentImageIndex]}`} />
           </div>
@@ -81,6 +81,7 @@ function CardHome({ blog, isHome }) {
             <div className="titleRow">
               <h2 className="titleCard">{blog?.title}</h2>
               <div className="showStar">
+                <h3></h3>
                 <StarIcon className="starCard" />
                 <span className="numberStarCard">
                   {blog?.avgBlogRate.toFixed(1)}
