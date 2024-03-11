@@ -55,6 +55,24 @@ function WishList() {
     setCurrentPage(value);
   };
 
+  const handleUnFavorite = () =>{
+     axios
+      .get(`/api/auth/getAllFavoriteBlogs?page=${currentPage}&&limit=${limitPage}`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.allBlog !== null) {
+          const data = res.data.allBlog;
+          setWishList(data);
+        } else {
+          toast.warn("Có vấn đề khi tải blog yêu thích !");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
 
   return (
     <div className="wishListPage">
@@ -66,7 +84,11 @@ function WishList() {
               return (
               <div key={item} className='cardInWishList'>
                 {/* <CardWishList item={item} /> */}
-                <CardWishList item={item} key={item?._id} />
+                <CardWishList 
+                  item={item}
+                  key={item?._id}
+                  onDelete={handleUnFavorite}  
+                />
               </div>
             );
             }

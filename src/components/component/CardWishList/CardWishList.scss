@@ -2,6 +2,7 @@
     cursor: pointer;
     margin-right: 30px;
     width: 100%;
+    position: relative;
 
     .imageWishList {
 
@@ -16,6 +17,18 @@
     .titleWishList {
         font-size: 1rem;
         padding: 4px 0;
+    }
+
+    .heartCard{
+        position: absolute;
+        top: 6%;
+        right: 4%;
+        color: #fff;
+        cursor: pointer;
+
+        &:hover{
+            color: pink;
+        }
     }
 
 }

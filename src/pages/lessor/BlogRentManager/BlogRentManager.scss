@@ -1,0 +1,28 @@
+.blogRentManager{
+    display: flex;
+    justify-content: space-between;
+
+    .sidebarBlogRent{
+        width: 20%;
+    }
+
+    .blogRentManagerContent{
+        width: 80%;
+        margin-top: 20px;
+        margin-right: 40px;
+        .blogRentManagerTitle{
+            display: flex;
+            justify-content: space-between;
+            .typeShowContent{
+
+            }
+        }
+
+        .blogRentManagerList{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+    }
+}

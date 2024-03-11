@@ -32,14 +32,46 @@ function Detail(){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [sizeImage, setSizeImage] = useState();
     const [open, setOpen] = useState(false);
+    const [renterId, setRenterId] = useState([]);
+    const [renterConfirm, setRenterConfrim] = useState([]);
+    const [isRentRegister, setIsRentRegister ] = useState(false)
+    const [isRentConfirm, setIsRentConfirm ] = useState(false)
+    const [doneRent, setDoneRent] = useState(false);
 
     const handleClose =( ) => {
         setOpen(false);
     }
 
      const handleRentBlog = ( ) => {
-        
+        axios
+        .put(`/api/blog/RentedRoom/${slug}`,{},{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            setOpen(false);
+            setDoneRent(!doneRent);
+            toast.success("Đăng kí thuê phòng thành công! Vui lòng chờ để được chủ nhà xác nhận")
+        })
+        .catch(err => console.log(err));
     }
+
+    useEffect(() => {
+        window.scrollTo(0,0)
+        axios
+        .get(`/api/blog/detail/${slug}`)
+        .then(res => {
+            if(res.data.isSuccess === true){
+                const data = res.data.data
+                setBlog(data);
+                setSizeImage(data.image.length);
+                setRenterId(data.Renterid);
+                setRenterConfrim(data.Renterconfirm)   
+            }            
+        })
+        .catch(err => console.log(err))
+    },[doneRent])
 
     const handleClickOpen = () =>{
         setOpen(true);
@@ -71,6 +103,8 @@ function Detail(){
                 const data = res.data.data
                 setBlog(data);
                 setSizeImage(data.image.length);
+                setRenterId(data.Renterid);
+                setRenterConfrim(data.Renterconfirm)   
             }            
         })
         .catch(err => console.log(err))
@@ -85,6 +119,28 @@ function Detail(){
     },[])
 
     useEffect(() => {
+        if(renterConfirm === []){
+            setIsRentRegister(false);
+        }
+        if( renterId === []){
+            setIsRentConfirm(false)
+        }
+        var checkRentId = renterId.findIndex(e => e === account?.accessToken?.id)
+        var checkRentConfirm = renterConfirm.findIndex(e => e === account?.accessToken?.id)
+        if(checkRentConfirm === -1){
+            setIsRentRegister(false)
+        }else{
+            setIsRentRegister(true);
+        }
+
+        if(checkRentId > -1){
+            setIsRentConfirm(true);
+        }else{
+            setIsRentConfirm(false);
+        }
+    },[blog])
+
+    useEffect(() => {
         axios
       .get(`/api/auth/getProfileUserOther/${blog?.userId}`,{
             headers: {
@@ -94,7 +150,6 @@ function Detail(){
       .then(res => {
         const data = res.data.data;
         setLessor(data);
-        console.log(data);
       })
       .catch(err => console.log(err))
     },[blog])
@@ -241,9 +296,6 @@ function Detail(){
         <div className='detail'>
             <div className='titleDetail'>
                 <h2>{blog?.title}</h2>
-                <div className="rentedBtn">
-                    <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
-                </div>
             </div>
             <div className='thumnailImage'>
                 <div className='firstCol'>
@@ -268,6 +320,13 @@ function Detail(){
                     <div className="equipment1">
                         <i className='boldEquipment'>Địa chỉ: </i><i className='nameEquipment1'>{blog?.addressDetail}, {blog?.ward}, {blog?.district}, {blog?.province}</i>
                     </div>
+                    {account?.role !== 'renter' || account?.phone === undefined || isRentRegister === true || isRentConfirm === true || renterId.length === 2 ?
+                    <div className="rentedBtn">
+                        <Button variant="contained" disabled>{isRentRegister === true ?'Đã đăng ký thuê':isRentConfirm=== true ?"Thuê Thành Công":renterId.length === 2 ?'Phòng đã full':""}</Button>
+                    </div>:
+                    <div className="rentedBtn">
+                        <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
+                    </div>}
                     {/* <div className="equipment1">
                         <i className='boldEquipment'>Ngày hết hạn bài đăng: </i><i className='nameEquipment1'>{blog?.expiredTime.split('T')[0]}</i>
                     </div> */}

@@ -1,34 +1,36 @@
-.dasdboard {
+
+.dasdboard{
     display: flex;
     background-color: var(--color-background);
     flex-wrap: wrap;
     justify-content: space-between;
 
 
-    .sidebarDas {
-        width: 20%;
+    .sidebarDas{
+        width: 15%;
     }
 
-    main {
+    main{
+        margin: 0 20px ;
         width: 65%;
         margin-top: 1.4rem;
         font-size: 1rem;
 
-        .analyse {
+        .analyse{
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.6rem;
 
-            h3 {
+            h3{
                 margin-left: 0.6rem;
                 font-size: 1rem;
             }
 
-            svg {
+            svg{
                 width: 7rem;
                 height: 7rem;
 
-                circle {
+                circle{
                     fill: none;
                     stroke-width: 10;
                     stroke-linecap: round;
@@ -36,32 +38,32 @@
                 }
             }
 
-            .sales {
+            .sales{
 
-                svg {
+                svg{
 
-                    circle {
+                    circle{
                         stroke: var(--color-success);
                         stroke-dashoffset: -30%;
                         stroke-dasharray: 200;
                     }
                 }
 
-                .status {
+                .status{
 
-                    .info {
+                    .info{
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                     }
 
-                    .progress {
+                    .progress{
                         position: relative;
                         width: 92px;
                         height: 92px;
                         border-radius: 50%;
 
-                        .percentage {
+                        .percentage{
                             position: absolute;
                             top: -3px;
                             left: -1px;
@@ -75,31 +77,30 @@
                 }
             }
 
-            .visits {
-                svg {
+            .visits{
+                svg{
 
-                    circle {
+                    circle{
                         stroke: var(--color-danger);
                         stroke-dashoffset: -30%;
                         stroke-dasharray: 200;
                     }
                 }
+                .status{
 
-                .status {
-
-                    .info {
+                    .info{
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                     }
 
-                    .progress {
+                    .progress{
                         position: relative;
                         width: 92px;
                         height: 92px;
                         border-radius: 50%;
 
-                        .percentage {
+                        .percentage{
                             position: absolute;
                             top: -3px;
                             left: -1px;
@@ -113,31 +114,30 @@
                 }
             }
 
-            .searches {
-                svg {
+            .searches{
+                svg{
 
-                    circle {
+                    circle{
                         stroke: var(--color-primary);
                         stroke-dashoffset: -30%;
                         stroke-dasharray: 200;
                     }
                 }
+                .status{
 
-                .status {
-
-                    .info {
+                    .info{
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                     }
 
-                    .progress {
+                    .progress{
                         position: relative;
                         width: 92px;
                         height: 92px;
                         border-radius: 50%;
 
-                        .percentage {
+                        .percentage{
                             position: absolute;
                             top: -3px;
                             left: -1px;
@@ -152,7 +152,7 @@
             }
         }
 
-        .analyse>div {
+        .analyse>div{
             background-color: var(--color-white);
             padding: var(--card-padding);
             border-radius: var(--card-border-radius);
@@ -161,22 +161,22 @@
             cursor: pointer;
             transition: all 0.3s ease;
 
-            .status {
+            .status{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
             }
 
-            &:hover {
+            &:hover{
                 box-shadow: none;
             }
 
         }
 
-        .new-users {
+        .new-users{
             margin-top: 1.3rem;
 
-            .user-list {
+            .user-list{ 
                 background-color: var(--color-white);
                 padding: var(--card-padding);
                 border-radius: var(--card-border-radius);
@@ -189,17 +189,17 @@
                 cursor: pointer;
                 transition: all 0.3s ease;
 
-                &:hover {
+                &:hover{
                     box-shadow: none;
                 }
 
-                .user {
+                .user{
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
 
-                    img {
+                    img{
                         width: 5rem;
                         height: 5rem;
                         margin-bottom: 0.4rem;
@@ -210,21 +210,21 @@
             }
         }
 
-        .recent-orders {
+        .recent-orders{
             margin-top: 1.3rem;
 
-            h2 {
+            h2{
                 margin-bottom: 0.8rem;
             }
 
-            a {
+            a{
                 text-align: center;
                 display: block;
                 margin: 1rem auto;
                 color: var(--color-primary);
             }
 
-            table {
+            table{
                 background-color: var(--color-white);
                 width: 100%;
                 padding: var(--card-padding);
@@ -233,23 +233,23 @@
                 border-radius: var(--card-border-radius);
                 transition: all 0.3s ease;
 
-                &:hover {
+                &:hover{
                     box-shadow: none;
                 }
 
-                body {
+                body{
 
-                    tr {
+                    tr{
 
-                        &:last-child {
+                        &:last-child{
 
-                            td {
+                            td{
                                 border: none;
                             }
                         }
                     }
 
-                    td {
+                    td{
                         height: 2.8rem;
                         border-bottom: 1px solid var(--color-light);
                         color: var(--color-dark-variant);
@@ -259,22 +259,22 @@
         }
     }
 
-    .right-section {
+    .right-section{
         font-size: 1rem;
         margin-top: 1.4rem;
         width: 15%;
         padding-right: 2%;
 
-        .navDash {
+        .navDash{
             display: flex;
             justify-content: end;
             gap: 2rem;
-
-            button {
+            
+            button{
                 display: none;
             }
 
-            .dark-mode {
+            .dark-mode{
                 background-color: var(--color-light);
                 display: flex;
                 justify-content: space-between;
@@ -283,8 +283,8 @@
                 width: 4.2rem;
                 cursor: pointer;
                 border-radius: var(--border-radius-1);
-
-                span {
+    
+                span{
                     font-size: 1.2rem;
                     width: 50%;
                     height: 100%;
@@ -293,38 +293,40 @@
                     justify-content: center;
                 }
 
-                span.active {
+                span.active{
                     background-color: var(--color-primary);
                     color: white;
                     border-radius: var(--border-radius-1);
                 }
             }
-
-            .profile {
+    
+            .profile{
                 display: flex;
                 gap: 2rem;
                 text-align: right;
 
-                .info {
-
-
-                    .text-muted {}
+                .info{
+    
+    
+                    .text-muted{
+    
+                    }
                 }
-
-                .profile-photo {
+    
+                .profile-photo{
                     width: 2.8rem;
                     height: 2.8rem;
                     border-radius: 50%;
                     overflow: hidden;
 
-                    img {
+                    img{
                         width: 100%;
                     }
                 }
             }
         }
 
-        .user-profile {
+        .user-profile{
             display: flex;
             justify-content: center;
             text-align: center;
@@ -336,20 +338,20 @@
             cursor: pointer;
             transition: all 0.3s ease;
 
-            &:hover {
+            &:hover{
                 box-shadow: none;
             }
 
+            
 
+            .logoProfile{
 
-            .logoProfile {
-
-                h2 {
+                h2{
                     margin-bottom: 0.2rem;
 
                 }
 
-                img {
+                img{
                     width: 11rem;
                     height: auto;
                     margin-bottom: 0.8rem;
@@ -357,20 +359,19 @@
                 }
             }
 
-
+            
         }
-
-        .reminders {
+        .reminders{
             margin-top: 2rem;
 
 
-            .headerReminds {
+            .headerReminds{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 margin-bottom: 0.8rem;
 
-                span {
+                span{
                     padding: 10px;
                     box-shadow: var(--box-shadow);
                     background-color: var(--color-white);
@@ -378,7 +379,7 @@
                 }
             }
 
-            .notification {
+            .notification{
                 background-color: var(--color-white);
                 display: flex;
                 align-items: center;
@@ -390,11 +391,11 @@
                 cursor: pointer;
                 transition: all 0.3s ease;
 
-                &:hover {
+                &:hover{
                     box-shadow: none;
                 }
 
-                .iconNotify {
+                .iconNotify{
                     padding: 0.6rem;
                     color: var(--color-white);
                     background-color: var(--color-success);
@@ -402,25 +403,26 @@
                     display: flex;
                 }
 
-                .contentNotify {
+                .contentNotify{
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     margin: 0;
                     width: 100%;
+                    .info{
 
-                    .info {
+                        .text-muted{
 
-                        .text-muted {}
+                        }
                     }
                 }
             }
 
-            .notification.deactive .iconNotify {
+            .notification.deactive .iconNotify{
                 background-color: var(--color-danger);
             }
 
-            .add-reminder {
+            .add-reminder{
                 background-color: var(--color-white);
                 border: 2px dashed var(--color-primary);
                 color: var(--color-primary);
@@ -429,12 +431,12 @@
                 justify-content: center;
                 cursor: pointer;
 
-                &:hover {
+                &:hover{
                     background-color: var(--color-primary);
                     color: white;
                 }
 
-                div {
+                div{
                     display: flex;
                     align-items: center;
                     gap: 0.6rem;
@@ -444,23 +446,23 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
-
+@media screen and (max-width: 1200px){
+ 
     main {
         margin-top: 8rem;
         padding: 0 1rem;
     }
 
-    main .analyse {
+    main .analyse{
         grid-template-columns: 1fr;
         gap: 0;
     }
 
-    main .new-users .user-list .user {
+    main .new-users .user-list .user{
         flex-basis: 40%;
     }
 
-    main .recent-orders {
+    main .recent-orders{
         width: 94%;
         position: absolute;
         left: 50%;
@@ -468,50 +470,50 @@
         margin: 2rem 0 0 0.8rem;
     }
 
-    main .recent-orders table {
+    main .recent-orders table{
         width: 83vw;
     }
 
-    main table thead tr th:last-child,
-    main table thead tr th:first-child {
+    main table thead tr th:last-child, 
+    main table thead tr th:first-child{
         display: none;
     }
 
-    main table tbody tr td:last-child,
-    main table tbody tr td:first-child {
+    main table tbody tr td:last-child, 
+    main table tbody tr td:first-child{
         display: none;
     }
 }
 
 @media screen and (max-width: 768px) {
-
-    main {
+    
+    main{
         margin-top: 8rem;
         padding: 0 1rem;
     }
 
-    main .new-users .user-list .user {
+    main .new-users .user-list .user{
         flex-basis: 35%;
     }
 
-    main .recent-orders {
+    main .recent-orders{
         position: relative;
         margin: 3rem 0 0 0;
         width: 100%;
 
     }
 
-    main .recent-orders table {
+    main .recent-orders table{
         width: 100%;
         margin: 0;
     }
 
-    .right-section {
+    .right-section{
         width: 94%;
         margin: 0 auto 4rem;
     }
 
-    .right-section .navDash {
+    .right-section .navDash{
         position: fixed;
         top: 0;
         left: 0;
@@ -525,17 +527,17 @@
         margin: 0;
     }
 
-    .right-section .navDash .dark-mode {
+    .right-section .navDash .dark-mode{
         width: 4.4rem;
         position: absolute;
         left: 66%;
     }
 
-    .right-section .profile .info {
+    .right-section .profile .info{
         display: none;
     }
 
-    .right-section .navDash button {
+    .right-section .navDash button{
         display: inline-block;
         background-color: transparent;
         cursor: pointer;
@@ -544,7 +546,39 @@
         left: 1rem;
     }
 
-    .right-section .navDash button span {
+    .right-section .navDash button span{
         font-size: 2rem;
+    }
+}
+
+.chartDiv{
+     display: flex;
+     margin-top: 20px;
+
+    .chartDay {
+      width: 50%;
+      margin-right: 10px;
+    }
+
+    .chartMonth {
+      width: 50%;
+      margin-left: 10px;
+    }
+
+    .buttonExport {
+      padding: 6px 16px;
+      outline: none;
+      background-color: #FF0060;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      border: 1px solid transparent;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+
+      .iconBtn {
+        margin-right: 6px;
+      }
     }
 }
