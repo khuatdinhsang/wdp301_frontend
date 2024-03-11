@@ -1,6 +1,8 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { logDOM } from '@testing-library/react';
-import { useState } from 'react'
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import './CardRentBlog.scss'
 
@@ -8,6 +10,15 @@ function CardRentBlog({item}){
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const account = useSelector(state => state.account);
+    const [userId, setUserId] = useState();
+    const [roomate, setRoomate] = useState();
+    const [roomateId, setRoomateId] = useState();
+
+    useEffect(() => {
+        setUserId(account.accessToken.id);
+        //  item?.Renterid
+    },[])
 
     const handleClickOpen = () => {
         setOpen(true);

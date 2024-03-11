@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import CardLessor from "../../../components/component/CardLessor/CardLessor";
+import { toast } from "react-toastify";
 
 
 function BlogRentManager(){
@@ -14,6 +15,7 @@ function BlogRentManager(){
     const [statusSearch, setStatusSearch] = useState("rent");
     const [blogs, setBlogs] = useState([])
     const account = useSelector(state => state.account);
+    const [isUpdate, setIsUpdate] = useState(false);
 
     const handleChangeStatus = (status) => {
         setStatusSearch(status);
@@ -49,7 +51,14 @@ function BlogRentManager(){
             })
             .catch(err => console.log(err))
         }
-    },[statusSearch])
+        setStatusSearch("unrent")
+    },[statusSearch, isUpdate])
+
+
+
+    const handleUpdateRent = () => {
+        setIsUpdate(!isUpdate)
+    }
 
     return(
         <div className="blogRentManager">
@@ -78,7 +87,7 @@ function BlogRentManager(){
                 </div>
                 <div className="blogRentManagerList">
                     {blogs.slice().reverse()?.map(blog => (
-                        <CardLessor key={blog?._id} blog={blog} className="card"/>
+                        <CardLessor key={blog?._id} blog={blog} statusSearch={statusSearch} onUpdate={handleUpdateRent}  className="card"/>
                     ))}
                     <Card className="card" />
                     <Card className="card" />

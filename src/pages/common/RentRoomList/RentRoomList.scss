@@ -8,7 +8,11 @@
     .titleRentRoom{
         width: 80%;
         display: flex;
-        justify-content: left;
+        justify-content: space-between;
+
+        .searchRentRoom{
+            width: 20%;
+        }
     }
 
     .rentRoomList{
