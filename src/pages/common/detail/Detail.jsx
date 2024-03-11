@@ -32,6 +32,7 @@ function Detail(){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [sizeImage, setSizeImage] = useState();
     const [open, setOpen] = useState(false);
+    const [openUnRent, setOpenUnRent] = useState(false);
     const [renterId, setRenterId] = useState([]);
     const [renterConfirm, setRenterConfrim] = useState([]);
     const [isRentRegister, setIsRentRegister ] = useState(false)
@@ -41,6 +42,14 @@ function Detail(){
     const handleClose =( ) => {
         setOpen(false);
     }
+
+    const handleCloseUnRent = () => {
+        setOpenUnRent(false);
+    }
+    const handleClickOpenUnRent = () => {
+        setOpenUnRent(true);
+    }
+
 
      const handleRentBlog = ( ) => {
         axios
@@ -53,6 +62,21 @@ function Detail(){
             setOpen(false);
             setDoneRent(!doneRent);
             toast.success("Đăng kí thuê phòng thành công! Vui lòng chờ để được chủ nhà xác nhận")
+        })
+        .catch(err => console.log(err));
+    }
+
+    const handleUnRentBlog = () => {
+        axios
+        .put(`/api/blog/RentedUnrentRoom/${slug}`,{},{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            setOpenUnRent(false);
+            setDoneRent(!doneRent);
+            toast.success("Huỷ đăng kí thuê phòng thành công!")
         })
         .catch(err => console.log(err));
     }
@@ -320,13 +344,19 @@ function Detail(){
                     <div className="equipment1">
                         <i className='boldEquipment'>Địa chỉ: </i><i className='nameEquipment1'>{blog?.addressDetail}, {blog?.ward}, {blog?.district}, {blog?.province}</i>
                     </div>
-                    {account?.role !== 'renter' || account?.phone === undefined || isRentRegister === true || isRentConfirm === true || renterId.length === 2 ?
+                    {/* {account?.role !== 'renter' || account?.phone === undefined || isRentRegister === true || isRentConfirm === true || renterId.length === 2 ?
                     <div className="rentedBtn">
                         <Button variant="contained" disabled>{isRentRegister === true ?'Đã đăng ký thuê':isRentConfirm=== true ?"Thuê Thành Công":renterId.length === 2 ?'Phòng đã full':""}</Button>
                     </div>:
                     <div className="rentedBtn">
                         <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
-                    </div>}
+                    </div>} */}
+                    {account?.role === 'renter' && isRentRegister === true ?
+                        <Button variant="contained" onClick={() => handleClickOpenUnRent()}>Huỷ Thuê Trọ</Button>:<></>}
+                    {account?.role === 'renter' && isRentRegister === false && renterId.length !== 2?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
+                    {isRentRegister === false && renterId.length === 2?<Button variant="contained" disabled>Phòng Đã Full</Button>:<></>}
+                    {account?.role === 'renter' && isRentConfirm === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
+                    
                     {/* <div className="equipment1">
                         <i className='boldEquipment'>Ngày hết hạn bài đăng: </i><i className='nameEquipment1'>{blog?.expiredTime.split('T')[0]}</i>
                     </div> */}
@@ -577,7 +607,28 @@ function Detail(){
                         </DialogActions>
                     </Dialog>
                 
-
+                    <Dialog
+                        open={openUnRent}
+                        onClose={handleCloseUnRent}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {`Hola Rent - Ứng dụng tìm trọ khu vực Hoà Lạc`}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        {`Bạn chắc chắn muốn huỷ thuê trọ này`}
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseUnRent}>Để sau</Button>
+                        <Button onClick={() => handleUnRentBlog()} autoFocus>
+                            Đồng ý
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                
             </div>
         </div>
     )
