@@ -77,7 +77,7 @@ function Dashboard() {
           <div className="sales" onClick={() => navigate("/admin/users")}>
             <div className="status">
               <div className="info">
-                <h3>Số người đăng kí trong 1 tuần</h3>
+                <h3>Số người đăng kí trong 7 ngày gần đây</h3>
               </div>
               <div className="progress">
                 <div className="progress">
@@ -94,7 +94,7 @@ function Dashboard() {
               onClick={() => navigate("/admin/blogManager")}
             >
               <div className="info">
-                <h3>Số bài viết được đăng trong 1 tuần</h3>
+                <h3>Số bài viết được đăng trong 7 ngày gần đây</h3>
               </div>
               <div className="progress">
                 <h1 style={{ fontSize: "50px", textAlign: "center" }}>
