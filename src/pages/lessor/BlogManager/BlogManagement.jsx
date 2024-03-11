@@ -93,6 +93,7 @@ function BlogManager() {
 
   return (
     <div style={{ marginTop: "200px" }} className="blogManagement">
+      <SidebarAdmin/>
       <h1>Quản lý bài đăng</h1>
       <Box sx={{ minWidth: 120 }} className={"selectType"}>
         <FormControl fullWidth>

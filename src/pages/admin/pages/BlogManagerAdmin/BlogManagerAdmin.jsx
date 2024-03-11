@@ -1,5 +1,11 @@
 import {
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   InputLabel,
   NativeSelect,
@@ -20,6 +26,16 @@ function BlogManagerAdmin() {
   const [displayBlogs, setDisplayBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [numberPage, setNumberPage] = useState();
+  const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
+  const [open, setOpen] = useState(true);
+
+   const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     axios
@@ -69,6 +85,7 @@ function BlogManagerAdmin() {
         .then((res) => {
           const data = res.data.data.allBlog;
           const size = res.data.data.totalBlog;
+          setNumberBlogsNotAccept(size)
           setBlogs(data);
           setNumberPage(Math.ceil(size / 10));
           setDisplayBlogs(data);
@@ -206,6 +223,26 @@ function BlogManagerAdmin() {
           </Stack>
         </div>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Thông báo"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Có {numberBlogsNotAccept} blogs chờ được duyệt!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

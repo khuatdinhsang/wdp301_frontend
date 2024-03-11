@@ -17,7 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TableContainer } from "@mui/material";
 
-function CardLessor({ blog }) {
+function CardLessor({ blog, statusSearch, onUpdate }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -25,36 +25,73 @@ function CardLessor({ blog }) {
   const account = useSelector((state) => state.account);
   const [open, setOpen] = useState(false);
   const [renterConfirm, setRenterConfirm] = useState(blog?.Renterconfirm)
-  const [listUserRent, setListUserRent] = useState([]);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [statusOpen, setStatusOpen] = useState();
+  const [currentUserId, setCurrentId] = useState();
+  const [index, setIndex] = useState()
 
     useEffect(() => {
+      if(statusSearch === 'rent'){
+        setRenterConfirm(blog?.Renterid);
+      }else if(statusSearch === 'unrent'){
         setRenterConfirm(blog?.Renterconfirm);
+      }
+      setStatus(statusSearch);
     }, [])
 
-    useEffect(() => {
-        if(renterConfirm !== []){
-            var list = []
-            renterConfirm.forEach((renter) => {
-                 axios
-                .get(`/api/auth/getProfileUserOther/${renter}`,{
-                        headers: {
-                            Authorization: `Bearer ${account?.token}`
-                        }
-                    })
-                .then(res => {
-                    const data = res.data.data;
-                    list.push(data);
-                })
-                .catch(err => console.log(err))
-            })
-            setListUserRent([...listUserRent, list]);
-        }
-    },[renterConfirm])
+    const handleAccept = (id, index) => {
+      setStatusOpen(true);
+      setCurrentId(id);
+      handleClickOpenConfirm();
+    }
 
-    useEffect(() => {
-        console.log(listUserRent,22);
-    },[listUserRent])
+    const handleDecline = (id, index) => {
+      setStatusOpen(false);
+      setCurrentId(id);
+      handleClickOpenConfirm();
+    }
     
+    const handleClickOpenConfirm = () =>{
+      setOpenConfirm(true);
+    }
+
+    const handleCloseConfirm = () => {
+      setOpenConfirm(false);
+    }
+
+    const handleToRent = () =>{
+      if(statusOpen === true){
+        axios
+        .put(`/api/blog/RentedRoomConfirm/${blog?._id}/${currentUserId}`,{},{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+          .then(res => {
+            toast.success("Xác nhận thuê trọ cho người dùng thành công!");
+            setOpen(false);
+            setOpenConfirm(false);
+            onUpdate();
+          })
+          .catch(err => console.log(err))
+          
+      }else{
+        axios
+        .put(`/api/blog/RentedRoomUnConfirm/${blog?._id}/${currentUserId}`,{},{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+          .then(res => {
+            toast.success("Từ chối thuê trọ của người dùng thành công!");
+            setOpen(false);
+            setOpenConfirm(false);
+            onUpdate();
+          })
+          .catch(err => console.log(err))
+      }
+    }
+
    const handleClickOpen = () => {
         setOpen(true);
     }
@@ -171,16 +208,17 @@ function CardLessor({ blog }) {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {listUserRent.map((user,index) => (
+                    {renterConfirm.map((user,index) => (
                         <TableRow
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
+                        key={user?._id}
                         >
                             <TableCell component="th" scope="row">
                                 {index+1}
                             </TableCell>
                             <TableCell align="left">{user?.fullName}</TableCell>
-                            <TableCell align="left"><CheckIcon/></TableCell>
-                            <TableCell align="left"><DeleteIcon/></TableCell>
+                            <TableCell align="left" onClick={() => handleAccept(user?._id, index)}><CheckIcon/></TableCell>
+                            <TableCell align="left" onClick={()=> handleDecline(user?._id, index)}><DeleteIcon/></TableCell>
                         </TableRow>
                     ))}
                     </TableBody>
@@ -194,6 +232,28 @@ function CardLessor({ blog }) {
             </Button>
             </DialogActions>
         </Dialog>
+
+        <Dialog
+                        open={openConfirm}
+                        onClose={handleCloseConfirm}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {`Hola Rent - Ứng dụng tìm trọ khu vực Hoà Lạc`}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        {statusOpen === true ? "Bạn muốn xác nhận cho người dùng này thuê phòng?":"Bạn muốn từ chối yêu cầu thuê phòng của người dùng này?"}
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseConfirm}>Để sau</Button>
+                        <Button onClick={() => handleToRent()} autoFocus>
+                            Đồng ý
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
     </div>
   );
 }
