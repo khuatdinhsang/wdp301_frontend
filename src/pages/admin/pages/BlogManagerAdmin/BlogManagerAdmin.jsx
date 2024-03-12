@@ -109,6 +109,7 @@ function BlogManagerAdmin() {
 
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
+        setNumberBlogsNotAccept(size)
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
         setDisplayBlogs(data);
@@ -120,19 +121,6 @@ function BlogManagerAdmin() {
     fetchData();
   }, [statusSearch, searchTitle, account?.token]);
 
-        })
-        .then((res) => {
-          const data = res.data.data.allBlog;
-          const size = res.data.data.totalBlog;
-          setNumberBlogsNotAccept(size)
-          setBlogs(data);
-          setNumberPage(Math.ceil(size / 10));
-          setDisplayBlogs(data);
-        })
-        .catch((err) => console.log(err));
-    }
-    // setDisplayBlogs(resultSearch)
-  }, [statusSearch]);
 
   useEffect(() => {
     const fetchData = async () => {
