@@ -51,8 +51,7 @@ function BlogRentManager(){
             })
             .catch(err => console.log(err))
         }
-        setStatusSearch("unrent")
-    },[statusSearch, isUpdate])
+    },[statusSearch])
 
 
 
@@ -65,7 +64,7 @@ function BlogRentManager(){
             <SidebarAdmin className={'sidebarBlogRent'}/>
             <div className="blogRentManagerContent">
                 <div className="blogRentManagerTitle">
-                    <h2>Quản lý các blog được thuê</h2>
+                    <h3>Quản lý các blog được thuê</h3>
                     <div className="typeShowContent">
                             <FormControl fullWidth>
                             <InputLabel variant="standard" htmlFor="uncontrolled-native">
