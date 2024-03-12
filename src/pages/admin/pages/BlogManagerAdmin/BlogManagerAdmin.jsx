@@ -31,7 +31,7 @@ function BlogManagerAdmin() {
   const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
   const [open, setOpen] = useState(true);
 
-   const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -68,15 +68,17 @@ function BlogManagerAdmin() {
   //   setCurrentPage(1);
   // };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`, {
-          headers: {
-            Authorization: `Bearer ${account?.token}`,
-          },
-        });
+        const response = await axios.get(
+          `/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`,
+          {
+            headers: {
+              Authorization: `Bearer ${account?.token}`,
+            },
+          }
+        );
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
         setBlogs(data);
@@ -109,7 +111,7 @@ function BlogManagerAdmin() {
 
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
-        setNumberBlogsNotAccept(size)
+        setNumberBlogsNotAccept(size);
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
         setDisplayBlogs(data);
@@ -121,7 +123,6 @@ function BlogManagerAdmin() {
     fetchData();
   }, [statusSearch, searchTitle, account?.token]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -131,13 +132,13 @@ function BlogManagerAdmin() {
         } else {
           apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
         }
-  
+
         const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
         });
-  
+
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
         setBlogs(data);
@@ -147,10 +148,9 @@ function BlogManagerAdmin() {
         console.log(error);
       }
     };
-  
+
     fetchData();
   }, [currentPage, statusSearch, searchTitle, account?.token]);
-  
 
   const handleDeleteComment = () => {
     if (statusSearch === true) {
@@ -189,7 +189,6 @@ function BlogManagerAdmin() {
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
   };
-  
 
   return (
     <div className="blogManagement">
@@ -255,9 +254,7 @@ function BlogManagerAdmin() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Thông báo"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Thông báo"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Có {numberBlogsNotAccept} blogs chờ được duyệt!
