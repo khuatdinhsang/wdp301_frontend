@@ -3,10 +3,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import StarIcon from "@mui/icons-material/Star";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -16,6 +16,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TableContainer } from "@mui/material";
+import { pathBackViewProfile } from "../../../actions/pathActions";
 
 function CardLessor({ blog, statusSearch, onUpdate }) {
   const navigate = useNavigate();
@@ -29,6 +30,9 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
   const [statusOpen, setStatusOpen] = useState();
   const [currentUserId, setCurrentId] = useState();
   const [index, setIndex] = useState()
+  const path = useLocation();
+  const [pathName, setPathName] = useState();
+  const dispatch = useDispatch();
 
     useEffect(() => {
       if(statusSearch === 'rent'){
@@ -37,17 +41,16 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
         setRenterConfirm(blog?.Renterconfirm);
       }
       setStatus(statusSearch);
+      setPathName(path.pathname);
     }, [])
 
-    const handleAccept = (id, index) => {
+    const handleAccept = (id) => {
       setStatusOpen(true);
-      setCurrentId(id);
       handleClickOpenConfirm();
     }
 
-    const handleDecline = (id, index) => {
+    const handleDecline = (id) => {
       setStatusOpen(false);
-      setCurrentId(id);
       handleClickOpenConfirm();
     }
     
@@ -57,6 +60,13 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
 
     const handleCloseConfirm = () => {
       setOpenConfirm(false);
+    }
+
+    const handleViewProfile = (id) => {
+            const action = pathBackViewProfile(pathName);
+            dispatch(action);
+            navigate(`/viewProfile/${id}`);
+        
     }
 
     const handleToRent = () =>{
@@ -203,8 +213,8 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                     <TableRow>
                         <TableCell>STT</TableCell>
                         <TableCell align="left">Tên người dùng</TableCell>
-                        <TableCell align="left"></TableCell>
-                        <TableCell align="left"></TableCell>
+                        <TableCell align="left">{statusSearch === 'unrent' ? "Đồng ý" : "Số điện thoại"}</TableCell>
+                        <TableCell align="left">{statusSearch === 'unrent' ? "Từ chối" : ""}</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -216,9 +226,10 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                             <TableCell component="th" scope="row">
                                 {index+1}
                             </TableCell>
-                            <TableCell align="left">{user?.fullName}</TableCell>
-                            <TableCell align="left" onClick={() => handleAccept(user?._id, index)}><CheckIcon/></TableCell>
-                            <TableCell align="left" onClick={()=> handleDecline(user?._id, index)}><DeleteIcon/></TableCell>
+                            <TableCell align="left" onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
+                           {statusSearch === 'unrent'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon/></TableCell>
+                           : <TableCell align="left" >{user?.phone}</TableCell>}
+                            {statusSearch === 'unrent' ? <TableCell align="left" onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
                         </TableRow>
                     ))}
                     </TableBody>

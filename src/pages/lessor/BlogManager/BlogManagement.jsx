@@ -92,39 +92,42 @@ function BlogManager() {
   };
 
   return (
-    <div style={{ marginTop: "200px" }} className="blogManagement">
+    <div  className="blogManagement">
       <SidebarAdmin/>
-      <h1>Quản lý bài đăng</h1>
-      <Box sx={{ minWidth: 120 }} className={"selectType"}>
-        <FormControl fullWidth>
-          <InputLabel variant="standard" htmlFor="uncontrolled-native">
-            Trạng thái
-          </InputLabel>
-          <NativeSelect
-            defaultValue={statusSearch}
-            inputProps={{
-              name: "age",
-              id: "uncontrolled-native",
-            }}
-            onChange={(e) => handleChangeStatus(Boolean(e.target.value))}
-          >
-            <option value={true}>Đã duyệt</option>
-            <option value={false}>Chưa duyệt</option>
-          </NativeSelect>
-        </FormControl>
-      </Box>
+      
       <div className="mainBlogManagementContent">
         <div className="searchContainerLessor">
-          <input
-            className="inputSearchContainerLessor"
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search..."
-          />
-          <Button variant="contained" onClick={() => handleSearch()}>
-            Xác nhận
-          </Button>
+          <Box sx={{ minWidth: 120 }} className={"selectType"}>
+            <FormControl fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Trạng thái
+              </InputLabel>
+              <NativeSelect
+                defaultValue={statusSearch}
+                inputProps={{
+                  name: "age",
+                  id: "uncontrolled-native",
+                }}
+                onChange={(e) => handleChangeStatus(Boolean(e.target.value))}
+              >
+                <option value={true}>Đã duyệt</option>
+                <option value={false}>Chưa duyệt</option>
+              </NativeSelect>
+            </FormControl>
+          </Box>
+          <h1>Quản lý bài đăng</h1>
+          <div className="btnSearch">
+            <input
+              className="inputSearchContainerLessor"
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search..."
+            />
+            <Button variant="contained" onClick={() => handleSearch()}>
+              Xác nhận
+            </Button>
+          </div>
         </div>
         <div className="blogManagementContentLessor">
           {blogs
