@@ -29,7 +29,7 @@ function BlogManagerAdmin() {
   const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
   const [open, setOpen] = useState(true);
 
-   const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -85,7 +85,7 @@ function BlogManagerAdmin() {
         .then((res) => {
           const data = res.data.data.allBlog;
           const size = res.data.data.totalBlog;
-          setNumberBlogsNotAccept(size)
+          setNumberBlogsNotAccept(size);
           setBlogs(data);
           setNumberPage(Math.ceil(size / 10));
           setDisplayBlogs(data);
@@ -229,9 +229,7 @@ function BlogManagerAdmin() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Thông báo"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Thông báo"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Có {numberBlogsNotAccept} blogs chờ được duyệt!
