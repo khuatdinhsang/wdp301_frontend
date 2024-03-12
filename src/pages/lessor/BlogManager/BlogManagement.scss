@@ -1,7 +1,6 @@
 .blogManagement {
     display: flex;
     justify-content: space-between;
-    background-color: var(--color-background);
 
     .sidebarLessorManagement {
         width: 20%;
@@ -15,13 +14,18 @@
 
         .searchContainerLessor {
             margin-top: 20px;
+            margin-left: 5%;
             display: flex;
-            justify-content: end;
+            justify-content: space-between;
+            align-items: center;
             width: 90%;
             padding-right: 5%;
 
-            .inputSearchContainerLessor{
-                width: 15%;
+            .btnSearch{
+                .inputSearchContainerLessor{
+                    width: 60%;
+                }
+
             }
         }
 
