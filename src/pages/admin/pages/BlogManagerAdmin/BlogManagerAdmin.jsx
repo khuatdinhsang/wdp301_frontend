@@ -11,6 +11,7 @@ import {
   NativeSelect,
   Pagination,
   Stack,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -26,6 +27,7 @@ function BlogManagerAdmin() {
   const [displayBlogs, setDisplayBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [numberPage, setNumberPage] = useState();
+  const [searchTitle, setSearchTitle] = useState("");
   const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
   const [open, setOpen] = useState(true);
 
@@ -58,29 +60,66 @@ function BlogManagerAdmin() {
     setStatusSearch(!statusSearch);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTitle(event.target.value);
+  };
+
+  // const handleSearchSubmit = () => {
+  //   setCurrentPage(1);
+  // };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`, {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        });
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage, searchTitle, account?.token]);
+
   useEffect(() => {
     setCurrentPage(1);
-    if (statusSearch === true) {
-      axios
-        .get(`/api/blog/getAllAccepted/admin?limit=10&&page=1`, {
+    const fetchData = async () => {
+      try {
+        let apiUrl = "";
+        if (statusSearch === true) {
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+        }
+
+        const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
-        })
-        .then((res) => {
-          const data = res.data.data.allBlog;
-          const size = res.data.data.totalBlog;
-          setBlogs(data);
-          setNumberPage(Math.ceil(size / 10));
-          setDisplayBlogs(data);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      axios
-        .get(`/api/blog/getAllUnaccepted/admin?limit=10&&page=1`, {
-          headers: {
-            Authorization: `Bearer ${account?.token}`,
-          },
+        });
+
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [statusSearch, searchTitle, account?.token]);
+
         })
         .then((res) => {
           const data = res.data.data.allBlog;
@@ -96,38 +135,34 @@ function BlogManagerAdmin() {
   }, [statusSearch]);
 
   useEffect(() => {
-    if (statusSearch === true) {
-      axios
-        .get(`/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}`, {
+    const fetchData = async () => {
+      try {
+        let apiUrl = "";
+        if (statusSearch === true) {
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+        }
+  
+        const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
-        })
-        .then((res) => {
-          const data = res.data.data.allBlog;
-          const size = res.data.data.totalBlog;
-          setBlogs(data);
-          setNumberPage(Math.ceil(size / 10));
-          setDisplayBlogs(data);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      axios
-        .get(`/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}`, {
-          headers: {
-            Authorization: `Bearer ${account?.token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data.data.allBlog;
-          const size = res.data.data.totalBlog;
-          setBlogs(data);
-          setNumberPage(Math.ceil(size / 10));
-          setDisplayBlogs(data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [currentPage]);
+        });
+  
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, [currentPage, statusSearch, searchTitle, account?.token]);
+  
 
   const handleDeleteComment = () => {
     if (statusSearch === true) {
@@ -166,6 +201,7 @@ function BlogManagerAdmin() {
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
   };
+  
 
   return (
     <div className="blogManagement">
@@ -192,6 +228,12 @@ function BlogManagerAdmin() {
               </NativeSelect>
             </FormControl>
           </Box>
+          <TextField
+            type="text"
+            value={searchTitle}
+            onChange={handleSearchChange}
+            placeholder="Tìm kiếm theo tiêu đề"
+          />
         </div>
         <div className="listBlogManagerAdmin">
           {displayBlogs
@@ -206,10 +248,6 @@ function BlogManagerAdmin() {
                 />
               );
             })}
-          <CardAdmin />
-          <CardAdmin />
-          <CardAdmin />
-          <CardAdmin />
         </div>
         <div className="bottomListCard">
           <Stack spacing={2}>
