@@ -51,7 +51,7 @@ function EditBlog() {
       area === "" ||
       money === "" ||
       addressDetail === "" ||
-      dataImg.length === 0
+      (dataImg.length === 0 && image.length === 0)
     ) {
       toast.warn("Có thông tin chưa điền!!");
       return;
@@ -197,7 +197,7 @@ function EditBlog() {
           </div>
           <div className="inputBox">
             <label htmlFor="inputPrice">Miêu tả</label>
-            <input
+            <textarea
               type="text"
               className="inputPrice"
               id="inputPrice"

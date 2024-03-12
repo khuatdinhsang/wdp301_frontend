@@ -107,7 +107,9 @@ function CardHome({ blog, isHome }) {
                 </span>
               </div>
             </div>
-            <span className="dateBuilding">{blog?.description}</span>
+            <span className="dateBuilding">
+              {blog?.description.slice(0, 100)}...
+            </span>
             <p className="priceCard">
               <span className="pricePer">
                 {blog?.money?.toLocaleString("vi", {
