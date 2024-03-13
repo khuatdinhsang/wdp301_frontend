@@ -40,7 +40,7 @@ function HeaderNoSearch() {
             <div className='header'>
                 <div className='nav'>
                     <div className='logoHeader' onClick={() => { navigate("/") }}>
-                        <img src="https://res.cloudinary.com/dggciohw8/image/upload/v1705070813/417012680_904990781626845_39715534048793428_n_zj9jly.png" alt="" />
+                        <img src="wdp301_frontend\src\components\component\Header\logo.jpg" alt="" />
                     </div>
                     <div className='action' onClick={() => setShowRegister(!showRegister)}>
                         <div className='borderAction'>
