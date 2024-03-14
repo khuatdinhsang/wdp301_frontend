@@ -15,6 +15,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import Banner from "../../../components/component/Banner/Banner";
 
 function Home() {
   const [blogs, setBlogs] = useState();
@@ -319,6 +320,7 @@ function Home() {
           </Stack>
         </div>
       </div>
+      <div className="banner"><Banner className="bannerContent"/></div>
     </div>
   );
 }

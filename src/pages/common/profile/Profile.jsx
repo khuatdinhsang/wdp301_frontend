@@ -187,8 +187,8 @@ export default function Profile() {
     const differenceInDate = differenceInMilliseconds / (60 * 1000 * 60 * 24);
     setDayCreated(Math.ceil(differenceInDate));
   }, [userDetail]);
+
   const handleEditProfile = () => {
-    console.log("gender", gender);
     const userInfor = {
       fullName: fullName,
       email: email,

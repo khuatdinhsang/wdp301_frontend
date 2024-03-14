@@ -144,6 +144,7 @@ function UsersManagerAdmin() {
                       </td>
                     </tr>
                   ))}
+                  
                   {userType === 'lessor' && lessors.map((user, index) => (
                     <tr key={index}>
                       <td>{user?.fullName}</td>

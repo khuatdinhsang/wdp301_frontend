@@ -4,3 +4,4 @@ export const pathBackViewProfile = (path) => {
         payload: path
     }
 }
+

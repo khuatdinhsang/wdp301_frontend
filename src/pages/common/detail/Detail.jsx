@@ -10,9 +10,10 @@ import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { pathBackViewProfile } from '../../../actions/pathActions';
 
 
 function Detail(){
@@ -38,6 +39,10 @@ function Detail(){
     const [isRentRegister, setIsRentRegister ] = useState(false)
     const [isRentConfirm, setIsRentConfirm ] = useState(false)
     const [doneRent, setDoneRent] = useState(false);
+    const [pathName, setPathName] = useState();
+    const path = useLocation();
+    const dispatch = useDispatch();
+
 
     const handleClose =( ) => {
         setOpen(false);
@@ -52,18 +57,24 @@ function Detail(){
 
 
      const handleRentBlog = ( ) => {
-        axios
-        .put(`/api/blog/RentedRoom/${slug}`,{},{
-            headers: {
-                Authorization: `Bearer ${account?.token}`
-            }
-        })
-        .then(res => {
-            setOpen(false);
-            setDoneRent(!doneRent);
-            toast.success("Đăng kí thuê phòng thành công! Vui lòng chờ để được chủ nhà xác nhận")
-        })
-        .catch(err => console.log(err));
+        if(account?.phone === undefined){
+            const action = pathBackViewProfile(pathName);
+            dispatch(action);
+            navigate('/login')
+        }else{
+            axios
+            .put(`/api/blog/RentedRoom/${slug}`,{},{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                setOpen(false);
+                setDoneRent(!doneRent);
+                toast.success("Đăng kí thuê phòng thành công! Vui lòng chờ để được chủ nhà xác nhận")
+            })
+            .catch(err => console.log(err));
+        }
     }
 
     const handleUnRentBlog = () => {
@@ -120,6 +131,7 @@ function Detail(){
  
     useEffect(() => {
         window.scrollTo(0,0)
+        setPathName(path.pathname)
         axios
         .get(`/api/blog/detail/${slug}`)
         .then(res => {
@@ -247,6 +259,8 @@ function Detail(){
     const handleComment = () => {
         if(starComment === '' || feedback === ''){
             toast.warn("Cần điền đầy đủ thông tin để bình luận!!")
+        }else if(isRentConfirm !== true){
+            toast.warn("Bạn chưa thuê phòng này để bình luận");
         }else{
             const commentContent = {
                 star: +starComment,
@@ -353,7 +367,7 @@ function Detail(){
                     </div>} */}
                     {account?.role === 'renter' && isRentRegister === true ?
                         <Button variant="contained" onClick={() => handleClickOpenUnRent()}>Huỷ Thuê Trọ</Button>:<></>}
-                    {account?.role === 'renter' && isRentRegister === false && renterId.length !== 2?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
+                    {(account?.role === 'renter' || account?.phone === undefined) && isRentRegister === false && renterId.length !== 2 && isRentConfirm !== true?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
                     {isRentRegister === false && renterId.length === 2?<Button variant="contained" disabled>Phòng Đã Full</Button>:<></>}
                     {account?.role === 'renter' && isRentConfirm === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
                     
@@ -464,7 +478,7 @@ function Detail(){
                     <i className='titleDes'>Một trong những ngôi nhà được yêu thích nhất trên HolaRent dựa trên điểm xếp hạng, đánh giá và độ tin cậy</i>
                 </div>
             </div>
-            {(account?.phone !== undefined || isUpdating === true) ?
+            {(account?.phone !== undefined || isUpdating === true)  ?
                 <div className="commentAction">
                     <div className="avatarCommentAction">
                         <AccountCircleIcon/>

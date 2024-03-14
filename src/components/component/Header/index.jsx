@@ -207,6 +207,13 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
+                  {account?.phone !== undefined && account.role === "renter" ? (
+                    <li onClick={() => navigate("/renter/blogManager")}>
+                      <span>Quản lý bài đăng</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
                   {account?.phone !== undefined ? (
                     <li onClick={() => handleLogout()}>
                       <span>Đăng xuất</span>

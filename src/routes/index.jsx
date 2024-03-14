@@ -19,6 +19,7 @@ import ChangePassword from "../pages/common/ChangePassword/ChangePassword"
 import ViewProfile from "../pages/common/ViewProfile/ViewProfile"
 import RentRoomList from "../pages/common/RentRoomList/RentRoomList"
 import BlogRentManager from "../pages/lessor/BlogRentManager/BlogRentManager"
+import RenterBlogManagement from "../pages/renter/RenterBlogManagement/RenterBlogManagement"
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -29,7 +30,6 @@ const publicRoutes = [
     { path: '/contact-host', component: ContactLessor },
     { path: '/inbox', component: ChatWithLessor, layout: null },
     { path: '/admin/editBlog/:slug', component: EditBlogManager, layout: null },
-    { path: '/profile', component: Profile, layout: null },
     { path: '/viewProfile/:slug', component: ViewProfile, layout: null },
     
 ]
@@ -39,6 +39,7 @@ const adminRoutes = [
     { path: '/admin/dashboard', component: Dashboard, layout: null },
     { path: '/admin/blogManager', component: BlogManagerAdmin, layout: null },
     { path: '/admin/users', component: UsersManagerAdmin, layout: null },
+    { path: '/profile', component: Profile, layout: null },
 
 ]
 
@@ -46,11 +47,14 @@ const renterRoutes = [
     { path: '/uploadBlog', component: UploadBlog, layout: null },
     { path: '/rentRoomList', component: RentRoomList, layout: HeaderOnly },
     { path: '/wishlist', component: WishList, layout: HeaderOnly },
+    { path: '/profile', component: Profile, layout: null },
     { path: `/wishlist/:slug`, component: DetailWishList, layout: HeaderOnly },
+    { path: `/renter/blogManager`, component: RenterBlogManagement, layout: null}
 ]
 
 const lessorRoutes = [
     { path: '/lessor/blogManager', component: BlogManager, layout: null },
+    { path: '/profile', component: Profile, layout: null },
     { path: '/uploadBlog', component: UploadBlog, layout: null },
     { path: '/lessor/blogRentManager', component: BlogRentManager, layout: null },
     

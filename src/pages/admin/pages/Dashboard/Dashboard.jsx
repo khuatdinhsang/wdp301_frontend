@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from 'highcharts'
 import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
@@ -22,6 +23,8 @@ function Dashboard() {
     const [countNewUser, setCountNewUser] = useState();
     const [countNewBlog, setCountNewBlog] = useState();
     const [monthlyRevenue, setMonthlyRevenue] = useState();
+    const [lastMonthlyRevenue, setLastMonthRevenue] = useState();
+    const [improveRevenue, setImproveRevenue] = useState();
     const [chartDay, setChartDay] = useState([]);
     const [blogPostDay, setBlogPostDay] = useState([]);
     const [incomesDay, setIncomesDay] = useState([]);
@@ -73,6 +76,18 @@ function Dashboard() {
         .catch(err => console.log(err))
 
         axios
+        .get(`/api/transaction/monthly-revenue?month=${currentMonth-1}`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.totalRevenue;
+            setLastMonthRevenue(data);
+        })
+        .catch(err => console.log(err))
+
+        axios
         .get(`/api/transaction/chart`,{
             headers: {
                 Authorization: `Bearer ${account?.token}`
@@ -100,6 +115,13 @@ function Dashboard() {
         })
         .catch(err => console.log(err))
     },[])
+
+    useEffect(()=>{
+        var last = lastMonthlyRevenue;
+        lastMonthlyRevenue===0?last=1:last=lastMonthlyRevenue;
+        var improve = (monthlyRevenue - last)/last;
+        setImproveRevenue(improve.toFixed(1));
+    },[lastMonthlyRevenue, monthlyRevenue])
 
     const chartDayData = {
         chart: {
@@ -313,7 +335,7 @@ function Dashboard() {
                                     <circle cx={38} cy={38} r={36}></circle>
                                 </svg>
                                 <div className="percentage">
-                                    <p>+81%</p>
+                                    <p>+{improveRevenue}%</p>
                                 </div>
                             </div>
                         </div>
@@ -345,7 +367,7 @@ function Dashboard() {
                                     <circle cx={38} cy={38} r={36}></circle>
                                 </svg>
                                 <div className="percentage">
-                                    <p>+21%</p>
+                                    <p><PersonAddIcon className='personAddIcon'/></p>
                                 </div>
                             </div>
                         </div>
