@@ -25,7 +25,7 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
   const [sizeImage, setSizeImage] = useState(blog?.image?.length);
   const account = useSelector((state) => state.account);
   const [open, setOpen] = useState(false);
-  const [renterConfirm, setRenterConfirm] = useState(blog?.Renterconfirm)
+  const [renterConfirm, setRenterConfirm] = useState()
   const [openConfirm, setOpenConfirm] = useState(false);
   const [statusOpen, setStatusOpen] = useState();
   const [currentUserId, setCurrentId] = useState();
@@ -35,18 +35,6 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
   const dispatch = useDispatch();
 
     useEffect(() => {
-      switch(statusSearch){
-        case 'rent':{
-          setRenterConfirm(blog?.Renterid);
-        }
-        case 'unrent':{
-          
-        }
-        case 'isProcess':{
-         setRenterConfirm(blog?.Renterconfirm);
-        }
-        default: return ;
-      }
       setStatus(statusSearch);
       setPathName(path.pathname);
     }, [])
@@ -77,6 +65,21 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
             navigate(`/viewProfile/${id}`);
         
     }
+
+    // useEffect(() => {
+    //   switch(status){
+    //     case 'rent':{
+    //       setRenterConfirm(blog?.Renterid);
+    //     }
+    //     case 'unrent': {
+    //       console.log(1);
+    //     }
+    //     case 'isProcess':{
+    //       setRenterConfirm(blog?.Renterconfirm);
+    //     }
+    //     default: return;
+    //   }
+    // },[status])
 
     const handleToRent = () =>{
       if(statusOpen === true){
@@ -135,14 +138,9 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
     );
   };
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-    }
-
-    const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    ];
+  useEffect(() => {
+    console.log(renterConfirm);
+  },[renterConfirm])
 
   
 
@@ -202,7 +200,7 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
       ) : (
         <></>
       )}
-      <Dialog
+      {status === 'unrent' ?<></>:<Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -222,12 +220,12 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                     <TableRow>
                         <TableCell>STT</TableCell>
                         <TableCell align="left">Tên người dùng</TableCell>
-                        <TableCell align="left">{statusSearch === 'unrent' ? "Đồng ý" : "Số điện thoại"}</TableCell>
-                        <TableCell align="left">{statusSearch === 'unrent' ? "Từ chối" : ""}</TableCell>
+                        <TableCell align="left">{statusSearch === 'isProcess' ? "Đồng ý" : "Số điện thoại"}</TableCell>
+                        <TableCell align="left">{statusSearch === 'isProcess' ? "Từ chối" : ""}</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {renterConfirm.map((user,index) => (
+                    {status === 'rent' && blog?.Renterid?.map((user,index) => (
                         <TableRow
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
                         key={user?._id}
@@ -236,9 +234,23 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                                 {index+1}
                             </TableCell>
                             <TableCell align="left" onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
-                           {statusSearch === 'unrent'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon/></TableCell>
+                           {statusSearch === 'isProcess'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon/></TableCell>
                            : <TableCell align="left" >{user?.phone}</TableCell>}
-                            {statusSearch === 'unrent' ? <TableCell align="left" onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
+                            {statusSearch === 'isProcess' ? <TableCell align="left" onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
+                        </TableRow>
+                    ))}
+                    {status === 'isProcess' && blog?.Renterconfirm?.map((user,index) => (
+                        <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
+                        key={user?._id}
+                        >
+                            <TableCell component="th" scope="row">
+                                {index+1}
+                            </TableCell>
+                            <TableCell align="left" onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
+                           {statusSearch === 'isProcess'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon/></TableCell>
+                           : <TableCell align="left" >{user?.phone}</TableCell>}
+                            {statusSearch === 'isProcess' ? <TableCell align="left" onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
                         </TableRow>
                     ))}
                     </TableBody>
@@ -251,7 +263,7 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                 Xem thông tin phòng
             </Button>
             </DialogActions>
-        </Dialog>
+        </Dialog>}
 
         <Dialog
                         open={openConfirm}

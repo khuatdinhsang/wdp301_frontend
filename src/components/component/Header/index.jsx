@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAccount } from "../../../actions/accountActions";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { showAds } from "../../../actions/bannerActions";
+import { pathBackViewProfile } from "../../../actions/pathActions";
 
 const Header = () => {
   const [showRegister, setShowRegister] = useState(false);
@@ -54,8 +56,12 @@ const Header = () => {
 
   const handleLogout = () => {
     const action = logoutAccount();
+    const action1 = showAds(false);
+    const action2 = pathBackViewProfile('');
     toast.success("Đăng xuất thành công");
     dispatch(action);
+    dispatch(action1);
+    dispatch(action2);
     navigate("/");
   };
 
@@ -210,13 +216,6 @@ const Header = () => {
                   {account?.phone !== undefined && account.role === "renter" ? (
                     <li onClick={() => navigate("/renter/blogManager")}>
                       <span>Quản lý bài đăng</span>
-                    </li>
-                  ) : (
-                    <></>
-                  )}
-                  {account?.phone !== undefined ? (
-                    <li onClick={() => handleLogout()}>
-                      <span>Đăng xuất</span>
                     </li>
                   ) : (
                     <></>
