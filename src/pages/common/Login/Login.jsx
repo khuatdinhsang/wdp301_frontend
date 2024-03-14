@@ -57,12 +57,9 @@ function Login() {
               const action = loginAccount(user);
               // setIsLoading(true);
               dispatch(action);
-              toast.success("Đăng nhập thành công!");
-              if(pathBack !== ''){
-                navigate(pathBack);
-                const action = pathBackViewProfile('');
-                dispatch(action);
-              }else{
+              const action1 = showAds(true);
+                dispatch(action1);
+              if(pathBack === false || pathBack === ''){
                 if (account.role === "renter") {
                   navigate("/");
                 } else if (account.role === "lessor") {
@@ -70,9 +67,12 @@ function Login() {
                 } else if (account.role === "admin") {
                   navigate("/admin/dashboard");
                 }
-                const action1 = showAds(true);
-                dispatch(action1);
+              }else{
+                navigate(pathBack);
+                const action = pathBackViewProfile('');
+                dispatch(action);
               }
+              toast.success("Đăng nhập thành công!");
             }else if(data.statusCode === 500){
               if(data.message === "Phone number does not exist"){
                 toast.warn("Số điện thoại chưa được đăng ký");
