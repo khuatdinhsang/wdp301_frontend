@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import * as XLSX from 'xlsx';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+=======
+import * as XLSX from "xlsx";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 import HighchartsReact from "highcharts-react-official";
-import Highcharts from 'highcharts'
+import Highcharts from "highcharts";
 import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
 import "./Dashboard.scss";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,6 +24,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function Dashboard() {
+<<<<<<< HEAD
  
     const [countNewUser, setCountNewUser] = useState();
     const [countNewBlog, setCountNewBlog] = useState();
@@ -31,10 +37,22 @@ function Dashboard() {
     const [chartMonth, setChartMonth] = useState([]);
     const [blogPostMonth, setBlogPostMonth] = useState([]);
     const [incomesMonth, setIncomesMonth] = useState([]);
+=======
+  const [countNewUser, setCountNewUser] = useState();
+  const [countNewBlog, setCountNewBlog] = useState();
+  const [monthlyRevenue, setMonthlyRevenue] = useState();
+  const [chartDay, setChartDay] = useState([]);
+  const [blogPostDay, setBlogPostDay] = useState([]);
+  const [incomesDay, setIncomesDay] = useState([]);
+  const [chartMonth, setChartMonth] = useState([]);
+  const [blogPostMonth, setBlogPostMonth] = useState([]);
+  const [incomesMonth, setIncomesMonth] = useState([]);
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 
-    const account = useSelector(state => state.account);
-    var today = new Date();
+  const account = useSelector((state) => state.account);
+  var today = new Date();
 
+<<<<<<< HEAD
     useEffect(() => {
         axios
         .get(`/api/auth/weekly-sign-up-count`,{
@@ -126,192 +144,269 @@ function Dashboard() {
     const chartDayData = {
         chart: {
             zoomType: 'xy'
+=======
+  useEffect(() => {
+    axios
+      .get(`/api/auth/weekly-sign-up-count`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
         },
+      })
+      .then((res) => {
+        const data = res.data.weekSignUpCount;
+        setCountNewUser(data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(`/api/blog/weekly-post-count`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.weekPostCount;
+        setCountNewBlog(data);
+      })
+      .catch((err) => console.log(err));
+
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    currentMonth += 1;
+    axios
+      .get(`/api/transaction/monthly-revenue?month=${currentMonth}`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.totalRevenue;
+        setMonthlyRevenue(data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(`/api/transaction/chart`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.totalRevenue;
+        setChartDay(data.days);
+        setBlogPostDay(data.postBlogs);
+        setIncomesDay(data.incomes);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(`/api/transaction/chartMonth`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.totalRevenue;
+        setChartMonth(data.days);
+        setBlogPostMonth(data.postBlogs);
+        setIncomesMonth(data.incomes);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const chartDayData = {
+    chart: {
+      zoomType: "xy",
+    },
+    title: {
+      text: "Số blog và doanh thu trong tháng  " + (today.getMonth() + 1),
+      align: "center",
+    },
+    subtitle: {
+      text: "Source: " + "HOLA RENT",
+      align: "left",
+    },
+    xAxis: [
+      {
+        categories: chartDay,
+        crosshair: true,
+      },
+    ],
+    yAxis: [
+      {
         title: {
-            text: "Số blog và doanh thu trong tháng  " + (today.getMonth() + 1),
-            align: 'center'
+          text: "Doanh thu (VNĐ)",
         },
-        subtitle: {
-            text: 'Source: ' +
-                'HOLA RENT',
-            align: 'left'
-        },
-        xAxis: [{
-            categories: chartDay,
-            crosshair: true
-        }],
-        yAxis: [{
-
-            title: {
-                text: 'Doanh thu (VNĐ)'
-            }
-        }, {
-            title: {
-                text: 'Blogs'
-            },
-            opposite: true
-        }],
-        legend: {
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 60,
-            floating: true,
-            backgroundColor: 'rgba(255,255,255,0.25)'
-        },
-        tooltip: {
-            shared: true
-        },
-
-        series: [{
-            name: 'Blog',
-            type: 'column',
-            yAxis: 1,
-            data: blogPostDay,
-            tooltip: {
-                valueSuffix: ' blogs'
-            }
-
-        }, {
-            name: 'Doanh thu',
-            type: 'spline',
-            data: incomesDay,
-            tooltip: {
-                valueSuffix: 'VNĐ'
-            }
-        }]
-    }
-
-    const chartMonthData = {
-        chart: {
-            zoomType: 'xy'
-        },
+      },
+      {
         title: {
-            text: "Doanh thu và Blogs trong các tháng trong năm " + (today.getFullYear() ),
-            align: 'center'
+          text: "Blogs",
         },
-        subtitle: {
-            text: 'Source: ' +
-                'HOLA RENT',
-            align: 'left'
-        },
-        xAxis: [{
-            categories: chartMonth,
-            crosshair: true
-        }],
-        yAxis: [{
+        opposite: true,
+      },
+    ],
+    legend: {
+      align: "left",
+      x: 80,
+      verticalAlign: "top",
+      y: 60,
+      floating: true,
+      backgroundColor: "rgba(255,255,255,0.25)",
+    },
+    tooltip: {
+      shared: true,
+    },
 
-            title: {
-                text: 'Doanh thu (VNĐ)'
-            }
-        }, {
-            title: {
-                text: 'Blogs'
-            },
-            opposite: true
-        }],
-        legend: {
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 60,
-            floating: true,
-            backgroundColor: 'rgba(255,255,255,0.25)'
-        },
+    series: [
+      {
+        name: "Blog",
+        type: "column",
+        yAxis: 1,
+        data: blogPostDay,
         tooltip: {
-            shared: true
+          valueSuffix: " blogs",
         },
+      },
+      {
+        name: "Doanh thu",
+        type: "spline",
+        data: incomesDay,
+        tooltip: {
+          valueSuffix: "VNĐ",
+        },
+      },
+    ],
+  };
 
-        series: [{
-            name: 'BlogPost',
-            type: 'column',
-            yAxis: 1,
-            data: blogPostMonth,
-            tooltip: {
-                valueSuffix: ' Blogs'
-            }
+  const chartMonthData = {
+    chart: {
+      zoomType: "xy",
+    },
+    title: {
+      text:
+        "Doanh thu và Blogs trong các tháng trong năm " + today.getFullYear(),
+      align: "center",
+    },
+    subtitle: {
+      text: "Source: " + "HOLA RENT",
+      align: "left",
+    },
+    xAxis: [
+      {
+        categories: chartMonth,
+        crosshair: true,
+      },
+    ],
+    yAxis: [
+      {
+        title: {
+          text: "Doanh thu (VNĐ)",
+        },
+      },
+      {
+        title: {
+          text: "Blogs",
+        },
+        opposite: true,
+      },
+    ],
+    legend: {
+      align: "left",
+      x: 80,
+      verticalAlign: "top",
+      y: 60,
+      floating: true,
+      backgroundColor: "rgba(255,255,255,0.25)",
+    },
+    tooltip: {
+      shared: true,
+    },
 
-        }, {
-            name: 'Doanh thu',
-            type: 'spline',
-            data: incomesMonth,
-            tooltip: {
-                valueSuffix: 'VNĐ'
-            }
-        }]
+    series: [
+      {
+        name: "BlogPost",
+        type: "column",
+        yAxis: 1,
+        data: blogPostMonth,
+        tooltip: {
+          valueSuffix: " Blogs",
+        },
+      },
+      {
+        name: "Doanh thu",
+        type: "spline",
+        data: incomesMonth,
+        tooltip: {
+          valueSuffix: "VNĐ",
+        },
+      },
+    ],
+  };
+
+  const handleExportExcelChartDay = () => {
+    const newChartIncomes = ["Doanh thu"];
+    const newChartBlogs = ["Số Blogs"];
+    const newChartDays = [""];
+    var totalBlog = 0;
+    var totalIncomes = 0;
+
+    for (var day of chartDay) {
+      newChartDays.push(day);
     }
 
-    const handleExportExcelChartDay =( ) => {
-        const newChartIncomes = ['Doanh thu']
-        const newChartBlogs = ['Số Blogs']
-        const newChartDays = ['']  
-        var totalBlog =0;
-        var totalIncomes = 0;
-
-        for(var day of chartDay){
-            newChartDays.push(day);
-        }
-
-        for(var income of incomesDay){
-            newChartIncomes.push(income);
-            totalIncomes+=income;
-        }
-
-        for(var blog of blogPostDay){
-            newChartBlogs.push(blog);
-            totalBlog+=blog;
-        }
-        newChartDays.push('Tổng')
-        newChartBlogs.push(totalBlog);
-        newChartIncomes.push(totalIncomes);
-
-        const data = [
-            newChartDays,
-            newChartBlogs,
-            newChartIncomes
-        ]
-
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-        XLSX.writeFile(wb, `StatisticPerDayOfMonth${today.getMonth() + 1}.xlsx`);
+    for (var income of incomesDay) {
+      newChartIncomes.push(income);
+      totalIncomes += income;
     }
 
-    const handleExportExcelChartMonth =( ) => {
-        const newChartIncomes = ['Doanh thu']
-        const newChartBlogs = ['Số Blogs']
-        const newChartDays = ['']  
-        var totalBlog =0;
-        var totalIncomes = 0;
-
-        for(var day of chartMonth){
-            newChartDays.push(day);
-        }
-
-        for(var income of incomesMonth){
-            newChartIncomes.push(income);
-            totalIncomes+=income;
-        }
-
-        for(var blog of blogPostMonth){
-            newChartBlogs.push(blog);
-            totalBlog+=blog;
-        }
-        newChartDays.push('Tổng')
-        newChartBlogs.push(totalBlog);
-        newChartIncomes.push(totalIncomes);
-
-        const data = [
-            newChartDays,
-            newChartBlogs,
-            newChartIncomes
-        ]
-
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-        XLSX.writeFile(wb, `StatisticPerMonthOfYear${today.getFullYear()}.xlsx`);
+    for (var blog of blogPostDay) {
+      newChartBlogs.push(blog);
+      totalBlog += blog;
     }
+    newChartDays.push("Tổng");
+    newChartBlogs.push(totalBlog);
+    newChartIncomes.push(totalIncomes);
+
+    const data = [newChartDays, newChartBlogs, newChartIncomes];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `StatisticPerDayOfMonth${today.getMonth() + 1}.xlsx`);
+  };
+
+  const handleExportExcelChartMonth = () => {
+    const newChartIncomes = ["Doanh thu"];
+    const newChartBlogs = ["Số Blogs"];
+    const newChartDays = [""];
+    var totalBlog = 0;
+    var totalIncomes = 0;
+
+    for (var day of chartMonth) {
+      newChartDays.push(day);
+    }
+
+    for (var income of incomesMonth) {
+      newChartIncomes.push(income);
+      totalIncomes += income;
+    }
+
+    for (var blog of blogPostMonth) {
+      newChartBlogs.push(blog);
+      totalBlog += blog;
+    }
+    newChartDays.push("Tổng");
+    newChartBlogs.push(totalBlog);
+    newChartIncomes.push(totalIncomes);
+
+    const data = [newChartDays, newChartBlogs, newChartIncomes];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `StatisticPerMonthOfYear${today.getFullYear()}.xlsx`);
+  };
 
   return (
     <div className="dasdboard">
@@ -319,6 +414,7 @@ function Dashboard() {
       {/* <h1 style={{ textAlign: "center" }}>Thống kê</h1> */}
       <main>
         <h1>Thống kê</h1>
+<<<<<<< HEAD
 
                 <div className="analyse">
                     <div className="sales">
@@ -372,9 +468,65 @@ function Dashboard() {
                             </div>
                         </div>
                     </div>
+=======
+        <div className="analyse">
+          <div className="sales">
+            <div className="status">
+              <div className="info">
+                <h3>Tổng doanh thu</h3>
+                <h1>
+                  {monthlyRevenue?.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </h1>
+              </div>
+              <div className="progress">
+                <svg>
+                  <circle cx={38} cy={38} r={36}></circle>
+                </svg>
+                <div className="percentage">
+                  <p>+81%</p>
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="visits">
+            <div className="status">
+              <div className="info">
+                <h3>Số blog trong tuần</h3>
+                <h1>{countNewBlog} Blogs</h1>
+              </div>
+              <div className="progress">
+                <svg>
+                  <circle cx={38} cy={38} r={36}></circle>
+                </svg>
+                <div className="percentage">
+                  <p>-48%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="searches">
+            <div className="status">
+              <div className="info">
+                <h3>Số User mới trong tuần</h3>
+                <h1>{countNewUser} Users</h1>
+              </div>
+              <div className="progress">
+                <svg>
+                  <circle cx={38} cy={38} r={36}></circle>
+                </svg>
+                <div className="percentage">
+                  <p>+21%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                {/* <div className="new-users">
+        {/* <div className="new-users">
                     <h2>New Users</h2>
                     <div className="user-list">
                         <div className="user">
@@ -399,24 +551,28 @@ function Dashboard() {
                         </div>
                     </div>
                 </div> */}
-                <div className="chartDiv">
-                    <div className="chartDay">
-                        <HighchartsReact
-                            highcharts={Highcharts}
-                            options={chartDayData}
-                        />
-                        <button className="buttonExport" onClick={() => handleExportExcelChartDay()}><FileDownloadIcon className="iconBtn" /> Export</button> 
-                    </div>
-                    <div className="chartMonth">
-                        <HighchartsReact
-                            highcharts={Highcharts}
-                            options={chartMonthData}
-                        />
-                        <button className="buttonExport" onClick={() => handleExportExcelChartMonth()}><FileDownloadIcon className="iconBtn" /> Export</button> 
-                    </div>
-                </div>
+        <div className="chartDiv">
+          <div className="chartDay">
+            <HighchartsReact highcharts={Highcharts} options={chartDayData} />
+            <button
+              className="buttonExport"
+              onClick={() => handleExportExcelChartDay()}
+            >
+              <FileDownloadIcon className="iconBtn" /> Export
+            </button>
+          </div>
+          <div className="chartMonth">
+            <HighchartsReact highcharts={Highcharts} options={chartMonthData} />
+            <button
+              className="buttonExport"
+              onClick={() => handleExportExcelChartMonth()}
+            >
+              <FileDownloadIcon className="iconBtn" /> Export
+            </button>
+          </div>
+        </div>
 
-                {/* <div className="recent-orders">
+        {/* <div className="recent-orders">
                     <h2>Recent Orders</h2>
                     <table>
                         <thead>

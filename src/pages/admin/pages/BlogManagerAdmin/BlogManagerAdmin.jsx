@@ -31,7 +31,7 @@ function BlogManagerAdmin() {
   const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
   const [open, setOpen] = useState(true);
 
-   const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -67,16 +67,25 @@ function BlogManagerAdmin() {
   // const handleSearchSubmit = () => {
   //   setCurrentPage(1);
   // };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get(`/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`, {
-          headers: {
-            Authorization: `Bearer ${account?.token}`,
-          },
-        });
+=======
+        const response = await axios.get(
+          `/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`,
+          {
+            headers: {
+              Authorization: `Bearer ${account?.token}`,
+            },
+          }
+        );
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
         setBlogs(data);
@@ -102,6 +111,55 @@ function BlogManagerAdmin() {
         }
 
         const response = await axios.get(apiUrl, {
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        });
+<<<<<<< HEAD
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+=======
+
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setNumberBlogsNotAccept(size);
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+<<<<<<< HEAD
+  }, [currentPage, searchTitle, account?.token]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+=======
+  }, [statusSearch, searchTitle, account?.token]);
+
+  useEffect(() => {
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
+    const fetchData = async () => {
+      try {
+        let apiUrl = "";
+        if (statusSearch === true) {
+<<<<<<< HEAD
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+=======
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
+        }
+
+        const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
@@ -109,6 +167,7 @@ function BlogManagerAdmin() {
 
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
+<<<<<<< HEAD
         setNumberBlogsNotAccept(size)
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
@@ -140,6 +199,8 @@ function BlogManagerAdmin() {
   
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
+=======
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
         setDisplayBlogs(data);
@@ -147,10 +208,16 @@ function BlogManagerAdmin() {
         console.log(error);
       }
     };
+<<<<<<< HEAD
   
     fetchData();
   }, [currentPage, statusSearch, searchTitle, account?.token]);
   
+=======
+
+    fetchData();
+  }, [currentPage, statusSearch, searchTitle, account?.token]);
+>>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 
   const handleDeleteComment = () => {
     if (statusSearch === true) {
@@ -255,9 +322,7 @@ function BlogManagerAdmin() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Thông báo"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Thông báo"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Có {numberBlogsNotAccept} blogs chờ được duyệt!
