@@ -1,5 +1,6 @@
-import * as XLSX from "xlsx";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import * as XLSX from 'xlsx';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
@@ -18,18 +19,110 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function Dashboard() {
-  const [countNewUser, setCountNewUser] = useState();
-  const [countNewBlog, setCountNewBlog] = useState();
-  const [monthlyRevenue, setMonthlyRevenue] = useState();
-  const [chartDay, setChartDay] = useState([]);
-  const [blogPostDay, setBlogPostDay] = useState([]);
-  const [incomesDay, setIncomesDay] = useState([]);
-  const [chartMonth, setChartMonth] = useState([]);
-  const [blogPostMonth, setBlogPostMonth] = useState([]);
-  const [incomesMonth, setIncomesMonth] = useState([]);
+ 
+    const [countNewUser, setCountNewUser] = useState();
+    const [countNewBlog, setCountNewBlog] = useState();
+    const [monthlyRevenue, setMonthlyRevenue] = useState();
+    const [lastMonthlyRevenue, setLastMonthRevenue] = useState();
+    const [improveRevenue, setImproveRevenue] = useState();
+    const [chartDay, setChartDay] = useState([]);
+    const [blogPostDay, setBlogPostDay] = useState([]);
+    const [incomesDay, setIncomesDay] = useState([]);
+    const [chartMonth, setChartMonth] = useState([]);
+    const [blogPostMonth, setBlogPostMonth] = useState([]);
+    const [incomesMonth, setIncomesMonth] = useState([]);
 
-  const account = useSelector((state) => state.account);
-  var today = new Date();
+
+    const account = useSelector(state => state.account);
+    var today = new Date();
+
+    useEffect(() => {
+        axios
+        .get(`/api/auth/weekly-sign-up-count`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.weekSignUpCount;
+            setCountNewUser(data);
+        })
+        .catch(err => console.log(err))
+
+        axios
+        .get(`/api/blog/weekly-post-count`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.weekPostCount;
+            setCountNewBlog(data);
+        })
+        .catch(err => console.log(err))
+
+        var date = new Date();
+        var currentMonth = date.getMonth();
+        currentMonth+=1;
+        axios
+        .get(`/api/transaction/monthly-revenue?month=${currentMonth}`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.totalRevenue;
+            setMonthlyRevenue(data);
+        })
+        .catch(err => console.log(err))
+
+        axios
+        .get(`/api/transaction/monthly-revenue?month=${currentMonth-1}`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.totalRevenue;
+            setLastMonthRevenue(data);
+        })
+        .catch(err => console.log(err))
+
+        axios
+        .get(`/api/transaction/chart`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.totalRevenue;
+            setChartDay(data.days);
+            setBlogPostDay(data.postBlogs);
+            setIncomesDay(data.incomes);
+        })
+        .catch(err => console.log(err))
+
+        axios
+        .get(`/api/transaction/chartMonth`,{
+            headers: {
+                Authorization: `Bearer ${account?.token}`
+            }
+        })
+        .then(res => {
+            const data = res.data.totalRevenue;
+            setChartMonth(data.days);
+            setBlogPostMonth(data.postBlogs);
+            setIncomesMonth(data.incomes);
+        })
+        .catch(err => console.log(err))
+    },[])
+
+    useEffect(()=>{
+        var last = lastMonthlyRevenue;
+        lastMonthlyRevenue===0?last=1:last=lastMonthlyRevenue;
+        var improve = (monthlyRevenue - last)/last;
+        setImproveRevenue(improve.toFixed(1));
+    },[lastMonthlyRevenue, monthlyRevenue])
 
   useEffect(() => {
     axios
@@ -299,60 +392,60 @@ function Dashboard() {
       {/* <h1 style={{ textAlign: "center" }}>Thống kê</h1> */}
       <main>
         <h1>Thống kê</h1>
-        <div className="analyse">
-          <div className="sales">
-            <div className="status">
-              <div className="info">
-                <h3>Tổng doanh thu</h3>
-                <h1>
-                  {monthlyRevenue?.toLocaleString("vi", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>+81%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="visits">
-            <div className="status">
-              <div className="info">
-                <h3>Số blog trong tuần</h3>
-                <h1>{countNewBlog} Blogs</h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>-48%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="searches">
-            <div className="status">
-              <div className="info">
-                <h3>Số User mới trong tuần</h3>
-                <h1>{countNewUser} Users</h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>+21%</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
+                <div className="analyse">
+                    <div className="sales">
+                        <div className="status">
+                            <div className="info">
+                                <h3>Tổng doanh thu</h3>
+                                <h1>{monthlyRevenue?.toLocaleString("vi", {
+                                    style: "currency",
+                                    currency: "VND",
+                                    })}</h1>
+                            </div>
+                            <div className="progress">
+                                <svg>
+                                    <circle cx={38} cy={38} r={36}></circle>
+                                </svg>
+                                <div className="percentage">
+                                    <p>+{improveRevenue}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="visits">
+                        <div className="status">
+                            <div className="info">
+                                <h3>Số blog trong tuần</h3>
+                                <h1>{countNewBlog} Blogs</h1>
+                            </div>
+                            <div className="progress">
+                                <svg>
+                                    <circle cx={38} cy={38} r={36}></circle>
+                                </svg>
+                                <div className="percentage">
+                                    <p>-48%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="searches">
+                        <div className="status">
+                            <div className="info">
+                                <h3>Số User mới trong tuần</h3>
+                                <h1>{countNewUser} Users</h1>
+                            </div>
+                            <div className="progress">
+                                <svg>
+                                    <circle cx={38} cy={38} r={36}></circle>
+                                </svg>
+                                <div className="percentage">
+                                    <p><PersonAddIcon className='personAddIcon'/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
         </div>
 
         {/* <div className="new-users">

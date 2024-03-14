@@ -13,6 +13,19 @@
 .homePage{
     display: flex;
     margin-top: 200px;
+    position: relative;
+
+    
+    .banner{
+        width: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        z-index: 10;
+        
+        .bannerContent{
+        }
+    }
 
     .leftHomePage{
         width: 20%;

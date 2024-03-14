@@ -207,9 +207,21 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
-
-                  {account?.phone !== undefined &&
-                  (account.role === "lessor" || account.role === "renter") ? (
+                  {account?.phone !== undefined && account.role === "renter" ? (
+                    <li onClick={() => navigate("/renter/blogManager")}>
+                      <span>Quản lý bài đăng</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
+                  {account?.phone !== undefined ? (
+                    <li onClick={() => handleLogout()}>
+                      <span>Đăng xuất</span>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
+                  {account?.phone !== undefined && (account.role === "lessor" || account.role === "renter")? (
                     <li onClick={() => navigate("/uploadBlog")}>
                       <span>Đăng bài</span>
                     </li>

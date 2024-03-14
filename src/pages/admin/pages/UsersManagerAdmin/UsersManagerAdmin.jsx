@@ -236,6 +236,7 @@ function UsersManagerAdmin() {
                 rowsPerPageOptions={[]}
               />
             </Paper>
+            
           </div>
         </div>
       </Box>
