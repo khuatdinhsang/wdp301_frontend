@@ -55,10 +55,8 @@ function Login() {
                 role: account.role,
               };
               const action = loginAccount(user);
-              const action1 = showAds(true);
-              setIsLoading(true);
+              // setIsLoading(true);
               dispatch(action);
-              dispatch(action1);
               toast.success("Đăng nhập thành công!");
               if(pathBack !== ''){
                 navigate(pathBack);
@@ -72,6 +70,8 @@ function Login() {
                 } else if (account.role === "admin") {
                   navigate("/admin/dashboard");
                 }
+                const action1 = showAds(true);
+                dispatch(action1);
               }
             }else if(data.statusCode === 500){
               if(data.message === "Phone number does not exist"){

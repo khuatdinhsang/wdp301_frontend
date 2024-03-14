@@ -32,6 +32,7 @@ function Dashboard() {
     const [blogPostMonth, setBlogPostMonth] = useState([]);
     const [incomesMonth, setIncomesMonth] = useState([]);
 
+
     const account = useSelector(state => state.account);
     var today = new Date();
 
@@ -123,9 +124,11 @@ function Dashboard() {
         setImproveRevenue(improve.toFixed(1));
     },[lastMonthlyRevenue, monthlyRevenue])
 
-    const chartDayData = {
-        chart: {
-            zoomType: 'xy'
+  useEffect(() => {
+    axios
+      .get(`/api/auth/weekly-sign-up-count`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
         },
       })
       .then((res) => {
@@ -443,26 +446,6 @@ function Dashboard() {
                         </div>
                     </div>
 
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="searches">
-            <div className="status">
-              <div className="info">
-                <h3>Số User mới trong tuần</h3>
-                <h1>{countNewUser} Users</h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>+21%</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* <div className="new-users">
