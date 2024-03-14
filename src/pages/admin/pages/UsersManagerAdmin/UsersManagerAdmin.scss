@@ -1,113 +1,42 @@
-.userManagement {
-  display: flex;
-}
-
-.sidebarLessorManagement {
-  /* Thiết lập kích thước hoặc các thuộc tính khác cho SidebarAdmin */
-}
-
-main {
-  flex-grow: 1;
-}
-
-h3 {
-  font-size: 250px;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  text-align: center;
-
-}
-
 .userManagementContent1 {
   padding: 20px;
-  flex-grow: 1;
+}
+
+.userTypeButtons {
   display: flex;
-  flex-direction: column;
-}
-
-.listUserManagerAdmin {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
-  margin-top: 20px;
-}
-
-.recent-orders {
-  flex-grow: 1;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background-color: #f2f2f2;
-}
-
-th,
-td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th:last-child,
-td:last-child {
-  text-align: center;
-}
-
-.primary {
-  cursor: pointer;
-  color: blue;
-}
-
-.userTypeAndSearch {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
   margin-bottom: 20px;
-}
-
-.userTypeButtons button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-right: 10px;
-  border-radius: 5px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-}
-
-.userTypeButtons button:hover {
-  background-color: #45a049;
 }
 
 .search {
   flex-grow: 1;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 20px;
-  float: right;
-  border-color: #c0ff05;
-  padding: 10px;
-  border-radius: 5px;
-  width: 500px;
-  font-size: 16px;
-  transition-duration: 0.4s;
-  box-shadow: 0 0 8px 0 rgba(0, 1, 0, 0.4);
 }
 
+.listUserManagerAdmin {
+  margin-top: 20px;
+}
 
+.listUserManagerAdmin table {
+  width: 100%;
+}
+
+.listUserManagerAdmin th,
+.listUserManagerAdmin td {
+  padding: 12px;
+}
+
+.listUserManagerAdmin th {
+  background-color: #f0f0f0;
+}
+
+.listUserManagerAdmin tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.listUserManagerAdmin tbody tr:hover {
+  background-color: #eaeaea;
+}
 
 .pagination {
   display: flex;
@@ -115,99 +44,40 @@ td:last-child {
   margin-top: 20px;
 }
 
-.pagination button {
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  color: #333;
-  padding: 8px 12px;
-  margin: 0 4px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+.pagination .MuiTablePagination-input,
+.pagination .MuiTablePagination-select {
+  margin-right: 20px;
 }
 
-.pagination button.active {
-  background-color: #4CAF50;
-  color: #fff;
-  border-color: #4CAF50;
-}
-
-.pagination button:hover {
-  background-color: #ddd;
-  color: #333;
-  border-color: #ddd;
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 50%;
-  margin-top: 200px;
-  margin-left: 30%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.modal-overlay {
+.modalContainer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ mờ 50% */
-  z-index: 9998; /* Giảm z-index để nằm dưới modal */
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-.reason{
-  width: 80%;
-  height: 50px;
-  margin-right: 30px;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-
-.modal-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-.btnSubmit{
-  background-color: rgb(24, 219, 57);
-  color: #ffffff;
-  border: 1px solid palegreen;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.btn {
-  padding: 10px 20px;
-  border: 1px solid;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 10%;
+.modalContent {
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
 }
 
-.btn-block {
-  background-color: #007bff;
-  color: #a62222;
+.modalContent input {
+  margin-bottom: 10px;
 }
 
-.btn-cancel {
-  background-color: #ccc;
-  color: #333;
+.modalContent button {
+  margin-top: 10px;
 }
 
+.MuiOutlinedInput-input {
+  height: 100% !important;
+
+}
 
