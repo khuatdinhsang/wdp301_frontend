@@ -166,34 +166,34 @@ function UsersManagerAdmin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {userType === "renter" &&
-                    renters.map((user, index) => (
-                      <tr key={index}>
-                        <td>{user?.fullName}</td>
-                        <td>{user?.phone}</td>
-                        <td>{user?.email}</td>
-                        <td>{user?.address}</td>
-                        <td>
-                          <button onClick={() => handleBlockUser(user._id)}>
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  {userType === "lessor" &&
-                    lessors.map((user, index) => (
-                      <tr key={index}>
-                        <td>{user?.fullName}</td>
-                        <td>{user?.phone}</td>
-                        <td>{user?.email}</td>
-                        <td>{user?.address}</td>
-                        <td>
-                          <button onClick={() => handleBlockUser(user._id)}>
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                  {userType === 'renter' && renters.map((user, index) => (
+                    <tr key={index}>
+                      <td>{user?.fullName}</td>
+                      <td>{user?.phone}</td>
+                      <td>{user?.email}</td>
+                      <td>{user?.address}</td>
+                      <td>
+                        <button onClick={() => handleBlockUser(user._id)}>
+                          {user.isBlocked ? 'Unblock' : 'Block'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  
+                  {userType === 'lessor' && lessors.map((user, index) => (
+                    <tr key={index}>
+                      <td>{user?.fullName}</td>
+                      <td>{user?.phone}</td>
+                      <td>{user?.email}</td>
+                      <td>{user?.address}</td>
+                      <td>
+                        <button onClick={() => handleBlockUser(user._id)}>
+                          {user.isBlocked ? 'Unblock' : 'Block'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+
                 </tbody>
               </table>
             </div>

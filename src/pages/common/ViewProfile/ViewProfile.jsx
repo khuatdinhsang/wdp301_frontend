@@ -1,8 +1,9 @@
 import HomeIcon from '@mui/icons-material/Home';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router'
+import { pathBackViewProfile } from '../../../actions/pathActions';
 import './ViewProfile.scss'
 
 function ViewProfile(){
@@ -14,6 +15,7 @@ function ViewProfile(){
     const [lastName, setLastName] = useState();
     const account = useSelector(state => state.account)
     const pathBack = useSelector(state => state.path)
+    const dispatch = useDispatch();
     
     useEffect(() => {
       axios
@@ -31,6 +33,8 @@ function ViewProfile(){
 
     const handleBack = () => {
       navigate(pathBack);
+      const action = pathBackViewProfile('');
+      dispatch(action);
     }
 
     useEffect(() => {

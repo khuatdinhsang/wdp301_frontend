@@ -48,7 +48,10 @@ function Comment({content, onDelete, onUpdate}){
             dispatch(action);
             navigate(`/viewProfile/${content?.userId}`);
         }else{
-            toast.warn("Vui lòng đăng nhập để xem thông tin ngườI dùng này");
+            const action = pathBackViewProfile(pathName);
+            dispatch(action);
+            navigate("/login")
+            toast.warn("Vui lòng đăng nhập để xem thông tin người dùng này");
         }
     }
 

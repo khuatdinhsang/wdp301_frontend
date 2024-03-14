@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 import { loginAccount, logout } from "../../../actions/accountActions";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "../Loading";
+import { pathBackViewProfile } from "../../../actions/pathActions";
+import { showAds } from "../../../actions/bannerActions";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,6 +17,7 @@ function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const pathBack = useSelector(state => state.path)
   const [warningUsername, setWarningUsername] = useState(false);
   const [isBlankPassword, setIsBlankPassword] = useState(false);
 
@@ -52,15 +55,23 @@ function Login() {
                 role: account.role,
               };
               const action = loginAccount(user);
+              const action1 = showAds(true);
               setIsLoading(true);
               dispatch(action);
+              dispatch(action1);
               toast.success("Đăng nhập thành công!");
-              if (account.role === "renter") {
-                navigate("/");
-              } else if (account.role === "lessor") {
-                navigate("/lessor/blogManager");
-              } else if (account.role === "admin") {
-                navigate("/admin/blogManager");
+              if(pathBack !== ''){
+                navigate(pathBack);
+                const action = pathBackViewProfile('');
+                dispatch(action);
+              }else{
+                if (account.role === "renter") {
+                  navigate("/");
+                } else if (account.role === "lessor") {
+                  navigate("/lessor/blogManager");
+                } else if (account.role === "admin") {
+                  navigate("/admin/dashboard");
+                }
               }
             }else if(data.statusCode === 500){
               if(data.message === "Phone number does not exist"){

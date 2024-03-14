@@ -1,18 +1,14 @@
-import "./BlogRentManager.scss"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import CardHome from '../../../components/component/Card';
+import CardLessor from '../../../components/component/CardLessor/CardLessor';
 import SidebarAdmin from '../../admin/components/SideBarAdmin/SidebarAdmin';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, NativeSelect } from "@mui/material";
-import Card from '../../../components/component/Card';
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import CardLessor from "../../../components/component/CardLessor/CardLessor";
-import { toast } from "react-toastify";
+import './RenterBlogManagement.scss'
 
-
-function BlogRentManager(){
-
-    const [statusSearch, setStatusSearch] = useState("unrent");
+function RenterBlogManagement(){
+     const [statusSearch, setStatusSearch] = useState("unrent");
     const [blogs, setBlogs] = useState([])
     const account = useSelector(state => state.account);
     const [isUpdate, setIsUpdate] = useState(false);
@@ -92,34 +88,18 @@ function BlogRentManager(){
             <div className="blogRentManagerContent1">
                 <div className="blogRentManagerTitle">
                     <h3>Quản lý các blog được thuê</h3>
-                    <div className="typeShowContent">
-                            <FormControl fullWidth>
-                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                                Loại phòng
-                            </InputLabel>
-                            <NativeSelect
-                                defaultValue={statusSearch}
-                                inputProps={{
-                                name: "age",
-                                id: "uncontrolled-native",
-                                }}
-                                onChange={(e) => handleChangeStatus(e.target.value)}
-                            >
-                                <option value={`rent`}>Đã được thuê</option>
-                                <option value={`unrent`}>Đang có sẵn</option>
-                                <option value={`isProcess`}>Đang có người chờ duyệt</option>
-                            </NativeSelect>
-                            </FormControl>
+                     <div className="typeShowContent">
+                           
                     </div>
                 </div>
                 <div className="blogRentManagerList">
                     {blogs.slice().reverse()?.map(blog => (
                         <CardLessor key={blog?._id} blog={blog} statusSearch={statusSearch} onUpdate={handleUpdateRent}  className="card"/>
                     ))}
-                    <Card className="card" />
-                    <Card className="card" />
-                    <Card className="card" />
-                    <Card className="card" />
+                    <CardHome className="card" />
+                    <CardHome className="card" />
+                    <CardHome className="card" />
+                    <CardHome className="card" />
                 </div>
             </div>
 
@@ -147,4 +127,4 @@ function BlogRentManager(){
     )
 }
 
-export default BlogRentManager
+export default RenterBlogManagement
