@@ -4,6 +4,10 @@ const pathReducer = (state="" , action) => {
             const path = action.payload;
             return path;
         }
+        case "STATUS_ADS":{
+            const status = action.payload;
+            return status;
+        }
 
         default: 
             return state;

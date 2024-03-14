@@ -35,10 +35,17 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
   const dispatch = useDispatch();
 
     useEffect(() => {
-      if(statusSearch === 'rent'){
-        setRenterConfirm(blog?.Renterid);
-      }else if(statusSearch === 'unrent'){
-        setRenterConfirm(blog?.Renterconfirm);
+      switch(statusSearch){
+        case 'rent':{
+          setRenterConfirm(blog?.Renterid);
+        }
+        case 'unrent':{
+          
+        }
+        case 'isProcess':{
+         setRenterConfirm(blog?.Renterconfirm);
+        }
+        default: return ;
       }
       setStatus(statusSearch);
       setPathName(path.pathname);
@@ -46,11 +53,13 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
 
     const handleAccept = (id) => {
       setStatusOpen(true);
+      setCurrentId(id);
       handleClickOpenConfirm();
     }
 
     const handleDecline = (id) => {
       setStatusOpen(false);
+      setCurrentId(id);
       handleClickOpenConfirm();
     }
     
@@ -205,7 +214,7 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
             </DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                {`Thông tin người thuê phòng`}
+                {statusSearch === 'unrent'?`Thông tin người đăng ký thuê phòng`:'Thông tin người thuê phòng'}
             </DialogContentText>
              <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 550 }} size="small" aria-label="a dense table">

@@ -68,6 +68,7 @@ function BlogManagerAdmin() {
   //   setCurrentPage(1);
   // };
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -109,6 +110,7 @@ function BlogManagerAdmin() {
           },
         });
 
+
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
         setNumberBlogsNotAccept(size);
@@ -121,16 +123,17 @@ function BlogManagerAdmin() {
     };
 
     fetchData();
-  }, [statusSearch, searchTitle, account?.token]);
+  }, [currentPage, searchTitle, account?.token]);
 
   useEffect(() => {
+    setCurrentPage(1);
     const fetchData = async () => {
       try {
         let apiUrl = "";
         if (statusSearch === true) {
-          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=1&title=${searchTitle}`;
         } else {
-          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=1&title=${searchTitle}`;
         }
 
         const response = await axios.get(apiUrl, {
@@ -141,6 +144,7 @@ function BlogManagerAdmin() {
 
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
+        setNumberBlogsNotAccept(size)
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
         setDisplayBlogs(data);
@@ -148,6 +152,36 @@ function BlogManagerAdmin() {
         console.log(error);
       }
     };
+
+    fetchData();
+  }, [statusSearch, searchTitle, account?.token]);
+
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        let apiUrl = "";
+        if (statusSearch === true) {
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
+        }
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        });
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
 
     fetchData();
   }, [currentPage, statusSearch, searchTitle, account?.token]);
@@ -189,6 +223,7 @@ function BlogManagerAdmin() {
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
   };
+  
 
   return (
     <div className="blogManagement">
