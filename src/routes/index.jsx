@@ -60,4 +60,5 @@ const lessorRoutes = [
     
 ]
 
-export { publicRoutes, adminRoutes, renterRoutes, lessorRoutes }
+
+export { publicRoutes, adminRoutes, renterRoutes, lessorRoutes };

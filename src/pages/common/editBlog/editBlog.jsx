@@ -51,9 +51,7 @@ function EditBlog() {
       area === "" ||
       money === "" ||
       addressDetail === "" ||
-      totalRoom === "" ||
-      dataImg.length === 0 ||
-      image.length === 0
+      (dataImg.length === 0 && image.length === 0)
     ) {
       toast.warn("Có thông tin chưa điền!!");
       return;
@@ -77,7 +75,7 @@ function EditBlog() {
         },
       });
       toast.success("Chỉnh sửa thông tin blog thành công!!");
-      navigate("/blogManager");
+      navigate("/lessor/blogManager");
     } catch (error) {
       console.log(error);
       toast.error("Đã xảy ra lỗi khi chỉnh sửa blog!!");
@@ -199,7 +197,7 @@ function EditBlog() {
           </div>
           <div className="inputBox">
             <label htmlFor="inputPrice">Miêu tả</label>
-            <input
+            <textarea
               type="text"
               className="inputPrice"
               id="inputPrice"

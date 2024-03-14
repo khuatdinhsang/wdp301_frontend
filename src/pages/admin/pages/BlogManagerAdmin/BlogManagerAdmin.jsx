@@ -31,7 +31,7 @@ function BlogManagerAdmin() {
   const [numberBlogsNotAccept, setNumberBlogsNotAccept] = useState();
   const [open, setOpen] = useState(true);
 
-   const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -72,13 +72,48 @@ function BlogManagerAdmin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`, {
+        const response = await axios.get(
+          `/api/blog/getAllAccepted/admin?limit=10&page=${currentPage}&title=${searchTitle}`,
+          {
+            headers: {
+              Authorization: `Bearer ${account?.token}`,
+            },
+          }
+        );
+        const data = response.data.data.allBlog;
+        const size = response.data.data.totalBlog;
+        setBlogs(data);
+        setNumberPage(Math.ceil(size / 10));
+        setDisplayBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage, searchTitle, account?.token]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    const fetchData = async () => {
+      try {
+        let apiUrl = "";
+        if (statusSearch === true) {
+          apiUrl = `/api/blog/getAllAccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+        } else {
+          apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=1&title=${searchTitle}`;
+        }
+
+        const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
         });
+
+
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
+        setNumberBlogsNotAccept(size);
         setBlogs(data);
         setNumberPage(Math.ceil(size / 10));
         setDisplayBlogs(data);
@@ -123,6 +158,7 @@ function BlogManagerAdmin() {
 
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         let apiUrl = "";
@@ -131,13 +167,11 @@ function BlogManagerAdmin() {
         } else {
           apiUrl = `/api/blog/getAllUnaccepted/admin?limit=10&&page=${currentPage}&title=${searchTitle}`;
         }
-  
         const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
         });
-  
         const data = response.data.data.allBlog;
         const size = response.data.data.totalBlog;
         setBlogs(data);
@@ -147,10 +181,10 @@ function BlogManagerAdmin() {
         console.log(error);
       }
     };
-  
+
+
     fetchData();
   }, [currentPage, statusSearch, searchTitle, account?.token]);
-  
 
   const handleDeleteComment = () => {
     if (statusSearch === true) {
@@ -255,9 +289,7 @@ function BlogManagerAdmin() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Thông báo"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Thông báo"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Có {numberBlogsNotAccept} blogs chờ được duyệt!

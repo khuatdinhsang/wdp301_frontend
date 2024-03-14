@@ -9,7 +9,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-function CardHome({ blog }) {
+function CardHome({ blog, isHome }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -30,39 +30,39 @@ function CardHome({ blog }) {
 
   useEffect(() => {
     axios
-    .get(`/api/auth/checkFavoutireBlog/${blog?._id}`,{
+      .get(`/api/auth/checkFavoutireBlog/${blog?._id}`, {
         headers: {
           Authorization: `Bearer ${account?.token}`,
         },
       })
-    .then(res => {
-      setStatus(res.data.data);
-    })
-    .catch(err => console.log(err))
+      .then((res) => {
+        setStatus(res.data.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const handleFavouriteRoom = () => {
-    if(account?.token){
+    if (account?.token) {
       const blogFavorite = {
-      id: blog?._id,
-    };
-    axios
-    .post("/api/auth/blog/favorite", blogFavorite, {
-      headers: {
-        Authorization: `Bearer ${account?.token}`,
-      },
-    })
-    .then((res) => {
-      if(status === false){
-        toast.success("Yêu thích blog thành công");
-      }else{
-        toast.success("Bỏ yêu thích blog thành công");
-      }
-      setStatus(!status);
-      })
-      .catch((err) => console.log(err));
-    }else{
-      toast.warn("Vui lòng đăng nhập để yêu thích!")
+        id: blog?._id,
+      };
+      axios
+        .post("/api/auth/blog/favorite", blogFavorite, {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        })
+        .then((res) => {
+          if (status === false) {
+            toast.success("Yêu thích blog thành công");
+          } else {
+            toast.success("Bỏ yêu thích blog thành công");
+          }
+          setStatus(!status);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast.warn("Vui lòng đăng nhập để yêu thích!");
     }
   };
 
@@ -72,7 +72,11 @@ function CardHome({ blog }) {
         <>
           <div
             className="imageContainer"
-            onClick={() => navigate(`/detail/${blog?._id}`)}
+            onClick={() =>
+              isHome
+                ? navigate(`/detail/${blog?._id}`)
+                : navigate(`/editBlog/${blog?._id}`)
+            }
           >
             <img alt="" src={`http://${blog?.image[currentImageIndex]}`} />
           </div>
@@ -103,7 +107,9 @@ function CardHome({ blog }) {
                 </span>
               </div>
             </div>
-            <span className="dateBuilding">{blog?.description}</span>
+            <span className="dateBuilding">
+              {blog?.description.slice(0, 100)}...
+            </span>
             <p className="priceCard">
               <span className="pricePer">
                 {blog?.money?.toLocaleString("vi", {
@@ -114,11 +120,15 @@ function CardHome({ blog }) {
               / tháng
             </p>
           </div>
-          {account?.role === 'renter'?<FavoriteIcon
-            className="heartCard"
-            style={{ color: status === true ? "pink" : "" }}
-            onClick={() => handleFavouriteRoom()}
-          />:<></>}
+          {account?.role === "renter" ? (
+            <FavoriteIcon
+              className="heartCard"
+              style={{ color: status === true ? "pink" : "" }}
+              onClick={() => handleFavouriteRoom()}
+            />
+          ) : (
+            <></>
+          )}
           <div className="favouriteChoosen">
             <span>Được khách yêu thích</span>
           </div>

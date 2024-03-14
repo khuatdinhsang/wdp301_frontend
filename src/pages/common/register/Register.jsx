@@ -43,8 +43,14 @@ function Register() {
             navigate("/login");
           }
         })
-        .catch((err) =>
-          toast("Đã có lỗi xảy ra, bạn kiểm tra thông tin cho đúng")
+        .catch((err) => {
+          console.log("err: ", err);
+          if (err.response.data.statusCode == 400) {
+            toast.error(err.response.data.message[0])
+          } else {
+            toast("Đã có lỗi xảy ra, bạn kiểm tra thông tin cho đúng")
+          }
+        }
         );
     }
   };
