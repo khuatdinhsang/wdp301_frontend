@@ -166,7 +166,6 @@ function UsersManagerAdmin() {
                   </tr>
                 </thead>
                 <tbody>
-<<<<<<< HEAD
                   {userType === 'renter' && renters.map((user, index) => (
                     <tr key={index}>
                       <td>{user?.fullName}</td>
@@ -194,7 +193,6 @@ function UsersManagerAdmin() {
                       </td>
                     </tr>
                   ))}
-=======
                   {userType === "renter" &&
                     renters.map((user, index) => (
                       <tr key={index}>
@@ -223,7 +221,6 @@ function UsersManagerAdmin() {
                         </td>
                       </tr>
                     ))}
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
                 </tbody>
               </table>
             </div>

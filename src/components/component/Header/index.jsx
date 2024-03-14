@@ -207,7 +207,6 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
-<<<<<<< HEAD
                   {account?.phone !== undefined && account.role === "renter" ? (
                     <li onClick={() => navigate("/renter/blogManager")}>
                       <span>Quản lý bài đăng</span>
@@ -223,11 +222,6 @@ const Header = () => {
                     <></>
                   )}
                   {account?.phone !== undefined && (account.role === "lessor" || account.role === "renter")? (
-=======
-
-                  {account?.phone !== undefined &&
-                  (account.role === "lessor" || account.role === "renter") ? (
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
                     <li onClick={() => navigate("/uploadBlog")}>
                       <span>Đăng bài</span>
                     </li>

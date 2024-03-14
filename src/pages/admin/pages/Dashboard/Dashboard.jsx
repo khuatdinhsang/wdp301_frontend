@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import * as XLSX from 'xlsx';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-=======
-import * as XLSX from "xlsx";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
@@ -24,7 +19,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function Dashboard() {
-<<<<<<< HEAD
  
     const [countNewUser, setCountNewUser] = useState();
     const [countNewBlog, setCountNewBlog] = useState();
@@ -37,22 +31,11 @@ function Dashboard() {
     const [chartMonth, setChartMonth] = useState([]);
     const [blogPostMonth, setBlogPostMonth] = useState([]);
     const [incomesMonth, setIncomesMonth] = useState([]);
-=======
-  const [countNewUser, setCountNewUser] = useState();
-  const [countNewBlog, setCountNewBlog] = useState();
-  const [monthlyRevenue, setMonthlyRevenue] = useState();
-  const [chartDay, setChartDay] = useState([]);
-  const [blogPostDay, setBlogPostDay] = useState([]);
-  const [incomesDay, setIncomesDay] = useState([]);
-  const [chartMonth, setChartMonth] = useState([]);
-  const [blogPostMonth, setBlogPostMonth] = useState([]);
-  const [incomesMonth, setIncomesMonth] = useState([]);
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
 
-  const account = useSelector((state) => state.account);
-  var today = new Date();
 
-<<<<<<< HEAD
+    const account = useSelector(state => state.account);
+    var today = new Date();
+
     useEffect(() => {
         axios
         .get(`/api/auth/weekly-sign-up-count`,{
@@ -141,16 +124,11 @@ function Dashboard() {
         setImproveRevenue(improve.toFixed(1));
     },[lastMonthlyRevenue, monthlyRevenue])
 
-    const chartDayData = {
-        chart: {
-            zoomType: 'xy'
-=======
   useEffect(() => {
     axios
       .get(`/api/auth/weekly-sign-up-count`, {
         headers: {
           Authorization: `Bearer ${account?.token}`,
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
         },
       })
       .then((res) => {
@@ -414,7 +392,6 @@ function Dashboard() {
       {/* <h1 style={{ textAlign: "center" }}>Thống kê</h1> */}
       <main>
         <h1>Thống kê</h1>
-<<<<<<< HEAD
 
                 <div className="analyse">
                     <div className="sales">
@@ -468,62 +445,7 @@ function Dashboard() {
                             </div>
                         </div>
                     </div>
-=======
-        <div className="analyse">
-          <div className="sales">
-            <div className="status">
-              <div className="info">
-                <h3>Tổng doanh thu</h3>
-                <h1>
-                  {monthlyRevenue?.toLocaleString("vi", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>+81%</p>
->>>>>>> 7bb21d2338d7f31d22fa0cbadf8462a53f57ca8d
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="visits">
-            <div className="status">
-              <div className="info">
-                <h3>Số blog trong tuần</h3>
-                <h1>{countNewBlog} Blogs</h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>-48%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="searches">
-            <div className="status">
-              <div className="info">
-                <h3>Số User mới trong tuần</h3>
-                <h1>{countNewUser} Users</h1>
-              </div>
-              <div className="progress">
-                <svg>
-                  <circle cx={38} cy={38} r={36}></circle>
-                </svg>
-                <div className="percentage">
-                  <p>+21%</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
 
         {/* <div className="new-users">
