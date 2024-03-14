@@ -34,7 +34,7 @@ function Register() {
         .post("http://localhost:9999/api/auth/register", userRegister)
         .then((res) => {
           console.log("re", res.data);
-          if (res.data.message === "Phone number already exists") {
+          if (res.data.message === "Số điện thoại đã tồn tại") {
             toast.error("Số điện thoại đã tồn tại trong hệ thống");
             setIsLoading(true);
           } else {
