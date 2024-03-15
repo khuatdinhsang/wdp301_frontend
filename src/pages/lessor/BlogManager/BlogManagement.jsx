@@ -23,7 +23,7 @@ function BlogManager() {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const account = useSelector((state) => state.account);
-  const [statusSearch, setStatusSearch] = useState(false);
+  const [statusSearch, setStatusSearch] = useState(true);
   console.log("number", numberPage);
   console.log("total", totalBlogs);
   useEffect(() => {
@@ -92,9 +92,9 @@ function BlogManager() {
   };
 
   return (
-    <div  className="blogManagement">
-      <SidebarAdmin/>
-      
+    <div className="blogManagement">
+      <SidebarAdmin />
+
       <div className="mainBlogManagementContent">
         <div className="searchContainerLessor">
           <Box sx={{ minWidth: 120 }} className={"selectType"}>

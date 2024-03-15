@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import "./UsersManagerAdmin.scss";
-import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
 import { useParams } from "react-router";
 import axios from "axios";
+import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Typography,
+  IconButton,
+  Tooltip,
+  TextField,
+  Button,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 function UsersManagerAdmin() {
   const { slug } = useParams();
@@ -18,11 +35,11 @@ function UsersManagerAdmin() {
   const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [blockReason, setBlockReason] = useState("");
-
+  const [isBlock, setIsBlock] = useState(false);
   useEffect(() => {
     fetchRenterData();
     fetchLessorData();
-  }, [account, slug, searchTerm, currentPage]);
+  }, [account, slug, searchTerm, currentPage, isBlock]);
 
   const calculateTotalPages = (totalItems) => {
     return Math.ceil(totalItems / itemsPerPage);
@@ -82,7 +99,6 @@ function UsersManagerAdmin() {
   };
 
   const handleBlockUser = (userId) => {
-    console.log("aa", userId);
     setShowModal(true);
     setCurrentUserId(userId);
   };
@@ -114,157 +130,178 @@ function UsersManagerAdmin() {
           return user;
         });
         setLessors(updatedLessors);
+        setIsBlock(isBlock ? false : true);
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <div className="userManagement">
+    <Box sx={{ display: "flex" }}>
       <SidebarAdmin className="sidebarLessorManagement" />
-      <main>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
+      >
         <div className="userManagementContent1">
-          <h4>Users Manager</h4>
+          <Typography variant="h3" gutterBottom>
+            Users Manager
+          </Typography>
 
           <div className="userTypeButtons">
-            <button
-              className={userType === "renter" ? "active" : ""}
+            <Button
+              variant={userType === "renter" ? "contained" : "outlined"}
               onClick={() => {
                 setUserType("renter");
                 setCurrentPage(1);
               }}
             >
               Renters
-            </button>
-            <button
-              className={userType === "lessor" ? "active" : ""}
+            </Button>
+            <Button
+              variant={userType === "lessor" ? "contained" : "outlined"}
               onClick={() => {
                 setUserType("lessor");
                 setCurrentPage(1);
               }}
             >
               Lessors
-            </button>
-            <input
+            </Button>
+            <TextField
               className="search"
-              type="text"
+              variant="outlined"
+              size="medium"
               placeholder="Search"
               value={searchTerm}
               onChange={handleSearch}
+              style={{ float: "right" }}
             />
           </div>
 
           <div className="listUserManagerAdmin">
-            <div className="recent-orders">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Full name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userType === 'renter' && renters.map((user, index) => (
-                    <tr key={index}>
-                      <td>{user?.fullName}</td>
-                      <td>{user?.phone}</td>
-                      <td>{user?.email}</td>
-                      <td>{user?.address}</td>
-                      <td>
-                        <button onClick={() => handleBlockUser(user._id)}>
-                          {user.isBlocked ? 'Unblock' : 'Block'}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  
-                  {userType === 'lessor' && lessors.map((user, index) => (
-                    <tr key={index}>
-                      <td>{user?.fullName}</td>
-                      <td>{user?.phone}</td>
-                      <td>{user?.email}</td>
-                      <td>{user?.address}</td>
-                      <td>
-                        <button onClick={() => handleBlockUser(user._id)}>
-                          {user.isBlocked ? 'Unblock' : 'Block'}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  {userType === "renter" &&
-                    renters.map((user, index) => (
-                      <tr key={index}>
-                        <td>{user?.fullName}</td>
-                        <td>{user?.phone}</td>
-                        <td>{user?.email}</td>
-                        <td>{user?.address}</td>
-                        <td>
-                          <button onClick={() => handleBlockUser(user._id)}>
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  {userType === "lessor" &&
-                    lessors.map((user, index) => (
-                      <tr key={index}>
-                        <td>{user?.fullName}</td>
-                        <td>{user?.phone}</td>
-                        <td>{user?.email}</td>
-                        <td>{user?.address}</td>
-                        <td>
-                          <button onClick={() => handleBlockUser(user._id)}>
-                            {user.isBlocked ? "Unblock" : "Block"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="pagination">
-              {totalPages > 0 &&
-                Array.from(Array(totalPages).keys()).map((number) => (
-                  <button
-                    key={number + 1}
-                    className={currentPage === number + 1 ? "active" : ""}
-                    onClick={() => handlePageChange(number + 1)}
-                  >
-                    {number + 1}
-                  </button>
-                ))}
-            </div>
+            <Paper>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Full name</TableCell>
+                      <TableCell>Phone</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Address</TableCell>
+                      <TableCell>Ngày tạo</TableCell>
+                      <TableCell>Action</TableCell>
+                      <TableCell>Lí do</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {userType === "renter" &&
+                      renters.map((user, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{user?.fullName}</TableCell>
+                          <TableCell>{user?.phone}</TableCell>
+                          <TableCell>{user?.email}</TableCell>
+                          <TableCell>{user?.address}</TableCell>
+                          <TableCell>{user?.createdAt.split("T")[0]}</TableCell>
+                          <TableCell>
+                            <Button
+                              onClick={() => handleBlockUser(user._id)}
+                              variant={
+                                user.isBlocked ? "contained" : "outlined"
+                              }
+                            >
+                              {user.isBlocked ? "Unblock" : "Block"}
+                            </Button>
+                          </TableCell>
+                          {user.block?.isBlock ? (
+                            <TableCell style={{ color: "red" }}>{`${
+                              user?.block?.content
+                            }/ ${user?.block.day.split("T")[0]}`}</TableCell>
+                          ) : (
+                            <TableCell></TableCell>
+                          )}
+                        </TableRow>
+                      ))}
+                    {userType === "lessor" &&
+                      lessors.map((user, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{user?.fullName}</TableCell>
+                          <TableCell>{user?.phone}</TableCell>
+                          <TableCell>{user?.email}</TableCell>
+                          <TableCell>{user?.address}</TableCell>
+                          <TableCell>{user?.createdAt.split("T")[0]}</TableCell>
+                          <TableCell>
+                            <Button
+                              onClick={() => handleBlockUser(user._id)}
+                              variant={
+                                user.isBlocked ? "contained" : "outlined"
+                              }
+                            >
+                              {user.isBlocked ? "Unblock" : "Block"}
+                            </Button>
+                          </TableCell>
+                          {user.block?.isBlock ? (
+                            <TableCell style={{ color: "red" }}>{`${
+                              user?.block?.content
+                            }/ ${user?.block.day.split("T")[0]}`}</TableCell>
+                          ) : (
+                            <TableCell></TableCell>
+                          )}
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                component="div"
+                count={totalPages * itemsPerPage}
+                page={currentPage - 1}
+                onPageChange={(event, page) => handlePageChange(page + 1)}
+                rowsPerPage={itemsPerPage}
+                rowsPerPageOptions={[]}
+              />
+            </Paper>
           </div>
         </div>
-      </main>
+      </Box>
 
-      {/* Modal for block reason */}
       {showModal && (
-        <div
-          className="modal"
-          style={{ display: showModal ? "block" : "none" }}
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
         >
-          <div className="modal-content">
-            <span className="close" onClick={() => setShowModal(false)}>
-              &times;
-            </span>
-            <h2>Reason</h2>
-            <input
-              type="text"
-              className="reason"
-              placeholder="Reason"
+          <Paper
+            sx={{
+              width: 300,
+              padding: 2,
+              textAlign: "center",
+              backgroundColor: "#fff",
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              Reason for blocking
+            </Typography>
+            <TextField
+              variant="outlined"
+              placeholder="Enter reason"
               value={blockReason}
               onChange={(e) => setBlockReason(e.target.value)}
+              sx={{ marginBottom: 1 }}
             />
-            <button className="submit" onClick={toggleBlockUser}>
+            <Button onClick={toggleBlockUser} variant="contained">
               Submit
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Paper>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
