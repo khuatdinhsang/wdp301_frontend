@@ -406,13 +406,12 @@ function Dashboard() {
                 </h1>
               </div>
               <div className="progress">
-                {/* <svg>
+                <svg>
                   <circle cx={38} cy={38} r={36}></circle>
                 </svg>
                 <div className="percentage">
-                  <p>+{improveRevenue}%</p>
-                </div> */}
-                <AttachMoneyIcon style={{ width: "75px", height: "75px" }} />
+                  <AttachMoneyIcon style={{ width: "30px", height: "30px" }} />
+                </div>
               </div>
             </div>
           </div>
@@ -423,13 +422,12 @@ function Dashboard() {
                 <h1>{countNewBlog} Blogs</h1>
               </div>
               <div className="progress">
-                {/* <svg>
+                <svg>
                   <circle cx={38} cy={38} r={36}></circle>
                 </svg>
                 <div className="percentage">
-                  <p>-48%</p>
-                </div> */}
-                <BookmarksIcon style={{ width: "75px", height: "75px" }} />
+                  <BookmarksIcon style={{ width: "30px", height: "30px" }} />
+                </div>
               </div>
             </div>
           </div>
@@ -440,16 +438,14 @@ function Dashboard() {
                 <h1>{countNewUser} Users</h1>
               </div>
               <div className="progress">
-                {/* <svg>
+                <svg>
                   <circle cx={38} cy={38} r={36}></circle>
-                </svg> */}
+                </svg>
                 <div className="percentage">
-                  <p>
                     <PersonAddIcon
                       className="personAddIcon"
-                      style={{ width: "75px", height: "75px" }}
+                      style={{ width: "30px", height: "30px" }}
                     />
-                  </p>
                 </div>
               </div>
             </div>

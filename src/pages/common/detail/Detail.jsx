@@ -44,14 +44,18 @@ function Detail() {
   const [renterConfirm, setRenterConfrim] = useState([]);
   const [isRentRegister, setIsRentRegister] = useState(false);
   const [isRentConfirm, setIsRentConfirm] = useState(false);
+  const [userId, setUserId] = useState();
   const [doneRent, setDoneRent] = useState(false);
   const [pathName, setPathName] = useState();
   const path = useLocation();
   const dispatch = useDispatch();
-  console.log("â", account);
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setUserId(account.accessToken.id);
+  },[])
 
   const handleCloseUnRent = () => {
     setOpenUnRent(false);
@@ -276,7 +280,7 @@ function Detail() {
   const handleComment = () => {
     if (starComment === 0 || feedback === "") {
       toast.warn("Cần điền đầy đủ thông tin để bình luận!!");
-    } else if (isRentConfirm !== true) {
+    } else if (isRentConfirm !== true && blog?.userId !== userId) {
       toast.warn("Bạn chưa thuê phòng này để bình luận");
     } else {
       const commentContent = {
@@ -786,6 +790,7 @@ function Detail() {
                 content={blog}
                 onDelete={handleDeleteComment}
                 onUpdate={() => hanldeUpdateBlogRate(blog)}
+                isLessor={ blog?.userId === userId}
               />
             );
         })}
