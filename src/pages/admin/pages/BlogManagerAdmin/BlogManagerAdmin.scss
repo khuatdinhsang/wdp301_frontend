@@ -1,5 +1,5 @@
 .blogManagementContent1{
-    width: 75%;
+    width: 80%;
     display: flex;
     flex-wrap: wrap;
     margin-left: 5%;
@@ -10,8 +10,17 @@
 
     .topBlogManagementContent1{
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        align-items: center;
         width: 100%;
+        padding: 0 50px;
+
+        .searchBlogManagerAdmin{
+            padding: 6px 18px;
+            outline: none;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #ccc;
+        }
     }
     .listBlogManagerAdmin{
         display: flex;

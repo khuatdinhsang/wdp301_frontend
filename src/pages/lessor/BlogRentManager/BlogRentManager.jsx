@@ -86,74 +86,131 @@ function BlogRentManager() {
     }
   }, [statusSearch, isUpdate]);
 
-  const handleUpdateRent = () => {
-    setIsUpdate(!isUpdate);
-  };
 
-  return (
-    <div className="blogRentManager1">
-      <SidebarAdmin className={"sidebarBlogRent"} />
-      <div className="blogRentManagerContent1">
-        <div className="blogRentManagerTitle">
-          <h3>Trạng thái các blog</h3>
-          <div className="typeShowContent">
-            <FormControl fullWidth>
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                Loại phòng
-              </InputLabel>
-              <NativeSelect
-                defaultValue={statusSearch}
-                inputProps={{
-                  name: "age",
-                  id: "uncontrolled-native",
-                }}
-                onChange={(e) => handleChangeStatus(e.target.value)}
-              >
-                <option value={`rent`}>Đã được thuê</option>
-                <option value={`unrent`}>Đang có sẵn</option>
-                <option value={`isProcess`}>Đang có người chờ duyệt</option>
-              </NativeSelect>
-            </FormControl>
-          </div>
-        </div>
-        <div className="blogRentManagerList">
-          {blogs
-            .slice()
-            .reverse()
-            ?.map((blog) => (
-              <CardLessor
-                key={blog?._id}
-                blog={blog}
-                statusSearch={statusSearch}
-                onUpdate={handleUpdateRent}
-                className="card"
-              />
-            ))}
-          <Card className="card" />
-          <Card className="card" />
-          <Card className="card" />
-          <Card className="card" />
-        </div>
-      </div>
+    useEffect(() => {
+        axios
+            .get(`/api/blog/findAllConfirmWaitingBlog/{userId}`,{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                const data = res.data;
+                setBlogs(data);
+                setNumberNotRent(data.length);
+            })
+            .catch(err => console.log(err))
+    },[])
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Thông báo"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Có {numberNotRent} blogs có người đăng ký!
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+    useEffect(() => {
+        if(statusSearch === 'rent'){
+            axios
+            .get(`/api/blog/GetRentedRoomLessorRentOut`,{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                if(res.data.statusCode === 200){
+                    const data = res.data.data;
+                    setBlogs(data);
+                }
+            })
+            .catch(err => console.log(err))
+        }else if(statusSearch === 'unrent'){
+            axios
+            .get(`/api/blog/GetUnrentedRoomLessorRentOut`,{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                if(res.data.statusCode === 200){
+                    const data = res.data.data;
+                    setBlogs(data);
+                }
+            })
+            .catch(err => console.log(err))
+        }else if(statusSearch === 'isProcess'){
+            axios
+            .get(`/api/blog/findAllConfirmWaitingBlog/{userId}`,{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                const data = res.data;
+                setBlogs(data);
+                setNumberNotRent(data.length);
+            })
+            .catch(err => console.log(err))
+        }
+    },[statusSearch, isUpdate])
+
+
+
+    const handleUpdateRent = () => {
+        setIsUpdate(!isUpdate)
+    }
+
+    return(
+        <div className="blogRentManager1">
+            <SidebarAdmin className={'sidebarBlogRent'}/>
+            <div className="blogRentManagerContent1">
+                <div className="blogRentManagerTitle">
+                    <h3>Quản lý các blog được thuê</h3>
+                    <div className="typeShowContent">
+                            <FormControl fullWidth>
+                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                Loại phòng
+                            </InputLabel>
+                            <NativeSelect
+                                defaultValue={statusSearch}
+                                inputProps={{
+                                name: "age",
+                                id: "uncontrolled-native",
+                                }}
+                                onChange={(e) => handleChangeStatus(e.target.value)}
+                            >
+                                <option value={`rent`}>Đã được thuê</option>
+                                <option value={`unrent`}>Đang có sẵn</option>
+                                <option value={`isProcess`}>Đang có người chờ duyệt</option>
+                            </NativeSelect>
+                            </FormControl>
+                    </div>
+                </div>
+                <div className="blogRentManagerList">
+                    {blogs.slice().reverse()?.map(blog => (
+                        <CardLessor key={blog?._id} blog={blog} statusSearch={statusSearch} onUpdate={handleUpdateRent}  className="card"/>
+                    ))}
+                    <Card className="card" />
+                    <Card className="card" />
+                    <Card className="card" />
+                    <Card className="card" />
+                </div>
+            </div>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                {"Thông báo"}
+                </DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Có {numberNotRent} blogs có người đăng ký!
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} autoFocus>
+                    Đóng
+                </Button>
+                </DialogActions>
+            </Dialog>
     </div>
   );
 }

@@ -1,27 +1,54 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { logDOM } from '@testing-library/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router';
+import { pathBackViewProfile } from '../../../actions/pathActions';
 import './CardRentBlog.scss'
 
-function CardRentBlog({item}){
+function CardRentBlog({item, statusSearch}){
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const account = useSelector(state => state.account);
+    const [status, setStatus] = useState();
     const [userId, setUserId] = useState();
     const [roomate, setRoomate] = useState();
-    const [roomateId, setRoomateId] = useState();
+    const [pathName, setPathName] = useState();
+    const path = useLocation();
+    const dispatch = useDispatch();
+
+     useEffect(() => {
+      setPathName(path.pathname);
+      setStatus(statusSearch)
+    }, [])
 
     useEffect(() => {
         setUserId(account.accessToken.id);
-        //  item?.Renterid
+
+         axios
+        .get(`/api/blog/GetRoomate/${item?._id}`, {
+            headers: {
+            Authorization: `Bearer ${account?.token}`,
+            },
+        })
+        .then(res => {
+            const data = res.data;
+            if(data.statusCode === 200){
+                setRoomate(data.data);
+            }
+        })
+        .catch(err => console.log(err))
     },[])
 
     const handleClickOpen = () => {
-        setOpen(true);
+        if(status === 'confirm' ){
+            setOpen(true);
+        }else{
+            const id = item?._id;
+            handleShowData(id);
+        }
     }
 
     const handleClose = () => {
@@ -31,6 +58,12 @@ function CardRentBlog({item}){
     const handleShowData = () => {
         const id = item?._id;
         navigate(`/detail/${id}`)
+    }
+     const handleViewProfile = (id) => {
+            const action = pathBackViewProfile(pathName);
+            dispatch(action);
+            navigate(`/viewProfile/${id}`);
+        
     }
 
     return(
@@ -48,7 +81,7 @@ function CardRentBlog({item}){
                 <h4>{item?.title}</h4>
                 {/* <i>Đã lưu 2 mục</i> */}
             </div>
-            <Dialog
+            {status === 'confirm' ?<Dialog
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
@@ -61,6 +94,34 @@ function CardRentBlog({item}){
                 <DialogContentText id="alert-dialog-description">
                     {`Thông tin bạn cùng phòng`}
                 </DialogContentText>
+                 <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 550 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>STT</TableCell>
+                        <TableCell align="left">Tên người dùng</TableCell>
+                        <TableCell align="left">Số điện thoại</TableCell>
+                        <TableCell align="left"></TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {roomate?.map((user,index) => (
+                        <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
+                        key={user?._id}
+                        >
+                            <TableCell component="th" scope="row">
+                                {index+1}
+                            </TableCell>
+                            <TableCell align="left" className='cursorPointer' onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
+                            <TableCell align="left" className='cursorPointer'>{user?.phone}</TableCell>
+                            <TableCell align="left" ></TableCell>
+                        </TableRow>
+                    ))}
+                    
+                    </TableBody>
+                </Table>
+                </TableContainer>    
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose}>Đóng</Button>
@@ -68,7 +129,7 @@ function CardRentBlog({item}){
                     Xem kỹ hơn
                 </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog>:<></>}
         </div>
     )
 }
