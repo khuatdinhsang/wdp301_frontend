@@ -128,6 +128,7 @@ export default function Profile() {
     }
   };
 
+
   useEffect(() => {
     axios
       .get("/api/auth/profile", {
@@ -211,6 +212,8 @@ export default function Profile() {
       .catch((err) => console.log(err));
   };
 
+
+
   return (
     <div className="profilePage">
       <div className="cardProfile">
@@ -273,7 +276,7 @@ export default function Profile() {
               <br />
               <span>SDT:{userDetail?.phone}</span>
               <br />
-              <span>Giới tính:{userDetail?.gender ? "Nam" : "Nữ"}</span>
+              <span>Giới tính:{userDetail?.gender === undefined ?'':(userDetail?.gender? "Nam" : "Nữ") }</span>
             </p>
             <div className="rowProfile">
               <div className="colProfile">
@@ -353,12 +356,12 @@ export default function Profile() {
                   >
                     <div style={{ display: "flex" }}>
                       <FormControlLabel
-                        value="false"
+                        value={false}
                         control={<Radio />}
                         label="Nữ"
                       />
                       <FormControlLabel
-                        value="true"
+                        value={true}
                         control={<Radio />}
                         label="Nam"
                       />

@@ -42,7 +42,7 @@ function UploadBlog() {
   };
 
   useEffect(() => {
-    account?.role === "renter" ? setPathBack("/") : setPathBack("/blogManager");
+    account?.role === "renter" ? setPathBack("/renter/blogManager") : setPathBack("/lessor/blogManager");
   }, [account]);
 
   const convertMultipleImage = (e) => {

@@ -67,7 +67,29 @@ function SidebarAdmin() {
             <span className="material-icons-sharp">
               <PersonIcon />
             </span>
-            <h3 className="typeDashboard">Users Manager</h3>
+            <h3 className="typeDashboard">Quản lý người dùng</h3>
+          </a>:
+          <></>}
+          {account?.role === 'renter'?
+          <a
+            onClick={() => navigate("/renter/blogManager")}
+            className={pathname?.includes("/renter/blogManager") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Quản lý bài đăng</h3>
+          </a>:
+          <></>}
+          {account?.role === 'renter'?
+          <a
+            onClick={() => navigate("/uploadBlog")}
+            className={pathname?.includes("/uploadBlog") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Đăng bài</h3>
           </a>:
           <></>}
           {account?.role === 'admin'?
@@ -78,7 +100,7 @@ function SidebarAdmin() {
             <span className="material-icons-sharp">
               <InventoryIcon />
             </span>
-            <h3 className="typeDashboard">Blogs Manager</h3>
+            <h3 className="typeDashboard">Quản lý bài đăng</h3>
           </a>:
           <></>}
           {account?.role === 'lessor'?
@@ -89,7 +111,7 @@ function SidebarAdmin() {
             <span className="material-icons-sharp">
               <InventoryIcon />
             </span>
-            <h3 className="typeDashboard">Blogs Manager</h3>
+            <h3 className="typeDashboard">Quản lý bài đăng</h3>
           </a>:
           <></>}
           {account?.role === 'lessor'?
@@ -100,14 +122,14 @@ function SidebarAdmin() {
             <span className="material-icons-sharp">
               <InventoryIcon />
             </span>
-            <h3 className="typeDashboard">Blog Rent</h3>
+            <h3 className="typeDashboard">Trạng thái các bài đăng</h3>
           </a>:
           <></>}
           <a onClick={() => handleLogout()}>
             <span className="material-icons-sharp">
               <LogoutIcon />
             </span>
-            <h3 className="typeDashboard">Logout</h3>
+            <h3 className="typeDashboard">Đăng xuất</h3>
           </a>
         </div>
       </aside>
