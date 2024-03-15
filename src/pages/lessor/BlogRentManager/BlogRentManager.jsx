@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 function BlogRentManager(){
 
-    const [statusSearch, setStatusSearch] = useState("unrent");
+    const [statusSearch, setStatusSearch] = useState("isProcess");
     const [blogs, setBlogs] = useState([])
     const account = useSelector(state => state.account);
     const [isUpdate, setIsUpdate] = useState(false);
@@ -27,6 +27,21 @@ function BlogRentManager(){
     const handleChangeStatus = (status) => {
         setStatusSearch(status);
     }
+
+    useEffect(() => {
+        axios
+            .get(`/api/blog/findAllConfirmWaitingBlog/{userId}`,{
+                headers: {
+                    Authorization: `Bearer ${account?.token}`
+                }
+            })
+            .then(res => {
+                const data = res.data;
+                setBlogs(data);
+                setNumberNotRent(data.length);
+            })
+            .catch(err => console.log(err))
+    },[])
 
 
     useEffect(() => {
@@ -55,13 +70,6 @@ function BlogRentManager(){
                 if(res.data.statusCode === 200){
                     const data = res.data.data;
                     setBlogs(data);
-                    var num = 0;
-                    data?.forEach(blog => {
-                        if(blog?.Renterconfirm.length > 0){
-                            num++;
-                        }
-                    })
-                    setNumberNotRent(num);
                 }
             })
             .catch(err => console.log(err))
@@ -75,6 +83,7 @@ function BlogRentManager(){
             .then(res => {
                 const data = res.data;
                 setBlogs(data);
+                setNumberNotRent(data.length);
             })
             .catch(err => console.log(err))
         }

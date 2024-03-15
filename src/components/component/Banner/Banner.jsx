@@ -21,9 +21,9 @@ const Banner = () => {
   };
 
   return (
-    <div className={`banner-container ${isHidden ? 'hidden' : ''}`}>
+    <div className={`banner-container ${isHidden ? 'hidden' : ''}`}  onClick={handleCloseBanner} >
       <div className="banner-content">
-        <img src={`http://localhost:9999/file/1710415091261-HOLARENT.png`} onClick={handleCloseBanner} alt="Banner" className="banner-image" />
+        <img src={`http://localhost:9999/file/1710415091261-HOLARENT.png`}alt="Banner" className="banner-image" />
       </div>
       <span className='highlightOffIcon' onClick={handleCloseBanner}><HighlightOffIcon/></span>
     </div>

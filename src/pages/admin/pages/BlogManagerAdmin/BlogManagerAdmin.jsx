@@ -229,8 +229,16 @@ function BlogManagerAdmin() {
       <SidebarAdmin className="sidebarLessorManagement" />
       <div className="blogManagementContent1">
         <div className="topBlogManagementContent1">
-          <div></div>
-          <h3>Blogs Manager</h3>
+          <div>
+             <input
+              type="text"
+              value={searchTitle}
+              onChange={handleSearchChange}
+              className={'searchBlogManagerAdmin'}
+              placeholder="Tìm kiếm theo tiêu đề"
+            />
+          </div>
+          <h4>Blogs Manager</h4>
           <Box sx={{ minWidth: 120 }} className={"selectType"}>
             <FormControl fullWidth>
               <InputLabel variant="standard" htmlFor="uncontrolled-native">
@@ -249,12 +257,7 @@ function BlogManagerAdmin() {
               </NativeSelect>
             </FormControl>
           </Box>
-          <TextField
-            type="text"
-            value={searchTitle}
-            onChange={handleSearchChange}
-            placeholder="Tìm kiếm theo tiêu đề"
-          />
+         
         </div>
         <div className="listBlogManagerAdmin">
           {displayBlogs
@@ -269,6 +272,10 @@ function BlogManagerAdmin() {
                 />
               );
             })}
+            <CardAdmin/>
+            <CardAdmin/>
+            <CardAdmin/>
+            <CardAdmin/>
         </div>
         <div className="bottomListCard">
           <Stack spacing={2}>

@@ -95,6 +95,7 @@ function RentRoomList(){
                             <CardRentBlog 
                                 item={item}
                                 key={item?._id}
+                                statusSearch={statusSearch}
                                 />
                         </div>
                     ) 

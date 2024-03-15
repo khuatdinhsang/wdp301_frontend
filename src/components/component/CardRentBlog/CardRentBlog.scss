@@ -1,0 +1,10 @@
+
+
+.cursorPointer{
+    cursor: pointer;
+
+    &:hover{
+        color: green;
+        transition: .4s;
+    }
+}

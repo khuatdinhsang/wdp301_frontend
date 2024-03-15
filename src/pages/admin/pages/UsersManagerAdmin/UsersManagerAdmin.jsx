@@ -123,7 +123,7 @@ function UsersManagerAdmin() {
       <SidebarAdmin className="sidebarLessorManagement" />
       <main>
         <div className="userManagementContent1">
-          <h3>Users Manager</h3>
+          <h4>Users Manager</h4>
 
           <div className="userTypeButtons">
             <button

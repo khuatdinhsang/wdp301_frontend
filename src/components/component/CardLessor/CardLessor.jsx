@@ -234,9 +234,9 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
                                 {index+1}
                             </TableCell>
                             <TableCell align="left" onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
-                           {statusSearch === 'isProcess'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon/></TableCell>
+                           {statusSearch === 'isProcess'? <TableCell align="left" onClick={() => handleAccept(user?._id)}><CheckIcon  /></TableCell>
                            : <TableCell align="left" >{user?.phone}</TableCell>}
-                            {statusSearch === 'isProcess' ? <TableCell align="left" onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
+                            {statusSearch === 'isProcess' ? <TableCell align="left"  className="deleteIconCard"  onClick={()=> handleDecline(user?._id)}><DeleteIcon/></TableCell>:<></>}
                         </TableRow>
                     ))}
                     {status === 'isProcess' && blog?.Renterconfirm?.map((user,index) => (

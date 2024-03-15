@@ -440,7 +440,7 @@ function Dashboard() {
                                     <circle cx={38} cy={38} r={36}></circle>
                                 </svg>
                                 <div className="percentage">
-                                    <p><PersonAddIcon className='personAddIcon'/></p>
+                                    <span className='personAddIcon'><PersonAddIcon /></span>
                                 </div>
                             </div>
                         </div>
