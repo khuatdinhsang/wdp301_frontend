@@ -48,7 +48,7 @@ function Detail() {
   const [pathName, setPathName] = useState();
   const path = useLocation();
   const dispatch = useDispatch();
-
+  console.log("â", account);
   const handleClose = () => {
     setOpen(false);
   };
