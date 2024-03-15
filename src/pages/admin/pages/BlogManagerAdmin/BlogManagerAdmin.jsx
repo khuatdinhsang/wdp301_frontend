@@ -238,7 +238,7 @@ function BlogManagerAdmin() {
               placeholder="Tìm kiếm theo tiêu đề"
             />
           </div>
-          <h4>Blogs Manager</h4>
+          <h4 className="managerTitle">Blogs Manager</h4>
           <Box sx={{ minWidth: 120 }} className={"selectType"}>
             <FormControl fullWidth>
               <InputLabel variant="standard" htmlFor="uncontrolled-native">

@@ -21,7 +21,7 @@ import {
   Rating,
 } from "@mui/material";
 
-function Comment({ content, onDelete, onUpdate }) {
+function Comment({ content, onDelete, onUpdate,isLessor }) {
   const account = useSelector((state) => state.account);
   const [commentId, setCommentId] = useState("");
   const [blogId, setBlogId] = useState("");
@@ -117,7 +117,7 @@ function Comment({ content, onDelete, onUpdate }) {
         </div>
         <div className="detailUserComment">
           <div className="topDetailUserComment">
-            <span className="usernameComment">{content?.fullname}</span>
+            <span className="usernameComment">{content?.fullname} {isLessor===true?" - Chủ trọ":<></>}</span>
             {content?.userId === account?.accessToken?.id ? (
               <>
                 <span onClick={() => handleUpdate()}>
