@@ -1,20 +1,28 @@
-import { Box, Button,FormControl, InputLabel, NativeSelect, Pagination, Stack } from '@mui/material';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  NativeSelect,
+  Pagination,
+  Stack,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Card from "../../../components/component/Card";
-import SidebarAdmin from '../../admin/components/SideBarAdmin/SidebarAdmin';
-import './RenterBlogManagement.scss'
+import SidebarAdmin from "../../admin/components/SideBarAdmin/SidebarAdmin";
+import "./RenterBlogManagement.scss";
 
-function RenterBlogManagement(){
-    const [blogs, setBlogs] = useState([]);
+function RenterBlogManagement() {
+  const [blogs, setBlogs] = useState([]);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [numberPage, setNumberPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const account = useSelector((state) => state.account);
-  const [statusSearch, setStatusSearch] = useState(false);
+  const [statusSearch, setStatusSearch] = useState(true);
 
   useEffect(() => {
     axios
@@ -82,9 +90,9 @@ function RenterBlogManagement(){
   };
 
   return (
-    <div  className="blogManagement">
-      <SidebarAdmin/>
-      
+    <div className="blogManagement">
+      <SidebarAdmin />
+
       <div className="mainBlogManagementContent">
         <div className="searchContainerLessor">
           <Box sx={{ minWidth: 120 }} className={"selectType"}>
@@ -145,4 +153,4 @@ function RenterBlogManagement(){
   );
 }
 
-export default RenterBlogManagement
+export default RenterBlogManagement;

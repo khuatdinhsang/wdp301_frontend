@@ -35,11 +35,11 @@ function UsersManagerAdmin() {
   const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [blockReason, setBlockReason] = useState("");
-
+  const [isBlock, setIsBlock] = useState(false);
   useEffect(() => {
     fetchRenterData();
     fetchLessorData();
-  }, [account, slug, searchTerm, currentPage]);
+  }, [account, slug, searchTerm, currentPage, isBlock]);
 
   const calculateTotalPages = (totalItems) => {
     return Math.ceil(totalItems / itemsPerPage);
@@ -130,6 +130,7 @@ function UsersManagerAdmin() {
           return user;
         });
         setLessors(updatedLessors);
+        setIsBlock(isBlock ? false : true);
       })
       .catch((err) => console.log(err));
   };
@@ -186,7 +187,9 @@ function UsersManagerAdmin() {
                       <TableCell>Phone</TableCell>
                       <TableCell>Email</TableCell>
                       <TableCell>Address</TableCell>
+                      <TableCell>Ngày tạo</TableCell>
                       <TableCell>Action</TableCell>
+                      <TableCell>Lí do</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -197,14 +200,24 @@ function UsersManagerAdmin() {
                           <TableCell>{user?.phone}</TableCell>
                           <TableCell>{user?.email}</TableCell>
                           <TableCell>{user?.address}</TableCell>
+                          <TableCell>{user?.createdAt.split("T")[0]}</TableCell>
                           <TableCell>
                             <Button
                               onClick={() => handleBlockUser(user._id)}
-                              variant={user.isBlocked ? "contained" : "outlined"}
+                              variant={
+                                user.isBlocked ? "contained" : "outlined"
+                              }
                             >
                               {user.isBlocked ? "Unblock" : "Block"}
                             </Button>
                           </TableCell>
+                          {user.block?.isBlock ? (
+                            <TableCell style={{ color: "red" }}>{`${
+                              user?.block?.content
+                            }/ ${user?.block.day.split("T")[0]}`}</TableCell>
+                          ) : (
+                            <TableCell></TableCell>
+                          )}
                         </TableRow>
                       ))}
                     {userType === "lessor" &&
@@ -214,14 +227,24 @@ function UsersManagerAdmin() {
                           <TableCell>{user?.phone}</TableCell>
                           <TableCell>{user?.email}</TableCell>
                           <TableCell>{user?.address}</TableCell>
+                          <TableCell>{user?.createdAt.split("T")[0]}</TableCell>
                           <TableCell>
                             <Button
                               onClick={() => handleBlockUser(user._id)}
-                              variant={user.isBlocked ? "contained" : "outlined"}
+                              variant={
+                                user.isBlocked ? "contained" : "outlined"
+                              }
                             >
                               {user.isBlocked ? "Unblock" : "Block"}
                             </Button>
                           </TableCell>
+                          {user.block?.isBlock ? (
+                            <TableCell style={{ color: "red" }}>{`${
+                              user?.block?.content
+                            }/ ${user?.block.day.split("T")[0]}`}</TableCell>
+                          ) : (
+                            <TableCell></TableCell>
+                          )}
                         </TableRow>
                       ))}
                   </TableBody>
@@ -236,7 +259,6 @@ function UsersManagerAdmin() {
                 rowsPerPageOptions={[]}
               />
             </Paper>
-            
           </div>
         </div>
       </Box>

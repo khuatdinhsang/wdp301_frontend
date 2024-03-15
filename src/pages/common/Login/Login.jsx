@@ -17,7 +17,7 @@ function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const pathBack = useSelector(state => state.path)
+  const pathBack = useSelector((state) => state.path);
   const [warningUsername, setWarningUsername] = useState(false);
   const [isBlankPassword, setIsBlankPassword] = useState(false);
 
@@ -44,42 +44,41 @@ function Login() {
       axios
         .post("/api/auth/login", userLogin)
         .then((res) => {
-          
-            const data =res.data;
-            if(data.statusCode === 200){
-              const account = jwt_decode(res.data.data.accessToken);
-              const user = {
-                phone: username.trim(),
-                accessToken: account,
-                token: res.data.data.accessToken,
-                role: account.role,
-              };
-              const action = loginAccount(user);
-              // setIsLoading(true);
+          const data = res.data;
+          if (data.statusCode === 200) {
+            const account = jwt_decode(res.data.data.accessToken);
+            const user = {
+              phone: username.trim(),
+              accessToken: account,
+              token: res.data.data.accessToken,
+              role: account.role,
+            };
+            const action = loginAccount(user);
+            // setIsLoading(true);
+            dispatch(action);
+            const action1 = showAds(true);
+            dispatch(action1);
+            if (pathBack === false || pathBack === "") {
+              if (account.role === "renter") {
+                navigate("/");
+              } else if (account.role === "lessor") {
+                navigate("/lessor/blogManager");
+              } else if (account.role === "admin") {
+                navigate("/admin/dashboard");
+              }
+            } else {
+              navigate(pathBack);
+              const action = pathBackViewProfile("");
               dispatch(action);
-              const action1 = showAds(true);
-                dispatch(action1);
-              if(pathBack === false || pathBack === ''){
-                if (account.role === "renter") {
-                  navigate("/");
-                } else if (account.role === "lessor") {
-                  navigate("/lessor/blogManager");
-                } else if (account.role === "admin") {
-                  navigate("/admin/dashboard");
-                }
-              }else{
-                navigate(pathBack);
-                const action = pathBackViewProfile('');
-                dispatch(action);
-              }
-              toast.success("Đăng nhập thành công!");
-            }else if(data.statusCode === 500){
-              if(data.message === "Phone number does not exist"){
-                toast.warn("Số điện thoại chưa được đăng ký");
-              }else if(data.message === "Password is invalid"){
-                toast.warn("Mật khẩu không đúng");
-              }
             }
+            toast.success("Đăng nhập thành công!");
+          } else if (data.statusCode === 500) {
+            if (data.message === "Phone number does not exist") {
+              toast.warn("Số điện thoại chưa được đăng ký");
+            } else if (data.message === "Password is invalid") {
+              toast.warn("Mật khẩu không đúng");
+            }
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -171,12 +170,12 @@ function Login() {
                   Login
                 </span>
 
-                <i
+                {/* <i
                   className="remember"
                   onClick={() => navigate("/forgotPassword")}
                 >
                   Forgot Password
-                </i>
+                </i> */}
               </div>
             </form>
             <div className="register">

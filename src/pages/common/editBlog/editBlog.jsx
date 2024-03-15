@@ -171,16 +171,11 @@ function EditBlog() {
         console.error("Error converting images to base64:", error);
       });
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="uploadPage">
-      <span
-        style={{ cursor: "pointer" }}
-        onClick={() => {
-          navigate("/admin/blogManager");
-        }}
-      >
-        <ArrowBackIosRoundedIcon className="backToDashboard" />
-      </span>
       <div className="uploadContain">
         <h3 className="uploadTitle">Edit Blog</h3>
         <div className="uploadContent">
@@ -348,6 +343,13 @@ function EditBlog() {
             </div>
           </div>
           <div className="submitForm">
+            <span
+              className="uploadBtn"
+              style={{ background: "grey", marginRight: "10px" }}
+              onClick={() => handleBack()}
+            >
+              Quay lại
+            </span>
             <span className="uploadBtn" onClick={() => handleEditBlog()}>
               Edit Blog
             </span>
