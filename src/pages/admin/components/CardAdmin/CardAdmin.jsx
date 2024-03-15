@@ -39,7 +39,6 @@ function CardAdmin({ blog, onDelete }) {
     const dateTo = new Date(Date.now());
     const differenceInMilliseconds = Math.abs(dateTo - dateFrom);
     const differenceInDate = differenceInMilliseconds / (60 * 1000);
-    console.log("diff", differenceInDate);
     if (differenceInDate > 60 * 24) {
       setTimeAfter(Math.ceil(differenceInDate / 60 / 24));
       setTimeUnit("ngày");
@@ -51,7 +50,7 @@ function CardAdmin({ blog, onDelete }) {
       setTimeUnit("phút");
     }
   }, [blog?.createdAt]);
-
+  console.log("dá", blog);
   const style = {
     position: "absolute",
     top: "50%",
@@ -162,7 +161,7 @@ function CardAdmin({ blog, onDelete }) {
                   : "Tìm người ở ghép"}
               </h2>
               <h2 className="titleCard">
-                Người đăng bài: {account.accessToken.fullName}
+                Người đăng bài: {blog?.userId?.fullName}
               </h2>
 
               {!isAccept ? (
@@ -240,7 +239,7 @@ function CardAdmin({ blog, onDelete }) {
                 <b>Miêu tả:</b> {blog?.description}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <b>Người đăng bài:</b> {account.accessToken.fullName}
+                <b>Người đăng bài:</b> {blog?.userId?.fullName}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <b>Diện tích:</b> {blog?.area} m<m2>2</m2>
