@@ -54,7 +54,7 @@ function Detail() {
   };
 
   useEffect(() => {
-    setUserId(account.accessToken.id);
+    setUserId(account?.accessToken?.id);
   },[])
 
   const handleCloseUnRent = () => {
@@ -197,6 +197,7 @@ function Detail() {
     } else {
       setIsRentConfirm(false);
     }
+    console.log(blog);
   }, [blog]);
 
   useEffect(() => {
@@ -428,11 +429,11 @@ function Detail() {
                     <div className="rentedBtn">
                         <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
                     </div>} */}
-                    {account?.role === 'renter' && isRentRegister === true ?
+                    {account?.role === 'renter' && blog?.isRented === false && isRentRegister === true ? 
                         <Button variant="contained" onClick={() => handleClickOpenUnRent()}>Huỷ Thuê Trọ</Button>:<></>}
-                    {(account?.role === 'renter' || account?.phone === undefined) && blog?.isRented === false && isRentRegister === false  && isRentConfirm !== true?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
-                    {blog?.isRented && account?.phone !== undefined?<Button variant="contained" disabled>Phòng Đã Được thuê</Button>:<></>}
-                    {account?.role === 'renter' && isRentConfirm === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
+                    {(account?.role === 'renter' || account?.phone === undefined)&& isRentRegister === false  && blog?.isRented === false?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
+                    {blog?.isRented === true?<Button variant="contained" disabled>Phòng Đã Được thuê</Button>:<></>}
+                    {account?.role === 'renter' && isRentConfirm === true && blog?.isRent === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
                     
                     {/* <div className="equipment1">
                         <i className='boldEquipment'>Ngày hết hạn bài đăng: </i><i className='nameEquipment1'>{blog?.expiredTime.split('T')[0]}</i>
