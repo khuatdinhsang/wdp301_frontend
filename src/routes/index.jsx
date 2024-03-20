@@ -21,6 +21,7 @@ import RentRoomList from "../pages/common/RentRoomList/RentRoomList";
 import BlogRentManager from "../pages/lessor/BlogRentManager/BlogRentManager";
 import RenterBlogManagement from "../pages/renter/RenterBlogManagement/RenterBlogManagement";
 import EditBlog from "../pages/common/editBlog/editBlog";
+import RoomateBlogManagement from "../pages/renter/RoomateBlogManagement/RoomateBlogManagement";
 
 const publicRoutes = [
   { path: "/", component: Home },
@@ -53,6 +54,8 @@ const renterRoutes = [
     layout: null,
   },
   { path: "/editBlog/:slug", component: EditBlog, layout: null },
+  { path: "/renter/roomateManagement", component: RoomateBlogManagement, layout: null },
+  
 ];
 
 const lessorRoutes = [

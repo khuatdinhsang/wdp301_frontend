@@ -66,21 +66,6 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
         
     }
 
-    // useEffect(() => {
-    //   switch(status){
-    //     case 'rent':{
-    //       setRenterConfirm(blog?.Renterid);
-    //     }
-    //     case 'unrent': {
-    //       console.log(1);
-    //     }
-    //     case 'isProcess':{
-    //       setRenterConfirm(blog?.Renterconfirm);
-    //     }
-    //     default: return;
-    //   }
-    // },[status])
-
     const handleToRent = () =>{
       if(statusOpen === true){
         axios
@@ -138,9 +123,7 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
     );
   };
 
-  useEffect(() => {
-    console.log(renterConfirm);
-  },[renterConfirm])
+
 
   
 

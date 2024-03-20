@@ -83,6 +83,17 @@ function SidebarAdmin() {
           <></>}
           {account?.role === 'renter'?
           <a
+            onClick={() => navigate("/renter/roomateManagement")}
+            className={pathname?.includes("/renter/roomateManagement") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Quản lí roomate</h3>
+          </a>:
+          <></>}
+          {account?.role === 'renter'?
+          <a
             onClick={() => navigate("/uploadBlog")}
             className={pathname?.includes("/uploadBlog") ? "active" : ""}
           >
@@ -92,6 +103,7 @@ function SidebarAdmin() {
             <h3 className="typeDashboard">Đăng bài</h3>
           </a>:
           <></>}
+          
           {account?.role === 'admin'?
           <a
             onClick={() => navigate("/admin/blogManager")}
