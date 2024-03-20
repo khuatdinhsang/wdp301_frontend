@@ -24,8 +24,7 @@ function BlogManager() {
   const [search, setSearch] = useState("");
   const account = useSelector((state) => state.account);
   const [statusSearch, setStatusSearch] = useState(true);
-  console.log("number", numberPage);
-  console.log("total", totalBlogs);
+
   useEffect(() => {
     axios
       .get(`/api/auth/getAllBlogsPost`, {
