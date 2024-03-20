@@ -225,7 +225,7 @@ function EditBlog() {
           </div>
           <div className="inputBox">
             <label htmlFor="inputImages">Ảnh</label>
-            <div>
+            <div className="listImg">
               {image.map((image, index) => {
                 return (
                   <div key={index} className="imageItem">

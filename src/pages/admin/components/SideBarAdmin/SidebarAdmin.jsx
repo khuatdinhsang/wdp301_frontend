@@ -92,17 +92,7 @@ function SidebarAdmin() {
             <h3 className="typeDashboard">Quản lí roomate</h3>
           </a>:
           <></>}
-          {account?.role === 'renter'?
-          <a
-            onClick={() => navigate("/uploadBlog")}
-            className={pathname?.includes("/uploadBlog") ? "active" : ""}
-          >
-            <span className="material-icons-sharp">
-              <InventoryIcon />
-            </span>
-            <h3 className="typeDashboard">Đăng bài</h3>
-          </a>:
-          <></>}
+          
           
           {account?.role === 'admin'?
           <a
@@ -135,6 +125,17 @@ function SidebarAdmin() {
               <InventoryIcon />
             </span>
             <h3 className="typeDashboard">Trạng thái các bài đăng</h3>
+          </a>:
+          <></>}
+          {account?.role !== undefined?
+          <a
+            onClick={() => navigate(account?.role === 'renter'?'/renter/uploadBlog':'/uploadBlog')}
+            className={pathname?.includes("/uploadBlog") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <InventoryIcon />
+            </span>
+            <h3 className="typeDashboard">Đăng bài</h3>
           </a>:
           <></>}
           <a onClick={() => handleLogout()}>
