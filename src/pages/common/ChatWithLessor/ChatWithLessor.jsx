@@ -3,16 +3,18 @@ import HeaderNoSearch from "../../../components/component/HeaderNoSearch/HeaderN
 import InboxCard from "../../../components/component/InboxCard/InboxCard";
 import "./ChatWithLessor.scss";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { io } from "socket.io-client";
 
 function ChatWithLessor() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = () => {
-    if (newMessage.trim() !== "") {
-      setMessages([...messages, { text: newMessage, sender: "user" }]);
-      setNewMessage("");
-    }
+    io.emit("sendMessage", "concac");
+    // if (newMessage.trim() !== "") {
+    //   setMessages([...messages, { text: newMessage, sender: "user" }]);
+    //   setNewMessage("");
+    // }
   };
 
   return (

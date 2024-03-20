@@ -57,7 +57,7 @@ const Header = () => {
   const handleLogout = () => {
     const action = logoutAccount();
     const action1 = showAds(false);
-    const action2 = pathBackViewProfile('');
+    const action2 = pathBackViewProfile("");
     toast.success("Đăng xuất thành công");
     dispatch(action);
     dispatch(action1);
@@ -178,7 +178,7 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
-                  {account?.phone !== undefined && account.role === "renter" ? (
+                  {account?.phone !== undefined ? (
                     <li onClick={() => navigate("/inbox")}>
                       <span>Tin nhắn</span>
                     </li>
@@ -220,7 +220,8 @@ const Header = () => {
                   ) : (
                     <></>
                   )}
-                  {account?.phone !== undefined && (account.role === "lessor" || account.role === "renter")? (
+                  {account?.phone !== undefined &&
+                  (account.role === "lessor" || account.role === "renter") ? (
                     <li onClick={() => navigate("/uploadBlog")}>
                       <span>Đăng bài</span>
                     </li>
