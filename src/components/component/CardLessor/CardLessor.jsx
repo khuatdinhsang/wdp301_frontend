@@ -176,9 +176,9 @@ function CardLessor({ blog, statusSearch, onUpdate }) {
             </p>
           </div>
           
-          <div className="favouriteChoosen">
+          {blog?.totalFavorite >= 5 ?<div className="favouriteChoosen">
             <span>Được khách yêu thích</span>
-          </div>
+          </div>:<></>}
         </>
       ) : (
         <></>

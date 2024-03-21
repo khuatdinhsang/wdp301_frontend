@@ -1,16 +1,38 @@
 import { useNavigate } from 'react-router';
 import './ContactLessor.scss'
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import { useEffect} from 'react';
+import { useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 function ContactLessor(){
     const navigate = useNavigate();
-    const pathBack = localStorage.getItem('pathDetail')
-    
+    const pathBack = useSelector(state => state.path)
+    const account = useSelector(state => state.account)
+    const [userDetail, setUserDetail] = useState();
+
     useEffect(() => {
         window.scrollTo(0,0)
+
+        axios
+        .get("/api/auth/profile", {
+            headers: {
+            Authorization: `Bearer ${account?.token}`,
+            },
+        })
+        .then((res) => {
+            const data = res.data.data;
+            if (res.data.isSuccess === true) {
+            setUserDetail(data);
+            } else {
+            toast.warn("Có vấn đề khi tải thông tin người dùng!");
+            }
+        })
+        .catch((err) => console.log(err));
     },[])
+
 
     return (
         <div className='contactLessor'>
@@ -20,7 +42,7 @@ function ContactLessor(){
             <div className="container">
                 <div className="hostTitle">
                     <div className="leftHostTitle">
-                        <h2 className='hostName'>Liên hệ Vương Nguyễn</h2>
+                        <h2 className='hostName'>Liên hệ {userDetail?.fullName}</h2>
                         <i>Thường phản hồi trong vòng 1 giờ</i>
                     </div>
                     <div className="rightHostTitle">

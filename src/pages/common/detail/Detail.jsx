@@ -147,6 +147,8 @@ function Detail() {
   }
 
   const handleToContact = () => {
+    const action = pathBackViewProfile(pathName);
+    dispatch(action);
     navigate("/contact-host");
   };
 
