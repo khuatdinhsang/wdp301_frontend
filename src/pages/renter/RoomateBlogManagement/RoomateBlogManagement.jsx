@@ -202,7 +202,7 @@ function RoomateBlogManagement(){
                 </DialogTitle>
                 <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Có {numberNotRent} blogs có người đăng ký!
+                    Có {numberNotRent} bài đăng có người đăng ký!
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>

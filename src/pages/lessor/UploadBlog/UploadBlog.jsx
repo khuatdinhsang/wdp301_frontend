@@ -376,7 +376,7 @@ function UploadBlog() {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
-          width={800}
+          width={600}
         >
           <p style={{ marginBottom: "50px", fontSize: "20px" }}>
             Xin vui lòng chuyển 3000 (phí) x {timeDuration} (ngày)={" "}
