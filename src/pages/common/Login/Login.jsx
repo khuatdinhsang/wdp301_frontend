@@ -52,6 +52,7 @@ function Login() {
               accessToken: account,
               token: res.data.data.accessToken,
               role: account.role,
+              avatar: account?.avatar,
             };
             const action = loginAccount(user);
             // setIsLoading(true);

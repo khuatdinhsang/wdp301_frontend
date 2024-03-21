@@ -50,7 +50,24 @@ function ViewProfile() {
     });
     setSplitName(arrName);
   }, [userDetail]);
-
+  const createRoom = () => {
+    axios
+      .post(
+        `/api/room/create`,
+        { users: [account?.accessToken?.id, userDetail?._id] },
+        {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.users?.length > 0) {
+          navigate("/inbox");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="profilePage">
       <div className="cardProfile">
@@ -95,6 +112,7 @@ function ViewProfile() {
                   : "Nữ"}
               </span>
             </p>
+
             <div className="rowProfile">
               <div className="colProfile">
                 <h2>{userDetail?.blogsFavorite.length}</h2>
@@ -112,8 +130,9 @@ function ViewProfile() {
 
             <div className="rowProfile">
               <button variant="outlined" onClick={() => handleBack()}>
-                Trở lại trang trước
+                Quay lại
               </button>
+              <button onClick={() => createRoom()}>Inbox me</button>
             </div>
           </div>
         </div>
