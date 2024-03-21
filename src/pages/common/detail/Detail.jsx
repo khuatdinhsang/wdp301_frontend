@@ -36,7 +36,6 @@ function Detail() {
   const account = useSelector((state) => state.account);
   const [currentBlogRate, setCurrentBlogRate] = useState();
   const [isComment, setIsComment] = useState(false);
-  const [checkComment, setCheckComment] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sizeImage, setSizeImage] = useState();
   const [open, setOpen] = useState(false);
@@ -167,18 +166,7 @@ function Detail() {
       })
       .catch((err) => console.log(err));
 
-      if(account?.role !== undefined){
-        axios
-        .get(`/api/blog_rate/check/${slug}`,{
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then(res => {
-        const data = res.data.data;
-        setCheckComment(data);
-      })
-      }
+      
 
     axios
       .get(`/api/blog_rate/GetAll/${slug}`)
@@ -211,22 +199,23 @@ function Detail() {
     } else {
       setIsRentConfirm(false);
     }
-    console.log(blog);
+    
+      if(account?.role !== undefined){
+        axios
+        .get(`/api/auth/getProfileUserOther/${blog?.userId}`, {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data.data;
+          setLessor(data);
+        })
+        .catch((err) => console.log(err));
+      }
   }, [blog]);
 
-  useEffect(() => {
-    axios
-      .get(`/api/auth/getProfileUserOther/${blog?.userId}`, {
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then((res) => {
-        const data = res.data.data;
-        setLessor(data);
-      })
-      .catch((err) => console.log(err));
-  }, [blog]);
+
 
   useEffect(() => {
     axios
@@ -236,16 +225,6 @@ function Detail() {
         setBlogRates(data);
       })
       .catch((res) => console.log(res));
-      axios
-        .get(`/api/blog_rate/check/${slug}`,{
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then(res => {
-        const data = res.data.data;
-        setCheckComment(data);
-      })
     axios
       .get(`/api/blog/detail/${slug}`)
       .then((res) => {
@@ -265,16 +244,6 @@ function Detail() {
         setBlogRates(data);
       })
       .catch((res) => console.log(res));
-      axios
-        .get(`/api/blog_rate/check/${slug}`,{
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then(res => {
-        const data = res.data.data;
-        setCheckComment(data);
-      })
     axios
       .get(`/api/blog/detail/${slug}`)
       .then((res) => {
@@ -312,23 +281,14 @@ function Detail() {
     setFeedback("");
   };
 
+  
+
   const handleComment = () => {
     if (starComment === 0 || feedback === "") {
       toast.warn("Cần điền đầy đủ thông tin để bình luận!!");
     } else if (isRentConfirm !== true && blog?.userId !== userId) {
       toast.warn("Bạn chưa thuê phòng này để bình luận");
     } else {
-      axios
-        .get(`/api/blog_rate/check/${slug}`,{
-        headers: {
-          Authorization: `Bearer ${account?.token}`,
-        },
-      })
-      .then(res => {
-        const data = res.data.data;
-        setCheckComment(data);
-      })
-
       const commentContent = {
         star: +starComment,
         title: feedback,
@@ -363,7 +323,6 @@ function Detail() {
     if (starComment === "" || feedback === "") {
       toast.warn("vui lòng điền đầy đủ thông tin trên bình luận");
     } else {
-      
       const editContent = {
         star: starComment,
         title: feedback,
@@ -757,7 +716,7 @@ function Detail() {
           </i>
         </div>
       </div>
-      {(account?.phone !== undefined || isUpdating === true) && checkComment === false  ? (
+      {account?.phone !== undefined || isUpdating === true  ? (
         <div className="commentAction">
           <div className="avatarCommentAction">
             <AccountCircleIcon />
@@ -829,7 +788,8 @@ function Detail() {
       )}
 
       <div className="comments">
-        {blogRates?.map((blog) => {
+        {blogRates?.slice()
+            .reverse()?.map((blog) => {
           if (blog?._id !== currentBlogRate?._id)
             return (
               <Comment
