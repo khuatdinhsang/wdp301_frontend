@@ -194,7 +194,7 @@ const Header = () => {
                   )}
                   {account?.phone !== undefined ? (
                     <li onClick={() => navigate("/profile")}>
-                      <span>Profile</span>
+                      <span>Trang cá nhân</span>
                     </li>
                   ) : (
                     <></>
@@ -208,7 +208,7 @@ const Header = () => {
                   )}
                   {account?.phone !== undefined && account.role === "lessor" ? (
                     <li onClick={() => navigate("/lessor/blogManager")}>
-                      <span>Manager blogs</span>
+                      <span>Quản lý bài đăng</span>
                     </li>
                   ) : (
                     <></>

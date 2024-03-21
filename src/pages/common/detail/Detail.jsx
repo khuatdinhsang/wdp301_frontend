@@ -36,6 +36,7 @@ function Detail() {
   const account = useSelector((state) => state.account);
   const [currentBlogRate, setCurrentBlogRate] = useState();
   const [isComment, setIsComment] = useState(false);
+  const [checkComment, setCheckComment] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sizeImage, setSizeImage] = useState();
   const [open, setOpen] = useState(false);
@@ -166,6 +167,19 @@ function Detail() {
       })
       .catch((err) => console.log(err));
 
+      if(account?.role !== undefined){
+        axios
+        .get(`/api/blog_rate/check/${slug}`,{
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then(res => {
+        const data = res.data.data;
+        setCheckComment(data);
+      })
+      }
+
     axios
       .get(`/api/blog_rate/GetAll/${slug}`)
       .then((res) => {
@@ -222,6 +236,16 @@ function Detail() {
         setBlogRates(data);
       })
       .catch((res) => console.log(res));
+      axios
+        .get(`/api/blog_rate/check/${slug}`,{
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then(res => {
+        const data = res.data.data;
+        setCheckComment(data);
+      })
     axios
       .get(`/api/blog/detail/${slug}`)
       .then((res) => {
@@ -241,6 +265,16 @@ function Detail() {
         setBlogRates(data);
       })
       .catch((res) => console.log(res));
+      axios
+        .get(`/api/blog_rate/check/${slug}`,{
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then(res => {
+        const data = res.data.data;
+        setCheckComment(data);
+      })
     axios
       .get(`/api/blog/detail/${slug}`)
       .then((res) => {
@@ -284,6 +318,17 @@ function Detail() {
     } else if (isRentConfirm !== true && blog?.userId !== userId) {
       toast.warn("Bạn chưa thuê phòng này để bình luận");
     } else {
+      axios
+        .get(`/api/blog_rate/check/${slug}`,{
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then(res => {
+        const data = res.data.data;
+        setCheckComment(data);
+      })
+
       const commentContent = {
         star: +starComment,
         title: feedback,
@@ -318,6 +363,7 @@ function Detail() {
     if (starComment === "" || feedback === "") {
       toast.warn("vui lòng điền đầy đủ thông tin trên bình luận");
     } else {
+      
       const editContent = {
         star: starComment,
         title: feedback,
@@ -711,7 +757,7 @@ function Detail() {
           </i>
         </div>
       </div>
-      {account?.phone !== undefined || isUpdating === true ? (
+      {(account?.phone !== undefined || isUpdating === true) && checkComment === false  ? (
         <div className="commentAction">
           <div className="avatarCommentAction">
             <AccountCircleIcon />
