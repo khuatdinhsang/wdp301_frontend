@@ -16,6 +16,7 @@ import {
   DialogContentText,
   DialogTitle,
   Modal,
+  TextField,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -31,6 +32,7 @@ function CardAdmin({ blog, onDelete }) {
   const [open, setOpen] = useState(false);
   const [openShowData, setOpenShowData] = useState(false);
   const [newBlog, setNewBlog] = useState();
+  const [reasonDecline, setReasonDecline] = useState('');
   const [timeAfter, setTimeAfter] = useState("");
   const [timeUnit, setTimeUnit] = useState("phút");
   useEffect(() => {
@@ -99,9 +101,13 @@ function CardAdmin({ blog, onDelete }) {
     var accept = {
       isAccepted: !isAccept,
     };
+    var reason = {
+      blockReason: reasonDecline
+    }
     if (isAccept === true) {
+      console.log(reason);
       axios
-        .put(`/api/blog/BlogDecline/${blog?._id}`, accept, {
+        .put(`/api/blog/BlogDecline/${blog?._id}`, reason, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
@@ -211,9 +217,18 @@ function CardAdmin({ blog, onDelete }) {
               {`Hola Rent - Ứng dụng tìm trọ khu vực Hoà Lạc`}
             </DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              {isAccept === false ?
+               <DialogContentText id="alert-dialog-description">
                 {`Bạn đã kiểm duyệt Blog này kỹ càng`}
-              </DialogContentText>
+              </DialogContentText>:
+              <TextField
+                id="outlined-basic"
+                label="Lý do từ chối"
+                variant="outlined" 
+                value={reasonDecline}
+                onChange={e => setReasonDecline(e.target.value)}
+              />}
+             
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Để sau</Button>
