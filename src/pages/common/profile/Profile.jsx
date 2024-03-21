@@ -145,6 +145,7 @@ export default function Profile() {
         }
       })
       .catch((err) => console.log(err));
+
   }, []);
 
   useEffect(() => {
@@ -194,7 +195,7 @@ export default function Profile() {
       fullName: fullName,
       email: email,
       avatar: userDetail?.avatar,
-      gender: Boolean(gender),
+      gender: gender,
       phone: userDetail?.phone,
       address: address,
     };
@@ -276,7 +277,7 @@ export default function Profile() {
               <br />
               <span>SDT:{userDetail?.phone}</span>
               <br />
-              <span>Giới tính:{userDetail?.gender === undefined ?'':(userDetail?.gender? "Nam" : "Nữ") }</span>
+              <span>Giới tính:{userDetail?.gender === undefined ?'':(userDetail?.gender? "Nữ" : "Nam") }</span>
             </p>
             <div className="rowProfile">
               <div className="colProfile">
@@ -356,12 +357,12 @@ export default function Profile() {
                   >
                     <div style={{ display: "flex" }}>
                       <FormControlLabel
-                        value={false}
+                        value={true}
                         control={<Radio />}
                         label="Nữ"
                       />
                       <FormControlLabel
-                        value={true}
+                        value={false}
                         control={<Radio />}
                         label="Nam"
                       />

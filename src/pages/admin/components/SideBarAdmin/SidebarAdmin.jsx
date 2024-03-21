@@ -127,7 +127,7 @@ function SidebarAdmin() {
             <h3 className="typeDashboard">Trạng thái các bài đăng</h3>
           </a>:
           <></>}
-          {account?.role !== undefined?
+          {account?.role !== 'admin'?
           <a
             onClick={() => navigate(account?.role === 'renter'?'/renter/uploadBlog':'/uploadBlog')}
             className={pathname?.includes("/uploadBlog") ? "active" : ""}

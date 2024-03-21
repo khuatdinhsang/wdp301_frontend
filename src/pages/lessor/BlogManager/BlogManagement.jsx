@@ -12,6 +12,7 @@ import {
   NativeSelect,
   Pagination,
   Stack,
+  TextField,
 } from "@mui/material";
 import { toast } from "react-toastify";
 
@@ -116,12 +117,19 @@ function BlogManager() {
           </Box>
           <h1>Quản lý bài đăng</h1>
           <div className="btnSearch">
-            <input
+            {/* <input
               className="inputSearchContainerLessor"
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
+            /> */}
+            <TextField
+                id="standard-basic" 
+                label="Tìm kiếm..." 
+                variant="standard" 
+                value={search}
+                onChange={e => setSearch(e.target.value)}    
             />
             <Button variant="contained" onClick={() => handleSearch()}>
               Xác nhận

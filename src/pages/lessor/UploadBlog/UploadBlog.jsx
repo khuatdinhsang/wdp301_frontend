@@ -156,7 +156,7 @@ function UploadBlog() {
   };
   return (
     <div className="uploadPage">
-      <span
+      {/* <span
         style={{ cursor: "pointer" }}
         onClick={() => {
           navigate(pathBack);
@@ -164,7 +164,7 @@ function UploadBlog() {
         }}
       >
         <ArrowBackIosRoundedIcon className="backToDashboard" />
-      </span>
+      </span> */}
       <div className="uploadContain">
         <h2 className="uploadTitle">Đăng bài </h2>
         <div className="uploadContent">
@@ -357,6 +357,14 @@ function UploadBlog() {
             </p>
           )}
           <div className="submitForm">
+             <span 
+              className="uploadBtn1" 
+              onClick={() => {
+                navigate(pathBack);
+              }}
+            >
+              Quay lại
+            </span>
             <span className="uploadBtn" onClick={() => handleUploadBlog()}>
               Đăng bài
             </span>

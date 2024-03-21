@@ -29,7 +29,8 @@ function CardHome({ blog, isHome }) {
   };
 
   useEffect(() => {
-    axios
+    if(account?.role !== undefined){
+      axios
       .get(`/api/auth/checkFavoutireBlog/${blog?._id}`, {
         headers: {
           Authorization: `Bearer ${account?.token}`,
@@ -39,6 +40,7 @@ function CardHome({ blog, isHome }) {
         setStatus(res.data.data);
       })
       .catch((err) => console.log(err));
+    }
   }, []);
 
   const handleFavouriteRoom = () => {

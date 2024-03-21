@@ -230,13 +230,20 @@ function BlogManagerAdmin() {
       <div className="blogManagementContent1">
         <div className="topBlogManagementContent1">
           <div>
-             <input
+             {/* <input
               type="text"
               value={searchTitle}
               onChange={handleSearchChange}
               className={'searchBlogManagerAdmin'}
               placeholder="Tìm kiếm theo tiêu đề"
-            />
+            /> */}
+            <TextField
+                id="standard-basic"
+                label="Tìm kiếm theo tiêu đề"
+                variant="standard" 
+                onChange={handleSearchChange}
+                value={searchTitle}  
+              />
           </div>
           <h4 className="managerTitle">Blogs Manager</h4>
           <Box sx={{ minWidth: 120 }} className={"selectType"}>
