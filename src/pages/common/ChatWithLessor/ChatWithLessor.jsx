@@ -108,7 +108,7 @@ function ChatWithLessor() {
         <div className="rightChat">
           <div className="topRightChat">
             <h3 className="lessorNameChat">{currenUser?.fullName}</h3>
-            <i>Thời gian phản hồi: 1 giờ</i>
+            <i>Thời gian phản hồi khoảng: 1 giờ</i>
           </div>
           <div className="bottomRightChat">
             <div className="chatBox">
