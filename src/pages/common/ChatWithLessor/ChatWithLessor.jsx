@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import HeaderNoSearch from "../../../components/component/HeaderNoSearch/HeaderNoSearch";
 import InboxCard from "../../../components/component/InboxCard/InboxCard";
 import "./ChatWithLessor.scss";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -7,6 +6,7 @@ import { socket } from "../../../utils";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Messages from "./Messages";
+import Header from "../../../components/component/Header";
 
 function ChatWithLessor() {
   const [newMessage, setNewMessage] = useState("");
@@ -84,8 +84,8 @@ function ChatWithLessor() {
   }, [account?.token, currenUser._id]);
 
   return (
-    <div className="chatWithLessor">
-      <HeaderNoSearch />
+    <div className="chatWithLessor" style={{ marginTop: "225px" }}>
+      <Header />
       <div className="chatContent">
         <div className="leftChat">
           <div className="topLeftChat">
