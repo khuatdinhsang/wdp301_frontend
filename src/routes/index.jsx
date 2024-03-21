@@ -22,6 +22,7 @@ import BlogRentManager from "../pages/lessor/BlogRentManager/BlogRentManager";
 import RenterBlogManagement from "../pages/renter/RenterBlogManagement/RenterBlogManagement";
 import EditBlog from "../pages/common/editBlog/editBlog";
 import RoomateBlogManagement from "../pages/renter/RoomateBlogManagement/RoomateBlogManagement";
+import RenterUploadBlog from "../pages/renter/RenterUploadBlog/RenterUploadBlog";
 
 const publicRoutes = [
   { path: "/", component: Home },
@@ -43,7 +44,7 @@ const adminRoutes = [
 ];
 
 const renterRoutes = [
-  { path: "/uploadBlog", component: UploadBlog, layout: null },
+  { path: "/renter/uploadBlog", component: RenterUploadBlog, layout: null },
   { path: "/rentRoomList", component: RentRoomList, layout: HeaderOnly },
   { path: "/wishlist", component: WishList, layout: HeaderOnly },
   { path: "/profile", component: Profile, layout: null },

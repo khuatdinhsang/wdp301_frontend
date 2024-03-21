@@ -222,7 +222,15 @@ const Header = () => {
                   )}
                   {account?.phone !== undefined &&
                   (account.role === "lessor" || account.role === "renter") ? (
-                    <li onClick={() => navigate("/uploadBlog")}>
+                    <li
+                      onClick={() =>
+                        navigate(
+                          account.role === "lessor"
+                            ? "/uploadBlog"
+                            : "/renter/uploadBlog"
+                        )
+                      }
+                    >
                       <span>Đăng bài</span>
                     </li>
                   ) : (
