@@ -14,7 +14,8 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const handleSignUp = () => {
+  const handleSignUp = (e) => {
+    e.preventDefault();
     if (!phone || !password || !confirmPassword || !fullName) {
       toast.warning("Bạn chưa điền đẩy đủ thông tin");
     } else if (password !== confirmPassword) {
@@ -34,7 +35,7 @@ function Register() {
         .post("http://localhost:9999/api/auth/register", userRegister)
         .then((res) => {
           console.log("re", res.data);
-          if (res.data.message === "Số điện thoại đã tồn tại") {
+          if (res.data.message === "Phone number already exists") {
             toast.error("Số điện thoại đã tồn tại trong hệ thống");
             setIsLoading(true);
           } else {
@@ -56,21 +57,20 @@ function Register() {
   };
 
   return isLoading ? (
-    <div className="container">
-      <div className="registerPage">
-        <div className="container">
+      <div className="loginPage">
+        <div className="containerLogin">
           <div className="loginContent">
             <div className="leftContent">
               <img
                 src="https://res.cloudinary.com/dggciohw8/image/upload/v1705079434/20_French_Country-Style_Homes_with_European_Elegance_lhby5k.jpg"
                 alt=""
               />
-              <span
+              {/* <span
                 style={{ cursor: "pointer" }}
                 onClick={() => navigate("/login")}
               >
                 <ArrowBackIosRoundedIcon className="backIconLogin" />
-              </span>
+              </span> */}
               <div className="detailLeftContent">
                 <div className="signInLeft">
                   <h1>Sign Up</h1>
@@ -81,81 +81,92 @@ function Register() {
               </div>
             </div>
             <div className="rightContent">
-              <div className="input">
-                <label htmlFor="fullName">FullName: </label>
-                <input
-                  placeholder="Enter your full name:  "
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  id="fullName"
-                />
-              </div>
-              <div className="input">
-                <label htmlFor="phone">Phone: </label>
-                <input
-                  placeholder="Enter Username "
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  id="phone"
-                />
-              </div>
-              <div className="input">
-                <label htmlFor="password">Password:</label>
-                <input
-                  placeholder="Password"
-                  type={"password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="input">
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input
-                  placeholder="Confirm Password"
-                  type={"password"}
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-              <div className="input">
-                <label>Role:</label>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      value="renter"
-                      checked={role === "renter"}
-                      onChange={() => setRole("renter")}
-                    />
-                    Renter
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      value="lessor"
-                      checked={role === "lessor"}
-                      onChange={() => setRole("lessor")}
-                    />
-                    Lessor
-                  </label>
+              <form onSubmit={handleSignUp}>
+                <div className="input">
+                  <label htmlFor="fullName">FullName: </label>
+                  <input
+                    placeholder="Enter your full name:  "
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    id="fullName"
+                  />
                 </div>
-              </div>
-              <div className="handle">
-                <button
-                  onClick={() => {
-                    handleSignUp();
-                  }}
-                >
-                  Sign Up
-                </button>
-              </div>
+                <div className="input">
+                  <label htmlFor="phone">Phone: </label>
+                  <input
+                    placeholder="Enter Username "
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    id="phone"
+                  />
+                </div>
+                <div className="input">
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    placeholder="Password"
+                    type={"password"}
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className="input">
+                  <label htmlFor="confirmPassword">Confirm Password:</label>
+                  <input
+                    placeholder="Confirm Password"
+                    type={"password"}
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+                <div className="input">
+                  <label>Role:</label>
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        value="renter"
+                        checked={role === "renter"}
+                        onChange={() => setRole("renter")}
+                      />
+                      Renter
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        value="lessor"
+                        checked={role === "lessor"}
+                        onChange={() => setRole("lessor")}
+                      />
+                      Lessor
+                    </label>
+                  </div>
+                </div>
+                <div className="handle">
+                   <div className="handleBox">
+                     <button
+                      // onClick={() => {
+                      //   handleSignUp();
+                      // }}
+                    >
+                      Quay lại
+                    </button>
+                    <button
+                      type="submit"
+                      // onClick={() => {
+                      //   handleSignUp();
+                      // }}
+                    >
+                      Đăng ký
+                    </button>
+                   </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
   ) : (
     <Loading />
   );

@@ -37,6 +37,7 @@ function RenterUploadBlog() {
     .then(res => {
       const data = res.data.data;
       setBlogs(data);
+      console.log(currentBlog);
     })
     .catch(err => console.log(err))
   },[])
@@ -450,17 +451,19 @@ function RenterUploadBlog() {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
-          width={600}
+          width={500}
         >
-          <p style={{ marginBottom: "50px", fontSize: "20px" }}>
+          <p style={{ fontSize: "20px" }}>
             Xin vui lòng chuyển 3000 (phí) x {timeDuration} (ngày)={" "}
-            <span style={{ color: "red" }}>{3000 * timeDuration}</span> VND vào
-            stk dưới đây
+            <span style={{ marginBottom: 20, color: "red" }}>{3000 * timeDuration}</span> VND vào
+            stk dưới đây với nội dung: 
           </p>
+          <b >SĐT đăng kí + tên phòng trọ vừa đăng bài</b>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <img
               src="http://localhost:9999/file/1709531531645-Screenshot 2024-03-04 125142.png"
               alt="ảnh qr code"
+              style={{width: 300}}
             />
           </div>
           <p style={{ color: "red", marginTop: "50px", fontSize: "20px" }}>

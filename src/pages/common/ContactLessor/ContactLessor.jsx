@@ -46,7 +46,13 @@ function ContactLessor(){
                         <i>Thường phản hồi trong vòng 1 giờ</i>
                     </div>
                     <div className="rightHostTitle">
-                      <img className="imgHost i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" aria-hidden="true" alt="Satish là chủ nhà siêu cấp. Tìm hiểu thêm về Satish." decoding="async" elementtiming="LCP-target" src="https://a0.muscache.com/im/pictures/user/8c2644b3-c718-46bb-bd79-d4803a56393f.jpg?im_w=240" data-original-uri="https://a0.muscache.com/im/pictures/user/8c2644b3-c718-46bb-bd79-d4803a56393f.jpg?im_w=240" style={{objectFit: 'cover'}}/>
+                      <img 
+                        className="imgHost i9if2t0 atm_e2_idpfg4 atm_vy_idpfg4 atm_mk_stnw88 atm_e2_1osqo2v__1lzdix4 atm_vy_1osqo2v__1lzdix4 atm_mk_pfqszd__1lzdix4 i1cqnm0r atm_jp_pyzg9w atm_jr_nyqth1 i1de1kle atm_vh_yfq0k3 dir dir-ltr" 
+                        aria-hidden="true" alt="Satish là chủ nhà siêu cấp. Tìm hiểu thêm về Satish." 
+                        decoding="async" 
+                        elementtiming="LCP-target" 
+                        src={`http://${userDetail?.avatar}`} 
+                        data-original-uri="https://a0.muscache.com/im/pictures/user/8c2644b3-c718-46bb-bd79-d4803a56393f.jpg?im_w=240" style={{objectFit: 'cover'}}/>
                     </div>
                 </div>
                 <div className="aboutRenter">
