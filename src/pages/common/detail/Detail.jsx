@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { pathBackViewProfile } from "../../../actions/pathActions";
+import Slider from "../../../components/component/Slider/Slider";
 
 function Detail() {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ function Detail() {
   const [isRentRegister, setIsRentRegister] = useState(false);
   const [isRentConfirm, setIsRentConfirm] = useState(false);
   const [userId, setUserId] = useState();
+  const [suggestBlog, setSuggestBlog] = useState();
   const [doneRent, setDoneRent] = useState(false);
   const [pathName, setPathName] = useState();
   const path = useLocation();
@@ -52,10 +54,6 @@ function Detail() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    setUserId(account?.accessToken?.id);
-  },[])
 
   const handleCloseUnRent = () => {
     setOpenUnRent(false);
@@ -177,7 +175,23 @@ function Detail() {
         setBlogRates(data);
       })
       .catch((res) => console.log(res));
-  }, []);
+
+      setUserId(account?.accessToken?.id);
+    if(account?.role !== undefined){
+      axios
+      .get(`/api/blog/GuestBlog/${slug}`,{
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        })
+      .then(res => {
+        const data = res.data;
+        setSuggestBlog(data);
+        console.log(data,'111');
+      })
+      .catch(err => console.log(err))
+    }
+  }, [slug]);
 
   useEffect(() => {
     if (renterConfirm === []) {
@@ -688,6 +702,12 @@ function Detail() {
         </div>
         <div className="rightCotent"></div>
       </div>
+      {account?.role !== undefined && suggestBlog?.length > 0 ?<div className='sliderContainer'>
+          <div className='sliderMain'>
+            <h2>Các phòng tương tự</h2>
+            <Slider slides={suggestBlog} />
+          </div>
+      </div>:<></>}
       <div className="ratingBlog">
         <div className="numberStar">
           <img

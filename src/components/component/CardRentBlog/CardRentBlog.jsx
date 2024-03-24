@@ -105,18 +105,18 @@ function CardRentBlog({item, statusSearch}){
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {roomate?.map((user,index) => (
-                        <TableRow
+                    {roomate?.map((user,index) => ( 
+                        user?._id !== userId ? <TableRow
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
                         key={user?._id}
                         >
                             <TableCell component="th" scope="row">
-                                {index+1}
+                                {index}
                             </TableCell>
                             <TableCell align="left" className='cursorPointer' onClick={() => handleViewProfile(user?._id)}>{user?.fullName}</TableCell>
                             <TableCell align="left" className='cursorPointer'>{user?.phone}</TableCell>
                             <TableCell align="left" ></TableCell>
-                        </TableRow>
+                        </TableRow>:<></>
                     ))}
                     
                     </TableBody>

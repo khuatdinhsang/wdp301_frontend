@@ -31,12 +31,13 @@ function Login() {
       : setIsBlankPassword(false);
   }, [password]);
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
     if (username.trim() === "" || username.trim() % 1 !== 0) {
       toast.warn("Số điện thoại không đúng");
     } else if (password.trim() === "") {
       toast.warn("Mật khẩu không được để trống!");
     } else {
+      e.preventDefault();
       const userLogin = {
         phone: username.trim(),
         password: password.trim(),
@@ -54,6 +55,7 @@ function Login() {
               role: account.role,
               avatar: account?.avatar,
             };
+            console.log(user);
             const action = loginAccount(user);
             // setIsLoading(true);
             dispatch(action);
@@ -107,7 +109,7 @@ function Login() {
             </div>
           </div>
           <div className="rightContent">
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="input">
                 <label htmlFor="mail">Phone Number: </label>
                 <input
@@ -158,18 +160,19 @@ function Login() {
                 Account is Blocked
               </p>
               <div className="handle">
-                <span
+                <button
                   className="signUpBtn"
-                  onClick={() => handleLogin()}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleLogin();
-                    }
-                  }}
+                  type='submit'
+                  // onClick={() => handleLogin()}
+                  // onKeyPress={(e) => {
+                  //   if (e.key === "Enter") {
+                  //     e.preventDefault();
+                  //     handleLogin();
+                  //   }
+                  // }}
                 >
                   Login
-                </span>
+                </button>
 
                 {/* <i
                   className="remember"
