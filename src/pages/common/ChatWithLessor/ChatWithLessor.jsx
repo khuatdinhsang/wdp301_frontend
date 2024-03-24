@@ -35,13 +35,14 @@ function ChatWithLessor() {
       console.log("data 35", data);
       setMessageList((messageList) => [payload, ...messageList]);
     });
-    socket.on("connect_error", (err) => {
-      console.log("err", err.data);
-    });
-    socket.on("disconnect", (reason) => {
-      console.log("disconnect", reason);
-    });
+    // socket.on("connect_error", (err) => {
+    //   console.log("err", err.data);
+    // });
+    // socket.on("disconnect", (reason) => {
+    //   console.log("disconnect", reason);
+    // });
   }, []);
+  console.log("messageList", messageList);
   const handleSendMessage = () => {
     const conversation = {
       content: newMessage,
