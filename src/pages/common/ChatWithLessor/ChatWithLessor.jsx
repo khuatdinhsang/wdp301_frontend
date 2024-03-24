@@ -31,18 +31,18 @@ function ChatWithLessor() {
   }, [account?.token]);
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log("aaaa");
       const { payload } = data;
-      console.log("35", payload);
+      console.log("data 35", data);
       setMessageList((messageList) => [payload, ...messageList]);
     });
-    socket.on("connect_error", (err) => {
-      console.log(err.data);
-    });
-    socket.on("disconnect", (reason) => {
-      console.log("disconnect", reason);
-    });
+    // socket.on("connect_error", (err) => {
+    //   console.log("err", err.data);
+    // });
+    // socket.on("disconnect", (reason) => {
+    //   console.log("disconnect", reason);
+    // });
   }, []);
+  console.log("messageList", messageList);
   const handleSendMessage = () => {
     const conversation = {
       content: newMessage,
@@ -108,7 +108,7 @@ function ChatWithLessor() {
         <div className="rightChat">
           <div className="topRightChat">
             <h3 className="lessorNameChat">{currenUser?.fullName}</h3>
-            <i>Thời gian phản hồi: 1 giờ</i>
+            <i>Thời gian phản hồi khoảng: 1 giờ</i>
           </div>
           <div className="bottomRightChat">
             <div className="chatBox">

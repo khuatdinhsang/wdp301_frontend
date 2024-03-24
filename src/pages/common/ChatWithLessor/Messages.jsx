@@ -33,7 +33,7 @@ const Messages = ({ messageList }) => {
                   />
                 )}
               <Tooltip
-                title={moment(msg.createdAt).format("DD/MM/YYYY hh:mm")}
+                title={moment(msg?.createdAt).format("DD/MM/YYYY hh:mm")}
                 className={`w-full flex flex-col gap-2 ${
                   msg?.sender_id?._id === account?.accessToken?.id
                     ? "items-end"
@@ -48,7 +48,7 @@ const Messages = ({ messageList }) => {
                         : "bg-gray-300"
                     }`}
                   >
-                    {msg.content}
+                    {msg?.content}
                   </Typography>
                 )}
               </Tooltip>
