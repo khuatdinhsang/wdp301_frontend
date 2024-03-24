@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import CloseIcon from "@mui/icons-material/Close";
+
 import axios from "axios";
 import SidebarAdmin from "../../components/SideBarAdmin/SidebarAdmin";
 import {
@@ -36,6 +38,9 @@ function UsersManagerAdmin() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [blockReason, setBlockReason] = useState("");
   const [isBlock, setIsBlock] = useState(false);
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   useEffect(() => {
     fetchRenterData();
     fetchLessorData();
@@ -285,8 +290,14 @@ function UsersManagerAdmin() {
               backgroundColor: "#fff",
             }}
           >
+            <IconButton
+              sx={{ position: "absolute", top: 5, right: 5 }}
+              onClick={handleCloseModal}
+            >
+              <CloseIcon />
+            </IconButton>
             <Typography variant="h6" gutterBottom>
-              Reason for blocking
+              Reason
             </Typography>
             <TextField
               variant="outlined"
