@@ -8,7 +8,7 @@ const Messages = ({ messageList }) => {
 
   return (
     <div
-      className="w-full h-[700px] px-4 py-3 flex flex-1 flex-col-reverse overflow-scroll"
+      className="w-full h-[600px] px-4 py-3 flex flex-1 flex-col-reverse overflow-scroll "
       id="scrollableDiv"
     >
       {messageList?.map((msg, i) => {

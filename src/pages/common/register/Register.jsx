@@ -83,27 +83,27 @@ function Register() {
             <div className="rightContent">
               <form onSubmit={handleSignUp}>
                 <div className="input">
-                  <label htmlFor="fullName">FullName: </label>
+                  <label htmlFor="fullName">Tên: </label>
                   <input
-                    placeholder="Enter your full name:  "
+                    placeholder="Họ và tên"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     id="fullName"
                   />
                 </div>
                 <div className="input">
-                  <label htmlFor="phone">Phone: </label>
+                  <label htmlFor="phone">Số điện thoại: </label>
                   <input
-                    placeholder="Enter Username "
+                    placeholder="Số điện thoại"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     id="phone"
                   />
                 </div>
                 <div className="input">
-                  <label htmlFor="password">Password:</label>
+                  <label htmlFor="password">Mật khẩu:</label>
                   <input
-                    placeholder="Password"
+                    placeholder="Mật khẩu"
                     type={"password"}
                     id="password"
                     value={password}
@@ -111,9 +111,9 @@ function Register() {
                   />
                 </div>
                 <div className="input">
-                  <label htmlFor="confirmPassword">Confirm Password:</label>
+                  <label htmlFor="confirmPassword">Mật khẩu xác nhận:</label>
                   <input
-                    placeholder="Confirm Password"
+                    placeholder="Mật khẩu xác nhận"
                     type={"password"}
                     id="confirmPassword"
                     value={confirmPassword}
@@ -145,13 +145,14 @@ function Register() {
                 </div>
                 <div className="handle">
                    <div className="handleBox">
-                     <button
-                      // onClick={() => {
-                      //   handleSignUp();
-                      // }}
+                     <span
+                     className="backToLoginR"
+                      onClick={() => {
+                        navigate("/login");
+                      }}
                     >
                       Quay lại
-                    </button>
+                    </span>
                     <button
                       type="submit"
                       // onClick={() => {

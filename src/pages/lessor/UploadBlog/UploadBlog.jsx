@@ -99,9 +99,12 @@ function UploadBlog() {
       dataImg.length === 0 ||
       addressDetail === "" ||
       rentalObject === "" ||
-      expiredTime === ""
+      expiredTime === ""||
+      Number(money) <= 0||
+      Number(area) <= 0
+
     ) {
-      toast.warn("Có thông tin chưa điền!!!");
+      toast.warn("Vui lòng kiểm tra lại thông tin");
     } else {
       showModal();
     }
@@ -217,12 +220,13 @@ function UploadBlog() {
                 <input
                   type="file"
                   multiple="true"
-                  className="hospitalImage absolute bottom-0 right-0 w-8 h-8 rounded-[50%] cursor-pointer opacity-0 inputPrice"
+                  className="hospitalImage cursor-pointer inputPrice"
                   onChange={(e) => {
                     convertMultipleImage(e);
                   }}
                   name="files"
                 />
+                
                 {isConfirm ? (
                   ""
                 ) : (
@@ -387,6 +391,7 @@ function UploadBlog() {
             <img
               src="http://localhost:9999/file/1709531531645-Screenshot 2024-03-04 125142.png"
               alt="ảnh qr code"
+              style={{width: "50%"}}
             />
           </div>
           <p style={{ color: "red", marginTop: "50px", fontSize: "20px" }}>
