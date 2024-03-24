@@ -31,8 +31,6 @@ const publicRoutes = [
   { path: "/changePassword", component: ChangePassword, layout: null },
   { path: "/register", component: Register, layout: null },
   { path: "/contact-host", component: ContactLessor },
-  { path: "/inbox", component: ChatWithLessor, layout: null },
-
   { path: "/viewProfile/:slug", component: ViewProfile, layout: null },
 ];
 
@@ -41,6 +39,8 @@ const adminRoutes = [
   { path: "/admin/blogManager", component: BlogManagerAdmin, layout: null },
   { path: "/admin/users", component: UsersManagerAdmin, layout: null },
   { path: "/profile", component: Profile, layout: null },
+  { path: "/inbox", component: ChatWithLessor, layout: null },
+
 ];
 
 const renterRoutes = [
@@ -54,6 +54,7 @@ const renterRoutes = [
     component: RenterBlogManagement,
     layout: null,
   },
+  { path: "/inbox", component: ChatWithLessor, layout: null },
   { path: "/editBlog/:slug", component: EditBlog, layout: null },
   { path: "/renter/roomateManagement", component: RoomateBlogManagement, layout: null },
   
@@ -64,6 +65,7 @@ const lessorRoutes = [
   { path: "/profile", component: Profile, layout: null },
   { path: "/uploadBlog", component: UploadBlog, layout: null },
   { path: "/lessor/blogRentManager", component: BlogRentManager, layout: null },
+  { path: "/inbox", component: ChatWithLessor, layout: null },
   { path: "/editBlog/:slug", component: EditBlog, layout: null },
 ];
 

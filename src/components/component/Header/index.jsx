@@ -14,8 +14,9 @@ import { pathBackViewProfile } from "../../../actions/pathActions";
 const Header = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [path, setPath] = useState("");
+  const [pathName, setPathName] = useState();
   const navigate = useNavigate();
+  const path = useLocation()
   const { pathname } = useLocation();
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
@@ -24,11 +25,16 @@ const Header = () => {
     "https://cdn-icons-png.freepik.com/512/219/219986.png"
   );
 
-  useEffect(() => {
-    localStorage.setItem("path", pathname);
-  }, [pathname]);
+  const handleMoveToInbox = () => {
+    const action = pathBackViewProfile(pathName)
+    console.log(pathName,'qqw');
+    dispatch(action);
+    navigate('/inbox')
+  }
 
+  
   useEffect(() => {
+    setPathName(path.pathname)
     axios
       .get("/api/auth/profile", {
         headers: {
@@ -81,7 +87,7 @@ const Header = () => {
 
   const handleToLogin = () => {
     navigate("/login");
-    setPath(pathname);
+    setPathName(pathname);
   };
 
   return (
@@ -179,7 +185,7 @@ const Header = () => {
                     <></>
                   )}
                   {account?.phone !== undefined ? (
-                    <li onClick={() => navigate("/inbox")}>
+                    <li onClick={() => handleMoveToInbox()}>
                       <span>Tin nhắn</span>
                     </li>
                   ) : (

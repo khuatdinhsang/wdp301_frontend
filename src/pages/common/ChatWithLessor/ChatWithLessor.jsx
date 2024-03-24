@@ -3,17 +3,24 @@ import InboxCard from "../../../components/component/InboxCard/InboxCard";
 import "./ChatWithLessor.scss";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { socket } from "../../../utils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import axios from "axios";
 import Messages from "./Messages";
 import Header from "../../../components/component/Header";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import { pathBackViewProfile } from "../../../actions/pathActions";
+import { useNavigate } from "react-router";
+
 
 function ChatWithLessor() {
   const [newMessage, setNewMessage] = useState("");
   const account = useSelector((state) => state.account);
+  const pathBack = useSelector((state) => state.path);
   const [currenUser, setCurrentUser] = useState({});
   const [chatRoomList, setChatRoomList] = useState([]);
   const [messageList, setMessageList] = useState([]);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     const getChatRoomList = async () => {
       axios
@@ -29,6 +36,18 @@ function ChatWithLessor() {
     };
     getChatRoomList();
   }, [account?.token]);
+
+  useEffect(() => {
+    // console.log(chatRoomList,'123');
+    // setCurrentUser(chatRoomList[0])
+  },[chatRoomList])
+
+  const handleBack = () => {
+    navigate(pathBack)
+    const action = pathBackViewProfile('');
+    dispatch(action)
+  }
+
   useEffect(() => {
     socket.on("receive_message", (data) => {
       const { payload } = data;
@@ -46,7 +65,7 @@ function ChatWithLessor() {
   const handleSendMessage = () => {
     const conversation = {
       content: newMessage,
-      receiver_id: currenUser._id,
+      receiver_id: currenUser?._id,
       sender_id: account?.accessToken?.id,
     };
     socket.emit("sendMessage", conversation);
@@ -61,7 +80,7 @@ function ChatWithLessor() {
           avatar: account?.accessToken?.avatar,
         },
         receiver_id: {
-          _id: currenUser._id,
+          _id: currenUser?._id,
         },
       },
       ...messageList,
@@ -70,7 +89,7 @@ function ChatWithLessor() {
   useEffect(() => {
     const getAllMessage = async () => {
       axios
-        .get(`/api/message/get-all/${currenUser._id}`, {
+        .get(`/api/message/get-all/${currenUser?._id}`, {
           headers: {
             Authorization: `Bearer ${account?.token}`,
           },
@@ -84,11 +103,14 @@ function ChatWithLessor() {
   }, [account?.token, currenUser._id]);
 
   return (
-    <div className="chatWithLessor" style={{ marginTop: "225px" }}>
-      <Header />
+    <div className="chatWithLessor">
+      {/* <Header /> */}
       <div className="chatContent">
         <div className="leftChat">
           <div className="topLeftChat">
+            <span style={{ cursor: "pointer" }} onClick={() => handleBack()}>
+              <ArrowBackIosRoundedIcon className="backIconLogin" />
+            </span>
             <h3>Tin nhắn</h3>
           </div>
 
@@ -99,6 +121,8 @@ function ChatWithLessor() {
                   key={index}
                   room={room}
                   setCurrentUser={setCurrentUser}
+                  currentUser={currenUser}
+                  className='inboxCard'
                 />
               );
             })}
@@ -115,33 +139,34 @@ function ChatWithLessor() {
               <div vertical className="chatMessages">
                 <Messages messageList={messageList} />
               </div>
-            </div>
-            <div className="inputContainer">
-              <div className="divSendMessage">
-                <input
-                  type="text"
-                  placeholder="Nhập tin nhắn"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  className="inputMessage"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleSendMessage();
-                    }
-                  }}
-                />
-                <button
-                  className="uploadMessage"
-                  style={{ opacity: newMessage === "" ? 0 : 1 }}
-                  onClick={() => handleSendMessage()}
-                >
-                  <span>
-                    <ArrowUpwardIcon />
-                  </span>
-                </button>
+              <div className="inputContainer">
+                  <div className="divSendMessage">
+                    <input
+                      type="text"
+                      placeholder="Nhập tin nhắn"
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      className="inputMessage"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                    />
+                    <button
+                      className="uploadMessage"
+                      style={{ opacity: newMessage === "" ? 0 : 1 }}
+                      onClick={() => handleSendMessage()}
+                    >
+                      <span>
+                        <ArrowUpwardIcon />
+                      </span>
+                    </button>
+                  </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

@@ -187,7 +187,6 @@ function Detail() {
       .then(res => {
         const data = res.data;
         setSuggestBlog(data);
-        console.log(data,'111');
       })
       .catch(err => console.log(err))
     }
@@ -450,12 +449,12 @@ function Detail() {
                     <div className="rentedBtn">
                         <Button variant="contained" onClick={() => handleClickOpen()}>Thuê Trọ</Button>
                     </div>} */}
-                    {account?.role === 'renter' && blog?.isRented === false && isRentRegister === true ? 
+                    {blog?.userId !== userId && account?.role === 'renter' && blog?.isRented === false && isRentRegister === true ? 
                         <Button variant="contained" onClick={() => handleClickOpenUnRent()}>Huỷ Thuê Trọ</Button>:<></>}
-                    {(account?.role === 'renter' || account?.phone === undefined)&& isRentRegister === false  && blog?.isRented === false?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
-                    {blog?.isRented === true?<Button variant="contained" disabled>Phòng Đã Được thuê</Button>:<></>}
-                    {account?.role === 'renter' && isRentConfirm === true && blog?.isRent === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
-                    
+                    {blog?.userId !== userId && (account?.role === 'renter' || account?.phone === undefined)&& isRentRegister === false  && blog?.isRented === false?<Button variant="contained" onClick={() => handleClickOpen()}>Thuê Phòng</Button>:<></>}
+                    {blog?.userId !== userId && blog?.isRented === true?<Button variant="contained" disabled>Phòng Đã Được thuê</Button>:<></>}
+                    {blog?.userId !== userId && account?.role === 'renter' && isRentConfirm === true && blog?.isRent === true?<Button variant="contained" disabled>Đã Thuê</Button>:<></>}
+                    {blog?.userId === userId ? <Button variant="contained" disabled>Bài đăng của bạn</Button> : <></>}
                     {/* <div className="equipment1">
                         <i className='boldEquipment'>Ngày hết hạn bài đăng: </i><i className='nameEquipment1'>{blog?.expiredTime.split('T')[0]}</i>
                     </div> */}

@@ -13,6 +13,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAccount } from "../../../../actions/accountActions";
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { toast } from "react-toastify";
 
 function SidebarAdmin() {
@@ -127,6 +128,7 @@ function SidebarAdmin() {
             <h3 className="typeDashboard">Trạng thái các bài đăng</h3>
           </a>:
           <></>}
+          
           {account?.role !== 'admin'?
           <a
             onClick={() => navigate(account?.role === 'renter'?'/renter/uploadBlog':'/uploadBlog')}
@@ -138,6 +140,15 @@ function SidebarAdmin() {
             <h3 className="typeDashboard">Đăng bài</h3>
           </a>:
           <></>}
+          <a
+            onClick={() => navigate("/inbox")}
+            className={pathname?.includes("inbox") ? "active" : ""}
+          >
+            <span className="material-icons-sharp">
+              <ForwardToInboxIcon />
+            </span>
+            <h3 className="typeDashboard">Tin nhắn</h3>
+          </a>
           <a onClick={() => handleLogout()}>
             <span className="material-icons-sharp">
               <LogoutIcon />
