@@ -31,13 +31,12 @@ function ChatWithLessor() {
   }, [account?.token]);
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log("aaaa");
       const { payload } = data;
-      console.log("35", payload);
+      console.log("data 35", data);
       setMessageList((messageList) => [payload, ...messageList]);
     });
     socket.on("connect_error", (err) => {
-      console.log(err.data);
+      console.log("err", err.data);
     });
     socket.on("disconnect", (reason) => {
       console.log("disconnect", reason);
