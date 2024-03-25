@@ -9,7 +9,7 @@ import { logoutAccount } from "../../../actions/accountActions";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { showAds } from "../../../actions/bannerActions";
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
+import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import { pathBackViewProfile } from "../../../actions/pathActions";
 
 const Header = () => {
@@ -17,7 +17,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [pathName, setPathName] = useState();
   const navigate = useNavigate();
-  const path = useLocation()
+  const path = useLocation();
   const { pathname } = useLocation();
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
@@ -27,15 +27,14 @@ const Header = () => {
   );
 
   const handleMoveToInbox = () => {
-    const action = pathBackViewProfile(pathName)
-    console.log(pathName,'qqw');
+    const action = pathBackViewProfile(pathName);
+    console.log(pathName, "qqw");
     dispatch(action);
-    navigate('/inbox')
-  }
+    navigate("/inbox");
+  };
 
-  
   useEffect(() => {
-    setPathName(path.pathname)
+    setPathName(path.pathname);
     axios
       .get("/api/auth/profile", {
         headers: {
@@ -89,6 +88,24 @@ const Header = () => {
   const handleToLogin = () => {
     navigate("/login");
     setPathName(pathname);
+  };
+  const chatWithAdmin = () => {
+    axios
+      .post(
+        `/api/room/create`,
+        { users: [account?.accessToken?.id, "65efe0b1f528d852b829ff75"] },
+        {
+          headers: {
+            Authorization: `Bearer ${account?.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.users?.length > 0) {
+          navigate("/inbox");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -153,7 +170,6 @@ const Header = () => {
                 thuê phòng trọ,tìm người ở ghép nhanh, hiệu quả với 100.000+ tin
                 đăng và 2.500.000 lượt xem mỗi tháng.
               </i>
-
             </h4>
           </div>
         </div>
@@ -168,10 +184,14 @@ const Header = () => {
               )}
             </div>
           </div>
-          <div className="contactAdmin"><ConnectWithoutContactIcon  style={{ width: "40px", height: "40px" }}/></div>
+          <div className="contactAdmin">
+            <ConnectWithoutContactIcon
+              onClick={() => chatWithAdmin()}
+              style={{ width: "40px", height: "40px" }}
+            />
+          </div>
           {showRegister === true ? (
             <div className="inforNav">
-
               <div className="loginNav">
                 <ul>
                   {account?.phone === undefined ? (
@@ -275,7 +295,6 @@ const Header = () => {
           )}
         </div>
       </div>
-
     </div>
   );
 };
