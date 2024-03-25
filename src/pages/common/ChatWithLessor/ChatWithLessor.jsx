@@ -42,9 +42,7 @@ function ChatWithLessor() {
   // }, [chatRoomList]);
 
   const handleBack = () => {
-    navigate(pathBack);
-    const action = pathBackViewProfile("");
-    dispatch(action);
+    navigate('/');
   };
 
   useEffect(() => {

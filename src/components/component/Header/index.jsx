@@ -184,12 +184,12 @@ const Header = () => {
               )}
             </div>
           </div>
-          <div className="contactAdmin">
+          {account?.phone !== undefined && account?.role !== 'admin' ?<div className="contactAdmin">
             <ConnectWithoutContactIcon
               onClick={() => chatWithAdmin()}
               style={{ width: "40px", height: "40px" }}
             />
-          </div>
+          </div>:<></>}
           {showRegister === true ? (
             <div className="inforNav">
               <div className="loginNav">
