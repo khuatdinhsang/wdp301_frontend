@@ -147,7 +147,7 @@ function Detail() {
   const handleToContact = () => {
     const action = pathBackViewProfile(pathName);
     dispatch(action);
-    navigate("/contact-host");
+    navigate(`/contact-host/${lessor?._id}`);
   };
 
   useEffect(() => {
@@ -833,7 +833,7 @@ function Detail() {
                 <p className='placeDescription'>The Boot nằm ở vị trí lý tưởng để khám phá Vườn quốc gia Abel Tasman, các nhà máy rượu vang, bãi biển và Vườn quốc gia Kahurangi. Chúng tôi cũng gần thị trấn Motueka và làng Mapua.</p>
             </div> */}
       <div className="detailLessor">
-        {account?.phone !== undefined ? (
+        {account?.phone !== undefined && blog?.userId !== userId ? (
           <>
             <div className="topDetailLessor">
               <div className="lessor">

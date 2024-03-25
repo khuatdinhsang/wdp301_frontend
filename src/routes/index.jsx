@@ -30,7 +30,7 @@ const publicRoutes = [
   { path: "/login", component: Login, layout: null },
   { path: "/changePassword", component: ChangePassword, layout: null },
   { path: "/register", component: Register, layout: null },
-  { path: "/contact-host", component: ContactLessor },
+  { path: "/contact-host/:slug", component: ContactLessor },
   { path: "/viewProfile/:slug", component: ViewProfile, layout: null },
 ];
 

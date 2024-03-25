@@ -199,6 +199,7 @@ export default function Profile() {
       phone: userDetail?.phone,
       address: address,
     };
+    
     axios
       .post(`/api/auth/editProfile`, userInfor, {
         headers: {
