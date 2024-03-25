@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import './ContactLessor.scss'
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useEffect, useState} from 'react';
@@ -11,13 +11,14 @@ function ContactLessor(){
     const navigate = useNavigate();
     const pathBack = useSelector(state => state.path)
     const account = useSelector(state => state.account)
+    const {slug} = useParams();
     const [userDetail, setUserDetail] = useState();
 
     useEffect(() => {
         window.scrollTo(0,0)
 
         axios
-        .get("/api/auth/profile", {
+        .get(`/api/auth/getProfileUserOther/${slug}`, {
             headers: {
             Authorization: `Bearer ${account?.token}`,
             },
@@ -31,7 +32,7 @@ function ContactLessor(){
             }
         })
         .catch((err) => console.log(err));
-    },[])
+    },[slug])
 
 
     return (
