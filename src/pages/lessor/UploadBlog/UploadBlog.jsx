@@ -42,7 +42,9 @@ function UploadBlog() {
   };
 
   useEffect(() => {
-    account?.role === "renter" ? setPathBack("/renter/blogManager") : setPathBack("/lessor/blogManager");
+    account?.role === "renter"
+      ? setPathBack("/renter/blogManager")
+      : setPathBack("/lessor/blogManager");
   }, [account]);
 
   const convertMultipleImage = (e) => {
@@ -99,10 +101,9 @@ function UploadBlog() {
       dataImg.length === 0 ||
       addressDetail === "" ||
       rentalObject === "" ||
-      expiredTime === ""||
-      Number(money) <= 0||
+      expiredTime === "" ||
+      Number(money) <= 0 ||
       Number(area) <= 0
-
     ) {
       toast.warn("Vui lòng kiểm tra lại thông tin");
     } else {
@@ -111,17 +112,22 @@ function UploadBlog() {
   };
 
   const handleExpiredTime = (e) => {
-    setExpiredTime(e.target.value);
-    const date = new Date(e.target.value);
-    const timestampTo = date.getTime();
-    const timestampFrom = Date.now();
-    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số miligiây trong một ngày
+    var today = new Date().toISOString().slice(0, 10);
+    if (e.target.value < today) {
+      toast.error("Bạn không được chọn ngày phía trước");
+    } else {
+      setExpiredTime(e.target.value);
+      const date = new Date(e.target.value);
+      const timestampTo = date.getTime();
+      const timestampFrom = Date.now();
+      const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số miligiây trong một ngày
 
-    const differenceInMilliseconds = Math.abs(timestampTo - timestampFrom);
-    const differenceInDays = Math.floor(
-      differenceInMilliseconds / millisecondsPerDay
-    );
-    setTimeDuration(differenceInDays + 1);
+      const differenceInMilliseconds = Math.abs(timestampTo - timestampFrom);
+      const differenceInDays = Math.floor(
+        differenceInMilliseconds / millisecondsPerDay
+      );
+      setTimeDuration(differenceInDays + 1);
+    }
   };
 
   const showModal = () => {
@@ -226,7 +232,7 @@ function UploadBlog() {
                   }}
                   name="files"
                 />
-                
+
                 {isConfirm ? (
                   ""
                 ) : (
@@ -361,8 +367,8 @@ function UploadBlog() {
             </p>
           )}
           <div className="submitForm">
-             <span 
-              className="uploadBtn1" 
+            <span
+              className="uploadBtn1"
               onClick={() => {
                 navigate(pathBack);
               }}
@@ -391,7 +397,7 @@ function UploadBlog() {
             <img
               src="http://localhost:9999/file/1709531531645-Screenshot 2024-03-04 125142.png"
               alt="ảnh qr code"
-              style={{width: "50%"}}
+              style={{ width: "50%" }}
             />
           </div>
           <p style={{ color: "red", marginTop: "50px", fontSize: "20px" }}>

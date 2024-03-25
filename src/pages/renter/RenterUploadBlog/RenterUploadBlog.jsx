@@ -23,26 +23,26 @@ function RenterUploadBlog() {
   const [timeDuration, setTimeDuration] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pathBack, setPathBack] = useState();
-  const [blogs, setBlogs] = useState([])
-  const [currentBlog, setCurrentBlog] = useState()
+  const [blogs, setBlogs] = useState([]);
+  const [currentBlog, setCurrentBlog] = useState();
   const navigate = useNavigate();
 
-  useEffect(() =>{ 
+  useEffect(() => {
     axios
-    .get(`/api/blog/RentedBlogUser`,{
-          headers: {
-            Authorization: `Bearer ${account?.token}`,
-          },
-        })
-    .then(res => {
-      const data = res.data.data;
-      setBlogs(data);
-      console.log(currentBlog);
-    })
-    .catch(err => console.log(err))
-  },[])
+      .get(`/api/blog/RentedBlogUser`, {
+        headers: {
+          Authorization: `Bearer ${account?.token}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data.data;
+        setBlogs(data);
+        console.log(currentBlog);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  useEffect(() =>{ 
+  useEffect(() => {
     setTitle(currentBlog?.title);
     setDescription(currentBlog?.description);
     setArea(currentBlog?.area);
@@ -50,9 +50,9 @@ function RenterUploadBlog() {
     setAddressDetail(currentBlog?.addressDetail);
     setRentalObject(currentBlog?.rentalObject);
     setHospitalImages1(currentBlog?.image);
-    setHospitalImages([])
+    setHospitalImages([]);
     console.log(currentBlog);
-  },[currentBlog])
+  }, [currentBlog]);
 
   const handleChange = (event) => {
     setCurrentBlog(event.target.value);
@@ -76,7 +76,9 @@ function RenterUploadBlog() {
   };
 
   useEffect(() => {
-    account?.role === "renter" ? setPathBack("/renter/blogManager") : setPathBack("/lessor/blogManager");
+    account?.role === "renter"
+      ? setPathBack("/renter/blogManager")
+      : setPathBack("/lessor/blogManager");
   }, [account]);
 
   const convertMultipleImage = (e) => {
@@ -112,11 +114,11 @@ function RenterUploadBlog() {
           const data = res.data.data;
           setDataImg(data);
           var newDataImg = hospitalImages1;
-          data?.forEach(img =>{
+          data?.forEach((img) => {
             newDataImg.push(img);
-          })
+          });
           setHospitalImages1(newDataImg);
-          setHospitalImages([])
+          setHospitalImages([]);
           setIsConfirm(true);
         })
         .catch((err) => {
@@ -141,7 +143,7 @@ function RenterUploadBlog() {
       addressDetail === "" ||
       rentalObject === "" ||
       expiredTime === "" ||
-      Number(money) <= 0||
+      Number(money) <= 0 ||
       Number(area) <= 0
     ) {
       toast.warn("Vui lòng kiểm tra lại thông tin!!!");
@@ -151,25 +153,29 @@ function RenterUploadBlog() {
   };
 
   const handleExpiredTime = (e) => {
-    setExpiredTime(e.target.value);
-    const date = new Date(e.target.value);
-    const timestampTo = date.getTime();
-    const timestampFrom = Date.now();
-    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số miligiây trong một ngày
+    var today = new Date().toISOString().slice(0, 10);
+    if (e.target.value < today) {
+      toast.error("Bạn không được chọn ngày phía trước");
+    } else {
+      setExpiredTime(e.target.value);
+      const date = new Date(e.target.value);
+      const timestampTo = date.getTime();
+      const timestampFrom = Date.now();
+      const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số miligiây trong một ngày
 
-    const differenceInMilliseconds = Math.abs(timestampTo - timestampFrom);
-    const differenceInDays = Math.floor(
-      differenceInMilliseconds / millisecondsPerDay
-    );
-    setTimeDuration(differenceInDays + 1);
+      const differenceInMilliseconds = Math.abs(timestampTo - timestampFrom);
+      const differenceInDays = Math.floor(
+        differenceInMilliseconds / millisecondsPerDay
+      );
+      setTimeDuration(differenceInDays + 1);
+    }
   };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // 
-
+  //
 
   const handleOk = () => {
     const blog = {
@@ -212,11 +218,13 @@ function RenterUploadBlog() {
         <div className="mainTitle">
           <div className="noData"></div>
           <div className="uploadTitle">
-            <h2 >Đăng bài </h2>
+            <h2>Đăng bài </h2>
           </div>
           <div className="noData">
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Phòng</InputLabel>
+              <InputLabel id="demo-simple-select-standard-label">
+                Phòng
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -224,9 +232,13 @@ function RenterUploadBlog() {
                 onChange={handleChange}
                 label="Phòng"
               >
-                {blogs?.map((blog, index) =>{
-                  return <MenuItem key={index} value={blog}>{blog?.title}</MenuItem>;
-                })}              
+                {blogs?.map((blog, index) => {
+                  return (
+                    <MenuItem key={index} value={blog}>
+                      {blog?.title}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </div>
@@ -301,7 +313,8 @@ function RenterUploadBlog() {
               </div>
             </form>
           </div>
-          {account?.role === 'renter' ?<div className="listImg">
+          {account?.role === "renter" ? (
+            <div className="listImg">
               {hospitalImages1?.map((img, index) => {
                 return (
                   <img
@@ -313,8 +326,11 @@ function RenterUploadBlog() {
                   />
                 );
               })}
-            </div>:<></>}
-          {hospitalImages  ? (
+            </div>
+          ) : (
+            <></>
+          )}
+          {hospitalImages ? (
             <div className="listImg">
               {hospitalImages?.map((img, index) => {
                 return (
@@ -434,8 +450,8 @@ function RenterUploadBlog() {
             </p>
           )}
           <div className="submitForm">
-            <span 
-              className="uploadBtn1" 
+            <span
+              className="uploadBtn1"
               onClick={() => {
                 navigate(pathBack);
               }}
@@ -457,15 +473,17 @@ function RenterUploadBlog() {
         >
           <p style={{ fontSize: "20px" }}>
             Xin vui lòng chuyển 3000 (phí) x {timeDuration} (ngày)={" "}
-            <span style={{ marginBottom: 20, color: "red" }}>{3000 * timeDuration}</span> VND vào
-            stk dưới đây với nội dung: 
+            <span style={{ marginBottom: 20, color: "red" }}>
+              {3000 * timeDuration}
+            </span>{" "}
+            VND vào stk dưới đây với nội dung:
           </p>
-          <b >SĐT đăng kí + tên phòng trọ vừa đăng bài</b>
+          <b>SĐT đăng kí + tên phòng trọ vừa đăng bài</b>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <img
               src="http://localhost:9999/file/1709531531645-Screenshot 2024-03-04 125142.png"
               alt="ảnh qr code"
-              style={{width: 300}}
+              style={{ width: 300 }}
             />
           </div>
           <p style={{ color: "red", marginTop: "50px", fontSize: "20px" }}>
