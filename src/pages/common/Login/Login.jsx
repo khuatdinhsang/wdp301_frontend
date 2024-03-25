@@ -33,7 +33,7 @@ function Login() {
 
   const handleLogin = (e) => {
     if (username.trim() === "" || username.trim() % 1 !== 0) {
-      toast.warn("Số điện thoại không đúng");
+      toast.warn("Số điện thoại sai định dạng");
     } else if (password.trim() === "") {
       toast.warn("Mật khẩu không được để trống!");
     } else {
@@ -111,9 +111,9 @@ function Login() {
           <div className="rightContent">
             <form onSubmit={handleLogin}>
               <div className="input">
-                <label htmlFor="mail">Phone Number: </label>
+                <label htmlFor="mail">Số điện thoại: </label>
                 <input
-                  placeholder="Phone "
+                  placeholder="Số điện thoại "
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   id="mail"
@@ -124,15 +124,16 @@ function Login() {
                   color: "#f9004d",
                   textAlign: "left",
                   fontSize: "12px",
+                  marginLeft: "24px",
                   display: warningUsername ? "block" : "none",
                 }}
               >
-                Số điện thoại phải là số
+                Số điện thoại sai định dạng
               </p>
               <div className="input">
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password">Mật khẩu:</label>
                 <input
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   type={"password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

@@ -32,11 +32,11 @@ function ChangePassword() {
         })
         .then((res) => {
           const data = res.data;
-          if (data.isSuccess === true) {
+          if (data.message === 'Change password successfully') {
             toast.success("Đổi mật khẩu thành công");
             navigate("/");
-          } else {
-            toast.error("Đổi mật khẩu thất bại");
+          }else if(data.message === 'Password is invalid'){
+            toast.error('Mật khẩu cũ sai!')
           }
         })
         .catch((err) => console.log(err));
@@ -65,11 +65,11 @@ function ChangePassword() {
             </div>
           </div>
           <div className="rightContent">
-            <form>
+            <form >
               <div className="input">
-                <label htmlFor="mail">Old Password: </label>
+                <label htmlFor="mail">Mật khẩu cũ: </label>
                 <input
-                  placeholder="Old Password"
+                  placeholder="Mật khẩu cũ"
                   id="mail"
                   type={"password"}
                   value={password}
@@ -87,9 +87,9 @@ function ChangePassword() {
                                 Số điện thoại phải là số
                             </p> */}
               <div className="input">
-                <label htmlFor="password">New Password:</label>
+                <label htmlFor="password">Mật khẩu mới:</label>
                 <input
-                  placeholder="New Password"
+                  placeholder="Mật khẩu mớI"
                   type={"password"}
                   id="password"
                   value={newPassword}
@@ -97,9 +97,9 @@ function ChangePassword() {
                 />
               </div>
               <div className="input">
-                <label htmlFor="password1">Confirm New Password:</label>
+                <label htmlFor="password1">Xác nhận mật khẩu mới:</label>
                 <input
-                  placeholder="Confirm newPassword"
+                  placeholder="Xác nhận mật khẩu mới"
                   type={"password"}
                   id="password1"
                   value={confirmNewPassword}
@@ -119,6 +119,7 @@ function ChangePassword() {
               <div className="handle">
                 <span
                   className="signUpBtn"
+                  // type='submit'
                   onClick={() => handleChangePassword()}
                   // onKeyDown={(e) => {
                   //     if (e.key === 'Enter') {
