@@ -3,14 +3,13 @@ import InboxCard from "../../../components/component/InboxCard/InboxCard";
 import "./ChatWithLessor.scss";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { socket } from "../../../utils";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import Messages from "./Messages";
 import Header from "../../../components/component/Header";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import { pathBackViewProfile } from "../../../actions/pathActions";
 import { useNavigate } from "react-router";
-
 
 function ChatWithLessor() {
   const [newMessage, setNewMessage] = useState("");
@@ -19,8 +18,8 @@ function ChatWithLessor() {
   const [currenUser, setCurrentUser] = useState({});
   const [chatRoomList, setChatRoomList] = useState([]);
   const [messageList, setMessageList] = useState([]);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const getChatRoomList = async () => {
       axios
@@ -40,26 +39,25 @@ function ChatWithLessor() {
   useEffect(() => {
     // console.log(chatRoomList,'123');
     // setCurrentUser(chatRoomList[0])
-  },[chatRoomList])
+  }, [chatRoomList]);
 
   const handleBack = () => {
-    navigate(pathBack)
-    const action = pathBackViewProfile('');
-    dispatch(action)
-  }
+    navigate(pathBack);
+    const action = pathBackViewProfile("");
+    dispatch(action);
+  };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
       const { payload } = data;
-      console.log("data 35", data);
       setMessageList((messageList) => [payload, ...messageList]);
     });
-    // socket.on("connect_error", (err) => {
-    //   console.log("err", err.data);
-    // });
-    // socket.on("disconnect", (reason) => {
-    //   console.log("disconnect", reason);
-    // });
+    socket.on("connect_error", (err) => {
+      console.log("err", err.data);
+    });
+    socket.on("disconnect", (reason) => {
+      console.log("disconnect", reason);
+    });
   }, []);
   console.log("messageList", messageList);
   const handleSendMessage = () => {
@@ -122,7 +120,7 @@ function ChatWithLessor() {
                   room={room}
                   setCurrentUser={setCurrentUser}
                   currentUser={currenUser}
-                  className='inboxCard'
+                  className="inboxCard"
                 />
               );
             })}
@@ -140,33 +138,32 @@ function ChatWithLessor() {
                 <Messages messageList={messageList} />
               </div>
               <div className="inputContainer">
-                  <div className="divSendMessage">
-                    <input
-                      type="text"
-                      placeholder="Nhập tin nhắn"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      className="inputMessage"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          handleSendMessage();
-                        }
-                      }}
-                    />
-                    <button
-                      className="uploadMessage"
-                      style={{ opacity: newMessage === "" ? 0 : 1 }}
-                      onClick={() => handleSendMessage()}
-                    >
-                      <span>
-                        <ArrowUpwardIcon />
-                      </span>
-                    </button>
-                  </div>
+                <div className="divSendMessage">
+                  <input
+                    type="text"
+                    placeholder="Nhập tin nhắn"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    className="inputMessage"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                  />
+                  <button
+                    className="uploadMessage"
+                    style={{ opacity: newMessage === "" ? 0 : 1 }}
+                    onClick={() => handleSendMessage()}
+                  >
+                    <span>
+                      <ArrowUpwardIcon />
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
