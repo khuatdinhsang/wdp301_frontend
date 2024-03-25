@@ -21,8 +21,9 @@ function InboxCard({ room, setCurrentUser , currentUser}) {
       <div className="rightInboxCard">
         <h4>{room.users[0]?.fullName}</h4>
         <p>
-          {}
-          <i>{room.users[0]?.role}</i>
+          <i>{room.users[0]?.role === 'renter'?'Khách thuê phòng':""}</i>
+          <i>{room.users[0]?.role === 'lessor'?'Chủ phòng':""}</i>
+          <i>{room.users[0]?.role === 'admin'?'Admin':""}</i>
         </p>
       </div>
     </div>

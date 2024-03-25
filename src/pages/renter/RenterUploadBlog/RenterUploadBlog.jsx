@@ -140,9 +140,11 @@ function RenterUploadBlog() {
       hospitalImages1.length === 0 ||
       addressDetail === "" ||
       rentalObject === "" ||
-      expiredTime === ""
+      expiredTime === "" ||
+      Number(money) <= 0||
+      Number(area) <= 0
     ) {
-      toast.warn("Có thông tin chưa điền!!!");
+      toast.warn("Vui lòng kiểm tra lại thông tin!!!");
     } else {
       showModal();
     }
