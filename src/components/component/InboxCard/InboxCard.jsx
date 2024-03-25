@@ -1,3 +1,4 @@
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useEffect, useState } from "react";
 import "./InboxCard.scss";
 
@@ -16,7 +17,9 @@ function InboxCard({ room, setCurrentUser , currentUser}) {
       onClick={() => handleSetCurrentUsername()}
     >
       <div className="leftInboxCard">
-        <img src={`http://${room.users[0]?.avatar}`} alt="" />
+        {room.users[0]?.avatar ?<img src={`http://${room.users[0]?.avatar}`} alt="" />: <AccountCircleIcon style={{ width: "40px", height: "40px" }} />  }
+        
+        
       </div>
       <div className="rightInboxCard">
         <h4>{room.users[0]?.fullName}</h4>
