@@ -9,6 +9,7 @@ import { logoutAccount } from "../../../actions/accountActions";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { showAds } from "../../../actions/bannerActions";
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import { pathBackViewProfile } from "../../../actions/pathActions";
 
 const Header = () => {
@@ -152,6 +153,7 @@ const Header = () => {
                 thuê phòng trọ,tìm người ở ghép nhanh, hiệu quả với 100.000+ tin
                 đăng và 2.500.000 lượt xem mỗi tháng.
               </i>
+
             </h4>
           </div>
         </div>
@@ -166,8 +168,10 @@ const Header = () => {
               )}
             </div>
           </div>
+          <div className="contactAdmin"><ConnectWithoutContactIcon  style={{ width: "40px", height: "40px" }}/></div>
           {showRegister === true ? (
             <div className="inforNav">
+
               <div className="loginNav">
                 <ul>
                   {account?.phone === undefined ? (
@@ -271,6 +275,7 @@ const Header = () => {
           )}
         </div>
       </div>
+
     </div>
   );
 };

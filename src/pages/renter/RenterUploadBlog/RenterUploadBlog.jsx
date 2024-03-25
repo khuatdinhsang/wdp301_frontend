@@ -281,7 +281,7 @@ function RenterUploadBlog() {
                 <input
                   type="file"
                   multiple="true"
-                  className="hospitalImage absolute bottom-0 right-0 w-8 h-8 rounded-[50%] cursor-pointer opacity-0 inputPrice"
+                  className="hospitalImage cursor-pointer  inputPrice"
                   onChange={(e) => {
                     convertMultipleImage(e);
                   }}

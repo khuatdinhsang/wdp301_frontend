@@ -264,3 +264,25 @@
 
    
 }
+
+.contactAdmin{
+    position: absolute;
+    bottom: -500%;
+    font-size: 50px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    
+    &:hover{
+       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+       transition: all .4s ease-in-out;
+       transform: scale(1.2);
+    }
+}

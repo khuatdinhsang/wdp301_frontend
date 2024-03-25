@@ -36,10 +36,10 @@ function ChatWithLessor() {
     getChatRoomList();
   }, [account?.token]);
 
-  useEffect(() => {
-    // console.log(chatRoomList,'123');
-    // setCurrentUser(chatRoomList[0])
-  }, [chatRoomList]);
+  // useEffect(() => {
+  //   console.log(chatRoomList,'123');
+  //   setCurrentUser(chatRoomList[0])
+  // }, [chatRoomList]);
 
   const handleBack = () => {
     navigate(pathBack);
