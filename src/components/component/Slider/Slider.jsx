@@ -19,6 +19,8 @@ const Slider = ({slides}) => {
     return (
         <Swiper
             slidesPerView={3}
+             autoplay={{ delay: 3000 }}
+            loop={true} 
             spaceBetween={30}
             pagination={{
             clickable: true,

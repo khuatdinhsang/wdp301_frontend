@@ -1,3 +1,23 @@
 .checkIconCard{
     color: blue;
 }
+
+.acceptRent{
+    color: green;
+    cursor: pointer;
+    transition: all .4s ease-in-out ;
+
+    &:hover{
+        transform: scale(1.7);
+    }
+}
+
+.declineRent{
+    color: red;
+    cursor: pointer;
+    transition: all .4s ease-in-out ;
+
+    &:hover{
+        transform: scale(1.7);
+    }
+}
